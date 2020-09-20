@@ -157,7 +157,6 @@ function filterSnippetsByDescription(req, res) {
 }
 
 function filterSnippetsBySnippet(req, res) {
-  let ip = req.ip;
   if (req.query.snippet == undefined) {
     writeResult(res, {'error' : "Need to enter a Snippet"});
   }
@@ -175,7 +174,6 @@ function filterSnippetsBySnippet(req, res) {
 
 /// Sorting
 function sortSnippetsByCreator(req, res) {
-  let ip = req.ip;
   let filter = '';
   connection.query("SELECT * FROM Snippets ORDER BY Creator", function(err, dbResult){
     if(err)
@@ -188,7 +186,6 @@ function sortSnippetsByCreator(req, res) {
 }
 
 function sortSnippetsByLanguage(req, res) {
-  let ip = req.ip;
   connection.query("SELECT * FROM Snippets ORDER BY Lang", function(err, dbResult){
     if(err)
       writeResult(res, {error : err.message})
@@ -200,7 +197,6 @@ function sortSnippetsByLanguage(req, res) {
 }
 
 function sortSnippetsByDescription(req, res) {
-  let ip = req.ip;
   connection.query("SELECT * FROM Snippets ORDER BY CAST(Description AS UNSIGNED), Description ASC", function(err, dbResult){
     if(err)
       writeResult(res, {error : err.message})
@@ -212,7 +208,6 @@ function sortSnippetsByDescription(req, res) {
 }
 
 function sortSnippetsByCreatorByDesc(req, res) {
-  let ip = req.ip;
   connection.query("SELECT * FROM Snippets ORDER BY Creator DESC", function(err, dbResult){
     if(err)
       writeResult(res, {error : err.message})
@@ -224,7 +219,6 @@ function sortSnippetsByCreatorByDesc(req, res) {
 }
 
 function sortSnippetsByLanguageByDesc(req, res) {
-  let ip = req.ip;
   connection.query("SELECT * FROM Snippets ORDER BY Lang DESC", function(err, dbResult){
     if(err)
       writeResult(res, {error : err.message})
@@ -236,7 +230,6 @@ function sortSnippetsByLanguageByDesc(req, res) {
 }
 
 function sortSnippetsByDescriptionByDesc(req, res) {
-  let ip = req.ip;
   connection.query("SELECT * FROM Snippets ORDER BY Description DESC", function(err, dbResult){
     if(err)
       writeResult(res, {error : err.message})
@@ -249,7 +242,6 @@ function sortSnippetsByDescriptionByDesc(req, res) {
 
 /// Filter and Sort
 function filterSnippetsByLanguageOrderCreatorAsc(req, res) {
-  let ip = req.ip;
   if (req.query.language == undefined) {
     writeResult(res, {'error' : "Need to enter a Language"});
   }
@@ -266,7 +258,6 @@ function filterSnippetsByLanguageOrderCreatorAsc(req, res) {
 }
 
 function filterSnippetsByLanguageOrderCreatorDesc(req, res) {
-  let ip = req.ip;
   if (req.query.language == undefined) {
     writeResult(res, {'error' : "Need to enter a Language"});
   }
@@ -283,7 +274,6 @@ function filterSnippetsByLanguageOrderCreatorDesc(req, res) {
 }
 
 function filterSnippetsByLanguageOrderDescriptionAsc(req, res) {
-  let ip = req.ip;
   if (req.query.language == undefined) {
     writeResult(res, {'error' : "Need to enter a Description"});
   }
@@ -301,7 +291,6 @@ function filterSnippetsByLanguageOrderDescriptionAsc(req, res) {
 }
 
 function filterSnippetsByLanguageOrderDescriptionDesc(req, res) {
-  let ip = req.ip;
   if (req.query.language == undefined) {
     writeResult(res, {'error' : "Need to enter a Language"});
   }
@@ -318,7 +307,6 @@ function filterSnippetsByLanguageOrderDescriptionDesc(req, res) {
 }
 
 function filterSnippetsByCreatorOrderLanguageAsc(req, res) {
-  let ip = req.ip;
   if (req.query.creator == undefined) {
     writeResult(res, {'error' : "Need to enter a Creator"});
   }
@@ -335,7 +323,6 @@ function filterSnippetsByCreatorOrderLanguageAsc(req, res) {
 }
 
 function filterSnippetsByCreatorOrderLanguageDesc(req, res) {
-  let ip = req.ip;
   if (req.query.creator == undefined) {
     writeResult(res, {'error' : "Need to enter a Creator"});
   }
@@ -352,7 +339,6 @@ function filterSnippetsByCreatorOrderLanguageDesc(req, res) {
 }
 
 function filterSnippetsByCreatorOrderDescriptionAsc(req, res) {
-  let ip = req.ip;
   if (req.query.creator == undefined) {
     writeResult(res, {'error' : "Need to enter a Creator"});
   }
@@ -369,7 +355,6 @@ function filterSnippetsByCreatorOrderDescriptionAsc(req, res) {
 }
 
 function filterSnippetsByCreatorOrderDescriptionDesc(req, res) {
-  let ip = req.ip;
   if (req.query.creator == undefined) {
     writeResult(res, {'error' : "Need to enter a Creator"});
   }
@@ -386,7 +371,6 @@ function filterSnippetsByCreatorOrderDescriptionDesc(req, res) {
 }
 
 function filterSnippetsByDescriptionOrderCreatorAsc(req, res) {
-  let ip = req.ip;
   if (req.query.description == undefined) {
     writeResult(res, {'error' : "Need to enter a Description"});
   }
@@ -403,7 +387,6 @@ function filterSnippetsByDescriptionOrderCreatorAsc(req, res) {
 }
 
 function filterSnippetsByDescriptionOrderCreatorDesc(req, res) {
-  let ip = req.ip;
   if (req.query.description == undefined) {
     writeResult(res, {'error' : "Need to enter a Description"});
   }
@@ -420,7 +403,6 @@ function filterSnippetsByDescriptionOrderCreatorDesc(req, res) {
 }
 
 function filterSnippetsByDescriptionOrderLanguageAsc(req, res) {
-  let ip = req.ip;
   if (req.query.description == undefined) {
     writeResult(res, {'error' : "Need to enter a Description"});
   }
@@ -437,7 +419,6 @@ function filterSnippetsByDescriptionOrderLanguageAsc(req, res) {
 }
 
 function filterSnippetsByDescriptionOrderLanguageDesc(req, res) {
-  let ip = req.ip;
   if (req.query.description == undefined) {
     writeResult(res, {'error' : "Need to enter a Description"});
   }
@@ -454,7 +435,6 @@ function filterSnippetsByDescriptionOrderLanguageDesc(req, res) {
 }
 
 function filterSnippetsBySnippetOrderCreatorAsc(req, res) {
-  let ip = req.ip;
   if (req.query.snippet == undefined) {
     writeResult(res, {'error' : "Need to enter a Snippet"});
   }
@@ -471,7 +451,6 @@ function filterSnippetsBySnippetOrderCreatorAsc(req, res) {
 }
 
 function filterSnippetsBySnippetOrderCreatorDesc(req, res) {
-  let ip = req.ip;
   if (req.query.snippet == undefined) {
     writeResult(res, {'error' : "Need to enter a Snippet"});
   }
@@ -488,7 +467,6 @@ function filterSnippetsBySnippetOrderCreatorDesc(req, res) {
 }
 
 function filterSnippetsBySnippetOrderLanguageAsc(req, res) {
-  let ip = req.ip;
   if (req.query.snippet == undefined) {
     writeResult(res, {'error' : "Need to enter a Snippet"});
   }
@@ -505,7 +483,6 @@ function filterSnippetsBySnippetOrderLanguageAsc(req, res) {
 }
 
 function filterSnippetsBySnippetOrderLanguageDesc(req, res) {
-  let ip = req.ip;
   if (req.query.snippet == undefined) {
     writeResult(res, {'error' : "Need to enter a Snippet"});
   }
@@ -522,7 +499,6 @@ function filterSnippetsBySnippetOrderLanguageDesc(req, res) {
 }
 
 function filterSnippetsBySnippetOrderDescriptionAsc(req, res) {
-  let ip = req.ip;
   if (req.query.snippet == undefined) {
     writeResult(res, {'error' : "Need to enter a Snippet"});
   }
@@ -539,7 +515,6 @@ function filterSnippetsBySnippetOrderDescriptionAsc(req, res) {
 }
 
 function filterSnippetsBySnippetOrderDescriptionDesc(req, res) {
-  let ip = req.ip;
   if (req.query.snippet == undefined) {
     writeResult(res, {'error' : "Need to enter a Snippet"});
   }
