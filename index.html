@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8">
     <meta http-equiv="Pragma" content="no-cache">
     <link rel="icon" type="image/ico" href="img/fj.ico"/>
@@ -16,311 +16,312 @@
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-</head>
-<style>
-  th {
-     position: sticky;
-     top: 0;
-   }
-  #sidebarCollapse{
-    background-color: #63adf2;
-  }
-  #sidebarCollapse:hover{
-    background-color: #304d6d;
-  }
-  @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-  body {
-      font-family: 'Poppins', sans-serif;
-      background: #a7cced;
-  }
-  p {
-      font-family: 'Poppins', sans-serif;
-      font-size: 1.1em;
-      font-weight: 300;
-      line-height: 1.7em;
-      color: #999;
-  }
-  a,
-  a:hover,
-  a:focus {
-      color: inherit;
-      text-decoration: none;
-      transition: all 0.3s;
-  }
-  .navbar {
-      padding: 15px 10px;
-      background: #fff;
-      border: none;
-      border-radius: 0;
-      margin-bottom: 40px;
-      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  .navbar-btn {
-      box-shadow: none;
-      outline: none !important;
-      border: none;
-  }
-  .line {
-      width: 100%;
-      height: 1px;
-      border-bottom: 1px dashed #ddd;
-      margin: 40px 0;
-  }
-  /* ---------------------------------------------------
-      SIDEBAR STYLE
-  ----------------------------------------------------- */
-  .wrapper {
-      display: flex;
-      width: 100%;
-  }
-  #sidebar {
-      width: 250px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      z-index: 999;
-      background: #545e75;
-      color: #fff;
-      transition: all 0.3s;
-  }
-  #sidebar.active {
-      margin-left: -250px;
-  }
-  #sidebar .sidebar-header {
-      padding: 20px;
-      background: #545e75;
-  }
-  #sidebar ul.components {
-      padding: 20px 0;
-  }
-  #sidebar ul p {
-      color: #fff;
-      padding: 10px;
-  }
-  #sidebar ul li a {
-      padding: 10px;
-      font-size: 1.1em;
-      display: block;
-  }
-  #sidebar ul li a:hover {
-      color: #7386D5;
-      background: #fff;
-  }
-  #sidebar ul li.active>a,
-  a[aria-expanded="true"] {
-      color: #fff;
-      background: #6d7fcc;
-  }
-  a[data-toggle="collapse"] {
-      position: relative;
-  }
-  .dropdown-toggle::after {
-      display: block;
-      position: absolute;
-      top: 50%;
-      right: 20px;
-      transform: translateY(-50%);
-  }
-  ul ul a {
-      font-size: 0.9em !important;
-      padding-left: 30px !important;
-      background: #6d7fcc;
-  }
-  ul.CTAs {
-      padding: 20px;
-  }
-  ul.CTAs button {
-      text-align: center;
-      font-size: 0.9em !important;
-      display: block;
-      border-radius: 5px;
-      margin-bottom: 5px;
-  }
-  a.submit {
-      background: #fff;
-      color: #304d6d;
-  }
-  a.clear{
-      background: #6d7fcc !important;
-      color: #fff !important;
-  }
-  /* ---------------------------------------------------
-      CONTENT STYLE
-  ----------------------------------------------------- */
-  #content {
-      width: calc(100% - 250px);
-      padding: 40px;
-      min-height: 100vh;
-      transition: all 0.3s;
-      position: absolute;
-      top: 0;
-      right: 0;
-  }
-  #content.active {
-      width: 100%;
-  }
-  th {
-    background: white;
-    position: sticky;
-    top: 85px; /* Don't forget this, required for the stickiness */
-    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
-  }
-  .btn-group > .btn:first-child{
-    background-color: #63adf2;
-  }
-  .btn-group > .btn:first-child:hover{
-    background-color: #304d6d;
-  }
-  .red:hover{
-    background-color: red;
-  }
-  .green:hover{
-    background-color: green;
-  }
-  .btn-toolbar{
-    padding-bottom: 23%;
-  }
-</style>
-<body>
-  <div class="wrapper">
-    <nav id="sidebar">
-      <div class="sidebar-header">
-        <h1>Function Junction</h1>
-      </div>
-      <ul class="list-unstyled CTAs">
-        <form id="search" class="form-inline">
-          <li>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <label class="input-group-text" for="inputGroupSelect01">Filter</label>
+  </head>
+    <style>
+      th {
+         position: sticky;
+         top: 0;
+       }
+      #sidebarCollapse{
+        background-color: #63adf2;
+      }
+      #sidebarCollapse:hover{
+        background-color: #304d6d;
+      }
+      @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+      body {
+          font-family: 'Poppins', sans-serif;
+          background: #a7cced;
+      }
+      p {
+          font-family: 'Poppins', sans-serif;
+          font-size: 1.1em;
+          font-weight: 300;
+          line-height: 1.7em;
+          color: #999;
+      }
+      a,
+      a:hover,
+      a:focus {
+          color: inherit;
+          text-decoration: none;
+          transition: all 0.3s;
+      }
+      .navbar {
+          padding: 15px 10px;
+          background: #fff;
+          border: none;
+          border-radius: 0;
+          margin-bottom: 40px;
+          box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      .navbar-btn {
+          box-shadow: none;
+          outline: none !important;
+          border: none;
+      }
+      .line {
+          width: 100%;
+          height: 1px;
+          border-bottom: 1px dashed #ddd;
+          margin: 40px 0;
+      }
+      /* ---------------------------------------------------
+          SIDEBAR STYLE
+      ----------------------------------------------------- */
+      .wrapper {
+          display: flex;
+          width: 100%;
+      }
+      #sidebar {
+          width: 250px;
+          position: fixed;
+          top: 0;
+          left: 0;
+          height: 100vh;
+          z-index: 999;
+          background: #545e75;
+          color: #fff;
+          transition: all 0.3s;
+      }
+      #sidebar.active {
+          margin-left: -250px;
+      }
+      #sidebar .sidebar-header {
+          padding: 20px;
+          background: #545e75;
+      }
+      #sidebar ul.components {
+          padding: 20px 0;
+      }
+      #sidebar ul p {
+          color: #fff;
+          padding: 10px;
+      }
+      #sidebar ul li a {
+          padding: 10px;
+          font-size: 1.1em;
+          display: block;
+      }
+      #sidebar ul li a:hover {
+          color: #7386D5;
+          background: #fff;
+      }
+      #sidebar ul li.active>a,
+      a[aria-expanded="true"] {
+          color: #fff;
+          background: #6d7fcc;
+      }
+      a[data-toggle="collapse"] {
+          position: relative;
+      }
+      .dropdown-toggle::after {
+          display: block;
+          position: absolute;
+          top: 50%;
+          right: 20px;
+          transform: translateY(-50%);
+      }
+      ul ul a {
+          font-size: 0.9em !important;
+          padding-left: 30px !important;
+          background: #6d7fcc;
+      }
+      ul.CTAs {
+          padding: 20px;
+      }
+      ul.CTAs button {
+          text-align: center;
+          font-size: 0.9em !important;
+          display: block;
+          border-radius: 5px;
+          margin-bottom: 5px;
+      }
+      a.submit {
+          background: #fff;
+          color: #304d6d;
+      }
+      a.clear{
+          background: #6d7fcc !important;
+          color: #fff !important;
+      }
+      /* ---------------------------------------------------
+          CONTENT STYLE
+      ----------------------------------------------------- */
+      #content {
+          width: calc(100% - 250px);
+          padding: 40px;
+          min-height: 100vh;
+          transition: all 0.3s;
+          position: absolute;
+          top: 0;
+          right: 0;
+      }
+      #content.active {
+          width: 100%;
+      }
+      th {
+        background: white;
+        position: sticky;
+        top: 85px; /* Don't forget this, required for the stickiness */
+        box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+      }
+      .btn-group > .btn:first-child{
+        background-color: #63adf2;
+      }
+      .btn-group > .btn:first-child:hover{
+        background-color: #304d6d;
+      }
+      .red:hover{
+        background-color: red;
+      }
+      .green:hover{
+        background-color: green;
+      }
+      .btn-toolbar{
+        padding-bottom: 23%;
+      }
+    </style>
+  <body>
+    <div class="wrapper">
+      <nav id="sidebar">
+        <div class="sidebar-header">
+          <h1>Function Junction</h1>
+        </div>
+        <ul class="list-unstyled CTAs">
+          <form id="search" class="form-inline">
+            <li>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Filter</label>
+                </div>
+                <select class="custom-select btn btn-secondary btn-block dropdown-toggle" id="Category">
+                  <option value="0" disabled selected hidden>Choose filter...</option>
+                  <option value="Creator" >Creator</option>
+                  <option value="Language">Language</option>
+                  <option value="Description">Description</option>
+                  <option value="Snippet">Snippet</option>
+                </select>
               </div>
-              <select class="custom-select btn btn-secondary btn-block dropdown-toggle" id="Category">
-                <option value="0" disabled selected hidden>Choose filter...</option>
-                <option value="Creator" >Creator</option>
-                <option value="Language">Language</option>
-                <option value="Description">Description</option>
-                <option value="Snippet">Snippet</option>
-              </select>
-            </div>
-          </li>
-          <li>
-            <div class="input-group" id="filterBox">
-              <div id="FilterFlag">
-            </div>
-              <input type="text" class="form-control" placeholder="Enter criteria..." id="Criteria">
-            </div>
-              <div id="SearchButtons" class="pt-2">
-                <button id="searchSubmit" class="btn btn-block green">Submit</button>
-                <button id="clearSearch" class="btn btn-block red">Clear Filter</button>
+            </li>
+            <li>
+              <div class="input-group" id="filterBox">
+                <div id="FilterFlag">
               </div>
-          </li>
-        </form>
-      </ul>
-      <ul class="list-unstyled CTAs">
-          <div class="btn-toolbar" role="toolbar" id="SortToolbar">
-            <h2>Sort Options</h2>
-            <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-              <button id="SortCreatorDropDown" type="button" class="btn dropdown-toggle btn-block sortNoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Creator
-              </button>
-                <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
-                  <a id="ddCreatorAsc" class="dropdown-item" >Ascending</a>
-                  <a id="ddCreatorDesc" class="dropdown-item" >Descending</a>
+                <input type="text" class="form-control" placeholder="Enter criteria..." id="Criteria">
+              </div>
+                <div id="SearchButtons" class="pt-2">
+                  <button id="searchSubmit" class="btn btn-block green">Submit</button>
+                  <button id="clearSearch" class="btn btn-block red">Clear Filter</button>
                 </div>
-            </div>
-            <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-              <button id="SortLanguageDropDown" type="button" class="btn dropdown-toggle btn-block sortNoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Language
-              </button>
-                <div class="dropdown-menu btn-block" aria-labelledby="btnGroupLanguage">
-                  <a id="ddLanguageAsc" class="dropdown-item" >Ascending</a>
-                  <a id="ddLanguageDesc" class="dropdown-item" >Descending</a>
-                </div>
-            </div>
-            <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-              <button id="SortDescriptionDropDown" type="button" class="btn dropdown-toggle btn-block sortNoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Description
-              </button>
-                <div class="dropdown-menu btn-block" aria-labelledby="btnGroupDescription">
-                  <a id="ddDescriptionAsc" class="dropdown-item" >Ascending</a>
-                  <a id="ddDescriptionDesc" class="dropdown-item" >Descending</a>
-                </div>
-            </div>
-            <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-              <button id="SortCreatorDropDownFilter" type="button" class="btn dropdown-toggle btn-block sortFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Creator
-              </button>
-                <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
-                  <a id="ddCreatorAscFilterOrder" class="dropdown-item" >Ascending</a>
-                  <a id="ddCreatorDescFilterOrder" class="dropdown-item" >Descending</a>
-                </div>
-            </div>
-            <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-              <button id="SortLanguageDropDownFilter" type="button" class="btn dropdown-toggle btn-block sortFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Language
-              </button>
-                <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
-                  <a id="ddLanguageAscFilterOrder" class="dropdown-item" >Ascending</a>
-                  <a id="ddLanguageDescFilterOrder" class="dropdown-item" >Descending</a>
-                </div>
-            </div>
-            <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-              <button id="SortDescriptionDropDownFilter" type="button" class="btn dropdown-toggle btn-block sortFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Description
-              </button>
-                <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
-                  <a id="ddDescriptionAscFilterOrder" class="dropdown-item" >Ascending</a>
-                  <a id="ddDescriptionDescFilterOrder" class="dropdown-item" >Descending</a>
-                </div>
-            </div>
-          </div>
+            </li>
+          </form>
         </ul>
-    </nav>
-    <div id="content">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-          <div class="container-fluid">
-              <button type="button" id="sidebarCollapse" class="btn btn-info">
-                  <i class="fas fa-align-left"></i>
-                  <span>Toggle Sidebar</span>
-              </button>
-              <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                  <i class="fas fa-align-justify"></i>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul class="nav navbar-nav ml-auto">
-                      <li class="nav-item active">
-                          <h2>Welcome User<img id="logo" class="p-2" src="img/fj.ico" height="50em"></h2>
-                      </li>
-                  </ul>
+        <ul class="list-unstyled CTAs">
+            <div class="btn-toolbar" role="toolbar" id="SortToolbar">
+              <h2>Sort Options</h2>
+              <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
+                <button id="SortCreatorDropDown" type="button" class="btn dropdown-toggle btn-block sortNoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Creator
+                </button>
+                  <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
+                    <a id="ddCreatorAsc" class="dropdown-item" >Ascending</a>
+                    <a id="ddCreatorDesc" class="dropdown-item" >Descending</a>
+                  </div>
               </div>
-          </div>
-      </nav>
-      <table id ="myTable" class="table table-hover table-light ">
-        <thead >
-          <tr>
-            <th>#</th>
-            <th>Creator</th>
-            <th>Language</th>
-            <th>Description</th>
-            <th>Snippet</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-      <!-- MODALS -->
-      <div class="modal fade" id="dbModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered " role="document">
-          <div class="modal-content ">
-            <div class="modal-header">
-              <h5 class="modal-title"></h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+              <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
+                <button id="SortLanguageDropDown" type="button" class="btn dropdown-toggle btn-block sortNoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Language
+                </button>
+                  <div class="dropdown-menu btn-block" aria-labelledby="btnGroupLanguage">
+                    <a id="ddLanguageAsc" class="dropdown-item" >Ascending</a>
+                    <a id="ddLanguageDesc" class="dropdown-item" >Descending</a>
+                  </div>
+              </div>
+              <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
+                <button id="SortDescriptionDropDown" type="button" class="btn dropdown-toggle btn-block sortNoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Description
+                </button>
+                  <div class="dropdown-menu btn-block" aria-labelledby="btnGroupDescription">
+                    <a id="ddDescriptionAsc" class="dropdown-item" >Ascending</a>
+                    <a id="ddDescriptionDesc" class="dropdown-item" >Descending</a>
+                  </div>
+              </div>
+              <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
+                <button id="SortCreatorDropDownFilter" type="button" class="btn dropdown-toggle btn-block sortFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Creator
+                </button>
+                  <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
+                    <a id="ddCreatorAscFilterOrder" class="dropdown-item" >Ascending</a>
+                    <a id="ddCreatorDescFilterOrder" class="dropdown-item" >Descending</a>
+                  </div>
+              </div>
+              <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
+                <button id="SortLanguageDropDownFilter" type="button" class="btn dropdown-toggle btn-block sortFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Language
+                </button>
+                  <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
+                    <a id="ddLanguageAscFilterOrder" class="dropdown-item" >Ascending</a>
+                    <a id="ddLanguageDescFilterOrder" class="dropdown-item" >Descending</a>
+                  </div>
+              </div>
+              <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
+                <button id="SortDescriptionDropDownFilter" type="button" class="btn dropdown-toggle btn-block sortFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Description
+                </button>
+                  <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
+                    <a id="ddDescriptionAscFilterOrder" class="dropdown-item" >Ascending</a>
+                    <a id="ddDescriptionDescFilterOrder" class="dropdown-item" >Descending</a>
+                  </div>
+              </div>
             </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </ul>
+      </nav>
+      <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+            <div class="container-fluid">
+                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <i class="fas fa-align-left"></i>
+                    <span>Toggle Sidebar</span>
+                </button>
+                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-align-justify"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <h2>Welcome User<img id="logo" class="p-2" src="img/fj.ico" height="50em"></h2>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <table id ="myTable" class="table table-hover table-light ">
+          <thead >
+            <tr>
+              <th>#</th>
+              <th>Creator</th>
+              <th>Language</th>
+              <th>Description</th>
+              <th>Snippet</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+        <!-- MODALS -->
+        <div class="modal fade" id="dbModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered " role="document">
+            <div class="modal-content ">
+              <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body"></div>
+                <div class="modal-footer">
+                  <img id="logo" align="left" class="p-2" src="img/fj.ico" height="50em">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -331,6 +332,210 @@
     <!-- jQuery Custom Scroller CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <script type="text/javascript">
+      $(document).ready(function() {
+        /// Model
+        var snippetModel = {};
+        var currentFilter = '';
+        var filterOn ='';
+        var filter ='';
+        var sortOn = '';
+        var order = '';
+        var searchType;
+        var IdFromRow,CreatorFromRow,LanguageFromRow,Description,SnippetFromRow;
+
+        function initializeModel(){
+          WipeFilter();
+          $('#Category').val(0);
+          $('.sortNoFilter').show();
+          $('.sortFilter').hide();
+          $.getJSON("/findSnippets", function(data) {
+            snippetModel = data.result;
+            BuildTableTR();
+          });
+        };
+
+        /// Views
+        $('#dbModal').modal({backdrop: "static", keyboard: false, show:false}).on('show.bs.modal', function(){
+          IdFromRow = $(event.target).closest('tr').data('id');
+          CreatorFromRow = $(event.target).closest('tr').data('creator');
+          LanguageFromRow = $(event.target).closest('tr').data('language');
+          DescriptionFromRow = $(event.target).closest('tr').data('description');
+          SnippetFromRow = $(event.target).closest('tr').data('snippet');
+          BuildModalFromTable(this);
+
+          function BuildModalFromTable(table_this){
+            $(table_this).find('.modal-title ').html(' Viewing ID # ' + IdFromRow );
+            $(table_this).find('.modal-body').html($('<p class="text-secondary"> Creator: ' + CreatorFromRow + '</p><p class="text-secondary"> Language: ' + LanguageFromRow + '</p><p class="text-secondary"> Description: ' + DescriptionFromRow + '</p><h3 class="text-primary">  Snippet: </h3><code>' + SnippetFromRow + '</code>'));
+          }
+        });
+
+        $(document).on('click', '#ddCreatorAscFilterOrder', function(){
+          sortOn = 'Creator';
+          order = 'ASC';
+          BuildQueryString();
+        });
+
+        $(document).on('click', '#ddCreatorDescFilterOrder', function(){
+          sortOn = 'Creator';
+          order = 'DESC';
+          BuildQueryString();
+        });
+
+        $(document).on('click', '#ddDescriptionAscFilterOrder', function(){
+          sortOn = 'Description';
+          order = 'ASC';
+          BuildQueryString();
+        });
+
+        $(document).on('click', '#ddDescriptionDescFilterOrder', function(){
+          sortOn = 'Description';
+          order = 'DESC';
+          BuildQueryString();
+        });
+
+        $(document).on('click', '#ddLanguageAscFilterOrder', function(){
+          sortOn = 'Language';
+          order = 'ASC';
+          BuildQueryString();
+        });
+
+        $(document).on('click', '#ddLanguageDescFilterOrder', function(){
+          sortOn = 'Language';
+          order = 'DESC';
+          BuildQueryString();
+        });
+
+        $(document).on('click', '#ddCreatorAsc', function(){
+          sortOn = 'Creator';
+          order = 'ASC';
+          BuildQueryString();
+        });
+
+        $(document).on('click', '#ddCreatorDesc', function(){
+          sortOn = 'Creator';
+          order = 'DESC';
+          BuildQueryString();
+        });
+
+        $(document).on('click', '#ddCreatorAscFilter', function(){
+          sortOn = 'Creator';
+          order = 'ASC';
+          BuildQueryString();
+        });
+
+        $(document).on('click', '#ddCreatorDescFilter', function(){
+          sortOn = 'Creator';
+          order = 'DESC';
+          BuildQueryString();
+        });
+
+        $(document).on('click', '#ddLanguageAsc', function(){
+          sortOn = 'Language';
+          order = 'ASC';
+          BuildQueryString();
+        });
+
+        $(document).on('click', '#ddLanguageDesc', function(){
+          sortOn = 'Language';
+          order = 'DESC';
+          BuildQueryString();
+        });
+
+        $(document).on('click', '#ddDescriptionAsc', function(){
+          sortOn = 'Description';
+          order = 'ASC';
+          BuildQueryString();
+        });
+
+        $(document).on('click', '#ddDescriptionDesc', function(){
+          sortOn = 'Description';
+          order = 'DESC';
+          BuildQueryString();
+        });
+
+        /// Search & Clear Search
+        $("#searchSubmit").click(function() {
+          if ($('#Criteria').val() == "" || $('#Criteria').val() == null || $('#Category').val() == 0 || $('#Category').val() == null) {
+            ClearSearch();
+            alert("Search is incomplete. Please check your Filter or Criteria");
+          } else {
+            SubmitForm();
+          }
+        });
+
+        function SubmitForm() {
+          $('.sortNoFilter').hide();
+          $('.sortFilter').show();
+          if(filterOn == 'Creator'){
+            $('#SortCreatorDropDownFilter').hide();
+          }else if (filterOn == 'Language'){
+            $('#SortLanguageDropDownFilter').hide();
+          }else if (filterOn == 'Description'){
+            $('#SortDescriptionDropDownFilter').hide();
+          }
+          BuildQueryString();
+        }
+
+        $(document).on('submit', '#search', function() {
+          if ($('#Criteria').val() == "" || $('#Criteria').val() == null || $('#Category').val() == 0 || $('#Category').val() == null) {
+            ClearSearch();
+          } else {
+            SubmitForm();
+          }
+          return false;
+        });
+
+        $("#clearSearch").click(function() {
+          WipeFilter();
+          initializeModel();
+        });
+        /// Helper Functions
+        function BuildTableTR(data){
+          $('#myTable tbody').empty();
+          for (let i = 0; i < snippetModel.length; i++) {
+            let tr = $('<tr data-toggle="modal" data-id="' + snippetModel[i].Id +'" data-target="#dbModal" data-backdrop="static" data-keyboard="false" data-creator="' + snippetModel[i].Creator + '" data-language="' + snippetModel[i].Language + '" data-description="' + snippetModel[i].Description + '" data-snippet="' + snippetModel[i].Snippet + '">');
+            $(tr).append("<td scope='row'>" + snippetModel[i].Id + "</td>");
+            $(tr).append("<td>" + snippetModel[i].Creator + "</td>");
+            $(tr).append("<td>" + snippetModel[i].Language + "</td>");
+            $(tr).append("<td>" + snippetModel[i].Description + "</td>");
+            $(tr).append("<td><code>" + snippetModel[i].Snippet + "</code></td>");
+            $(tr).append("</tr>");
+            $('#myTable tbody').append(tr);
+        }};
+
+        function WipeFilter(){
+          $('#Criteria').val("");
+          $('#Category').val(0);
+          sortOn = '';
+          currentFilter = '';
+          filterOn = '';
+          filter = '';
+          order = '';
+          $("#currentFilter").text('');
+          $('.sortNoFilter').show();
+        }
+
+        function BuildQueryString(){
+          let queryString = '/findSnippets?';
+          if($("#Category").val() != ''){
+            filterOn = $("#Category").val();
+            filter = encodeURIComponent($("#Criteria").val());
+            queryString += "filterOn=" + filterOn + "&filter=" + filter;
+          }
+          if(sortOn && $("#Category").val() != '')
+            queryString += "&sortOn=" +sortOn+ "&order=" + order;
+          else
+            queryString += "sortOn=" +sortOn+ "&order=" + order;
+          SendQuery(queryString);
+        }
+
+        function SendQuery(this_query){
+          $.getJSON(this_query, function(data) {
+            snippetModel = data.result;
+            BuildTableTR();
+          });
+        }
+
         $(document).ready(function () {
             $("#sidebar").mCustomScrollbar({
                 theme: "minimal"
@@ -342,240 +547,9 @@
                 $('a[aria-expanded=true]').attr('aria-expanded', 'false');
             });
         });
-    </script>
-    <script>
-      $(document).ready(function() {
-      /// Model
-      var snippetModel = {};
-      var currentFilter = '';
-      var filterOn ='';
-      var filter ='';
-      var sortOn = '';
-      var order = '';
-      var searchType;
-      var IdFromRow,CreatorFromRow,LanguageFromRow,Description,SnippetFromRow;
 
-      function initializeModel(){
-        WipeFilter();
-        $('#Category').val(0);
-        $('.sortNoFilter').show();
-        $('.sortFilter').hide();
-        $.getJSON("/findSnippets", function(data) {
-          snippetModel = data.result;
-          BuildTableTR();
-        });
-      };
-
-      /// Views
-      $('#dbModal').modal({backdrop: "static", keyboard: false, show:false}).on('show.bs.modal', function(){
-        IdFromRow = $(event.target).closest('tr').data('id');
-        CreatorFromRow = $(event.target).closest('tr').data('creator');
-        LanguageFromRow = $(event.target).closest('tr').data('language');
-        DescriptionFromRow = $(event.target).closest('tr').data('description');
-        SnippetFromRow = $(event.target).closest('tr').data('snippet');
-        BuildModalFromTable(this);
-
-        function BuildModalFromTable(table_this){
-          $(table_this).find('.modal-title ').html(' Viewing ID # ' + IdFromRow );
-          $(table_this).find('.modal-body').html($('<p class="text-secondary"> Creator: ' + CreatorFromRow + '</p><p class="text-secondary"> Language: ' + LanguageFromRow + '</p><p class="text-secondary"> Description: ' + DescriptionFromRow + '</p><h3 class="text-primary">  Snippet: </h3><code>' + SnippetFromRow + '</code>'));
-        }
-      });
-
-      $(document).on('click', '#ddCreatorAscFilterOrder', function(){
-        sortOn = 'Creator';
-        order = 'ASC';
-        searchType = 3;
-        BuildQueryString();
-      });
-
-      $(document).on('click', '#ddCreatorDescFilterOrder', function(){
-        sortOn = 'Creator';
-        order = 'DESC';
-        searchType = 3;
-        BuildQueryString();
-      });
-
-      $(document).on('click', '#ddDescriptionAscFilterOrder', function(){
-        sortOn = 'Description';
-        order = 'ASC';
-        searchType = 3;
-        BuildQueryString();
-      });
-
-      $(document).on('click', '#ddDescriptionDescFilterOrder', function(){
-        sortOn = 'Description';
-        order = 'DESC';
-        searchType = 3;
-        BuildQueryString();
-      });
-
-      $(document).on('click', '#ddLanguageAscFilterOrder', function(){
-        sortOn = 'Language';
-        order = 'ASC';
-        searchType = 3;
-        BuildQueryString();
-      });
-
-      $(document).on('click', '#ddLanguageDescFilterOrder', function(){
-        sortOn = 'Language';
-        order = 'DESC';
-        searchType = 3;
-        BuildQueryString();
-      });
-
-      $(document).on('click', '#ddCreatorAsc', function(){
-        sortOn = 'Creator';
-        order = 'ASC';
-        searchType = 1;
-        BuildQueryString();
-      });
-
-      $(document).on('click', '#ddCreatorDesc', function(){
-        sortOn = 'Creator';
-        order = 'DESC';
-        searchType = 1;
-        BuildQueryString();
-      });
-
-      $(document).on('click', '#ddCreatorAscFilter', function(){
-        sortOn = 'Creator';
-        order = 'ASC';
-        searchType = 2;
-        BuildQueryString();
-      });
-
-      $(document).on('click', '#ddCreatorDescFilter', function(){
-        sortOn = 'Creator';
-        order = 'DESC';
-        searchType = 2;
-        BuildQueryString();
-      });
-
-      $(document).on('click', '#ddLanguageAsc', function(){
-        sortOn = 'Language';
-        order = 'ASC';
-        searchType = 1;
-        BuildQueryString();
-      });
-
-      $(document).on('click', '#ddLanguageDesc', function(){
-        sortOn = 'Language';
-        order = 'DESC';
-        searchType = 1;
-        BuildQueryString();
-      });
-
-      $(document).on('click', '#ddDescriptionAsc', function(){
-        sortOn = 'Description';
-        order = 'ASC';
-        searchType = 1;
-        BuildQueryString();
-      });
-
-      $(document).on('click', '#ddDescriptionDesc', function(){
-        sortOn = 'Description';
-        order = 'DESC';
-        searchType = 1;
-        BuildQueryString();
-      });
-
-      /// Search & Clear Search
-      $("#searchSubmit").click(function() {
-        if ($('#Criteria').val() == "" || $('#Criteria').val() == null || $('#Category').val() == 0 || $('#Category').val() == null) {
-          ClearSearch();
-          alert("Search is incomplete. Please check your Filter or Criteria");
-        } else {
-          SubmitForm();
-        }
-      });
-
-      function SubmitForm() {
-        searchType = 2;
-        $('.sortNoFilter').hide();
-        $('.sortFilter').show();
-        if(filterOn == 'Creator'){
-          $('#SortCreatorDropDownFilter').hide();
-        }else if (filterOn == 'Language'){
-          $('#SortLanguageDropDownFilter').hide();
-        }else if (filterOn == 'Description'){
-          $('#SortDescriptionDropDownFilter').hide();
-        }
-        BuildQueryString();
-      }
-
-      $(document).on('submit', '#search', function() {
-        if ($('#Criteria').val() == "" || $('#Criteria').val() == null || $('#Category').val() == 0 || $('#Category').val() == null) {
-          ClearSearch();
-        } else {
-          SubmitForm();
-        }
-        return false;
-      });
-
-      $("#clearSearch").click(function() {
-        ClearSearch();
-      });
-
-      /// Helper Functions
-      function BuildTableTR(data){
-        $('#myTable tbody').empty();
-        for (let i = 0; i < snippetModel.length; i++) {
-          let tr = $('<tr data-toggle="modal" data-id="' + snippetModel[i].Id +'" data-target="#dbModal" data-backdrop="static" data-keyboard="false" data-creator="' + snippetModel[i].Creator + '" data-language="' + snippetModel[i].Language + '" data-description="' + snippetModel[i].Description + '" data-snippet="' + snippetModel[i].Snippet + '">');
-          $(tr).append("<td scope='row'>" + snippetModel[i].Id + "</td>");
-          $(tr).append("<td>" + snippetModel[i].Creator + "</td>");
-          $(tr).append("<td>" + snippetModel[i].Language + "</td>");
-          $(tr).append("<td>" + snippetModel[i].Description + "</td>");
-          $(tr).append("<td><code>" + snippetModel[i].Snippet + "</code></td>");
-          $(tr).append("</tr>");
-          $('#myTable tbody').append(tr);
-      }};
-
-      function ClearSearch() {
-        WipeFilter();
         initializeModel();
-      }
-
-      function WipeFilter(){
-        $('#Criteria').val("");
-        $('#Category').val(0);
-        sortOn = '';
-        currentFilter = '';
-        filterOn = '';
-        filter = '';
-        order = '';
-        $("#currentFilter").text('');
-        $('.sortNoFilter').show();
-      }
-
-      function BuildQueryString(){
-        let queryString = '';
-        switch(searchType){
-          case 1:
-            queryString = "/findSnippets?sortOn=" +sortOn+ "&order=" + order;
-            break;
-          case 2:
-            filterOn = $("#Category").val();
-            filter = encodeURIComponent($("#Criteria").val());
-            queryString = "/findSnippets?filterOn=" + filterOn + "&filter=" + filter;
-            break;
-          case 3:
-            filterOn = $("#Category").val();
-            filter = encodeURIComponent($("#Criteria").val());
-            queryString = "/findSnippets?filterOn=" + filterOn + "&filter=" + filter +"&sortOn=" +sortOn+ "&order=" + order;
-          default:
-            break;
-        }
-        SendQuery(queryString);
-      }
-
-      function SendQuery(this_query){
-        $.getJSON(this_query, function(data) {
-          snippetModel = data.result;
-          BuildTableTR();
-        });
-      }
-      initializeModel();
-    });
+      });
     </script>
-</body>
+  </body>
 </html>

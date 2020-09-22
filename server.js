@@ -28,6 +28,7 @@ connection.connect(function(err) {
   if(err) throw err;
 });
 
+/// APP FUNCTIONS BELOW
 function startHandler() {
   console.log("Server listening at http://localhost:3000")
   console.log("\x1b[31m", " FUNCTION JUNCTION is Aware");
@@ -40,13 +41,11 @@ function serveIndex(req, res) {
   res.end(index);
 }
 
-/// APP FUNCTIONS BELOW
 function writeResult(res, object) {
   res.writeHead(200, {"Content-Type" : "application/json"});
   res.end(JSON.stringify(object));
 }
 
-/// Initial Page Load
 function buildSnippet(dbObject) {
   return {Id: dbObject.Id,
           Creator: dbObject.Creator,
@@ -55,52 +54,28 @@ function buildSnippet(dbObject) {
           Snippet: dbObject.Code};
 }
 
+// Controller
 function findSnippets(req, res) {
   var sql= "SELECT * FROM Snippets";
-  var queryString = [];
-  queryString.push(sql);
-  if(req.query.filterOn && !req.query.sortOn){
-    queryString.push(" WHERE " + req.query.filterOn + " LIKE '%" + req.query.filter +"%'");
-    connection.query(queryString.join(" "), function(err, dbResult) {
-      if (err)
-        writeResult(res, {error : err.message});
-      else {
-        let snippets = dbResult.map(function(snippet) {return buildSnippet(snippet)});
-        writeResult(res, {result: snippets});
-      }
-    });
+  var sqlString = [sql];
+  if(req.query.filterOn && req.query.filter) {
+    sqlString.push(" WHERE " + req.query.filterOn + " LIKE '%" + req.query.filter + "%'");
   }
-  else if(req.query.sortOn && !req.query.filterOn){
-    queryString.push(" ORDER BY " + req.query.sortOn + " " + req.query.order + ";");
-    connection.query(queryString.join(" "), function(err, dbResult) {
-      if (err)
-        writeResult(res, {error : err.message});
-      else {
-        let snippets = dbResult.map(function(snippet) {return buildSnippet(snippet)});
-        writeResult(res, {result: snippets});
-      }
-    });
+  if(req.query.sortOn && req.query.order) {
+    sqlString.push(" ORDER BY " + req.query.sortOn + " " + req.query.order + ";");
   }
-  else if(req.query.sortOn && req.query.filterOn){
-    queryString.push("WHERE " + req.query.filterOn + " LIKE '%" + req.query.filter +"%'");
-    queryString.push("ORDER BY " + req.query.sortOn + " " + req.query.order + ";");
-    connection.query(queryString.join(" "), function(err, dbResult) {
-      if (err)
-        writeResult(res, {error : err.message});
-      else {
-        let snippets = dbResult.map(function(snippet) {return buildSnippet(snippet)});
-        writeResult(res, {result: snippets});
-      }
-    });
-  }
-  else{
-    connection.query(sql, function(err, dbResult) {
-      if(err)
-        writeResult(res, {error: err.message});
-      else {
-        let snippets = dbResult.map(function(snippet) {return buildSnippet(snippet)});
-        writeResult(res, {result: snippets});
-      }
-    });
-  }
+  makeQuery(sqlString,res);
+}
+
+// Helper Functions
+function makeQuery(query,res){
+  query = query.join(" ");
+  connection.query(query, function(err, dbResult) {
+    if(err)
+      writeResult(res, {error: err.message});
+    else {
+      let snippets = dbResult.map(function(snippet) {return buildSnippet(snippet)});
+      writeResult(res, {result: snippets});
+    }
+  });
 }
