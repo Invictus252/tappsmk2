@@ -1,4 +1,4 @@
-![Function Junction Logo](/public/img/fj.ico=250x)
+![Function Junction Logo](/public/img/fj.ico=100px)
 # FunctionJunction
 # CSCI_452
 
