@@ -522,7 +522,7 @@
             filter = encodeURIComponent($("#Criteria").val());
             queryString += "filterOn=" + filterOn + "&filter=" + filter;
           }
-          if(sortOn && $("#Category").val() != '')
+          if(sortOn != undefined && $("#Category").val() != '' )
             queryString += "&sortOn=" +sortOn+ "&order=" + order;
           else
             queryString += "sortOn=" +sortOn+ "&order=" + order;
