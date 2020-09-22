@@ -22,10 +22,10 @@
      position: sticky;
      top: 0;
    }
-  #sidebarCollapse{
+  #sidebar-collapse{
     background-color: #63adf2;
   }
-  #sidebarCollapse:hover{
+  #sidebar-collapse:hover{
     background-color: #304d6d;
   }
   @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
@@ -195,7 +195,7 @@
                     <div class="input-group-prepend">
                       <label class="input-group-text" for="inputGroupSelect01">Filter</label>
                     </div>
-                    <select class="custom-select btn btn-secondary btn-block dropdown-toggle" id="Category">
+                    <select class="custom-select btn btn-secondary btn-block dropdown-toggle" id="category">
                       <option value="0" disabled selected hidden>Choose filter...</option>
                       <option value="Creator" >Creator</option>
                       <option value="Language">Language</option>
@@ -205,68 +205,68 @@
                   </div>
                 </li>
                 <li>
-                  <div class="input-group" id="filterBox">
+                  <div class="input-group" id="filter-box">
                     <div id="FilterFlag">
+                    </div>
+                    <input type="text" class="form-control" placeholder="Enter criteria..." id="criteria">
                   </div>
-                    <input type="text" class="form-control" placeholder="Enter criteria..." id="Criteria">
-                  </div>
-                    <div id="SearchButtons" class="pt-2">
-                      <button id="searchSubmit" class="btn btn-block green">Submit</button>
-                      <button id="clearSearch" class="btn btn-block red">Clear Filter</button>
+                    <div id="search-buttons" class="pt-2">
+                      <button id="search-submit" class="btn btn-block green">Submit</button>
+                      <button id="clear-search" class="btn btn-block red">Clear Filter</button>
                     </div>
                 </li>
               </form>
             </ul>
             <ul class="list-unstyled CTAs">
-              <div class="btn-toolbar" role="toolbar" id="SortToolbar">
+              <div class="btn-toolbar" role="toolbar" id="sort-toolbar">
                 <h2>Sort Options</h2>
                 <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-                  <button id="SortCreatorDropDown" type="button" class="btn dropdown-toggle btn-block sortNoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Creator
+                  <button id="sort-creator-dropdown" type="button" class="btn dropdown-toggle btn-block sortNoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Creator
                   </button>
-                    <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
-                      <a id="ddCreatorAsc" class="dropdown-item" >Ascending</a>
-                      <a id="ddCreatorDesc" class="dropdown-item" >Descending</a>
-                    </div>
+                  <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
+                    <a id="ddCreatorAsc" class="dropdown-item" >Ascending</a>
+                    <a id="ddCreatorDesc" class="dropdown-item" >Descending</a>
+                  </div>
                 </div>
                 <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-                  <button id="SortLanguageDropDown" type="button" class="btn dropdown-toggle btn-block sortNoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Language
+                  <button id="sort-language-dropdown" type="button" class="btn dropdown-toggle btn-block sortNoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Language
                   </button>
-                    <div class="dropdown-menu btn-block" aria-labelledby="btnGroupLanguage">
-                      <a id="ddLanguageAsc" class="dropdown-item" >Ascending</a>
-                      <a id="ddLanguageDesc" class="dropdown-item" >Descending</a>
-                    </div>
+                  <div class="dropdown-menu btn-block" aria-labelledby="btnGroupLanguage">
+                    <a id="ddLanguageAsc" class="dropdown-item" >Ascending</a>
+                    <a id="ddLanguageDesc" class="dropdown-item" >Descending</a>
+                  </div>
                 </div>
                 <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-                  <button id="SortDescriptionDropDown" type="button" class="btn dropdown-toggle btn-block sortNoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Description
+                  <button id="sort-description-dropdown" type="button" class="btn dropdown-toggle btn-block sortNoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Description
                   </button>
-                    <div class="dropdown-menu btn-block" aria-labelledby="btnGroupDescription">
-                      <a id="ddDescriptionAsc" class="dropdown-item" >Ascending</a>
-                      <a id="ddDescriptionDesc" class="dropdown-item" >Descending</a>
-                    </div>
+                  <div class="dropdown-menu btn-block" aria-labelledby="btnGroupDescription">
+                    <a id="ddDescriptionAsc" class="dropdown-item" >Ascending</a>
+                    <a id="ddDescriptionDesc" class="dropdown-item" >Descending</a>
+                  </div>
                 </div>
                 <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-                  <button id="SortCreatorDropDownFilter" type="button" class="btn dropdown-toggle btn-block sortFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Creator
+                  <button id="sort-creator-dropdown-filter" type="button" class="btn dropdown-toggle btn-block sortFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Creator
                   </button>
-                    <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
-                      <a id="ddCreatorAscFilterOrder" class="dropdown-item" >Ascending</a>
-                      <a id="ddCreatorDescFilterOrder" class="dropdown-item" >Descending</a>
-                    </div>
+                  <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
+                    <a id="ddCreatorAscFilterOrder" class="dropdown-item" >Ascending</a>
+                    <a id="ddCreatorDescFilterOrder" class="dropdown-item" >Descending</a>
+                  </div>
                 </div>
                 <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-                  <button id="SortLanguageDropDownFilter" type="button" class="btn dropdown-toggle btn-block sortFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Language
+                  <button id="sort-language-dropdown-filter" type="button" class="btn dropdown-toggle btn-block sortFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Language
                   </button>
-                    <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
-                      <a id="ddLanguageAscFilterOrder" class="dropdown-item" >Ascending</a>
-                      <a id="ddLanguageDescFilterOrder" class="dropdown-item" >Descending</a>
-                    </div>
+                  <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
+                    <a id="ddLanguageAscFilterOrder" class="dropdown-item" >Ascending</a>
+                    <a id="ddLanguageDescFilterOrder" class="dropdown-item" >Descending</a>
+                  </div>
                 </div>
                 <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-                  <button id="SortDescriptionDropDownFilter" type="button" class="btn dropdown-toggle btn-block sortFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Description
+                  <button id="sort-description-dropdown-filter" type="button" class="btn dropdown-toggle btn-block sortFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Description
                   </button>
-                    <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
-                      <a id="ddDescriptionAscFilterOrder" class="dropdown-item" >Ascending</a>
-                      <a id="ddDescriptionDescFilterOrder" class="dropdown-item" >Descending</a>
-                    </div>
+                  <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
+                    <a id="ddDescriptionAscFilterOrder" class="dropdown-item" >Ascending</a>
+                    <a id="ddDescriptionDescFilterOrder" class="dropdown-item" >Descending</a>
+                  </div>
                 </div>
               </div>
             </ul>
@@ -274,23 +274,23 @@
         <div id="content">
             <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
                 <div class="container-fluid">
-                    <button type="button" id="sidebarCollapse" class="btn btn-info">
-                        <i class="fas fa-align-left"></i>
-                        <span>Toggle Sidebar</span>
+                    <button type="button" id="sidebar-collapse" class="btn btn-info">
+                      <i class="fas fa-align-left"></i>
+                      <span>Toggle Sidebar</span>
                     </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-align-justify"></i>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbar-supported-content" aria-controls="navbar-supported-content" aria-expanded="false" aria-label="Toggle navigation">
+                      <i class="fas fa-align-justify"></i>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item active">
-                                <h2>Welcome User<img id="logo" class="p-2" src="img/white_train.png" height="50em"></h2>
-                            </li>
-                        </ul>
+                    <div class="collapse navbar-collapse" id="navbar-supported-content">
+                      <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item active">
+                          <h2>Welcome User<img id="logo" class="p-2" src="img/white_train.png" height="50em"></h2>
+                        </li>
+                      </ul>
                     </div>
                 </div>
             </nav>
-            <table id ="myTable" class="table table-hover table-light ">
+            <table id ="my-table" class="table table-hover table-light ">
               <thead >
                 <tr>
                   <th>#</th>
@@ -331,17 +331,16 @@
     <!-- jQuery Custom Scroller CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            $("#sidebar").mCustomScrollbar({
-                theme: "minimal"
-            });
-
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar, #content').toggleClass('active');
-                $('.collapse.in').toggleClass('in');
-                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-            });
+      $(document).ready(function () {
+        $("#sidebar").mCustomScrollbar({
+          theme: "minimal"
         });
+        $('#sidebar-collapse').on('click', function () {
+          $('#sidebar, #content').toggleClass('active');
+          $('.collapse.in').toggleClass('in');
+          $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        });
+      });
     </script>
     <script>
     $(document).ready(function() {
@@ -356,7 +355,7 @@
       var IdFromRow,CreatorFromRow,LanguageFromRow,Description,SnippetFromRow;
 
       function initializeModel(){
-        $('#Category').val(0);
+        $('#category').val(0);
         $('.sortNoFilter').show();
         $('.sortFilter').hide();
         $.getJSON("/findSnippets", function(data) {
@@ -479,9 +478,9 @@
       });
 
       /// Search & Clear Search
-      $("#searchSubmit").click(function() {
-        if ($('#Criteria').val() == "" || $('#Criteria').val() == null || $('#Category').val() == 0 || $('#Category').val() == null) {
-          ClearSearch();
+      $(document).on('click', '#search-submit', function(){
+        if ($('#criteria').val() == "" || $('#criteria').val() == null || $('#category').val() == 0 || $('#category').val() == null) {
+          clearSearch();
         } else {
           SubmitForm();
         }
@@ -492,32 +491,32 @@
         $('.sortNoFilter').hide();
         $('.sortFilter').show();
         if(filterOn == 'Creator'){
-          $('#SortCreatorDropDownFilter').hide();
+          $('#sort-creator-dropdown-filter').hide();
         }else if (filterOn == 'Language'){
-          $('#SortLanguageDropDownFilter').hide();
+          $('#sort-language-dropdown-filter').hide();
         }else if (filterOn == 'Description'){
-          $('#SortDescriptionDropDownFilter').hide();
+          $('#sort-description-dropdown-filter').hide();
         }
         BuildQueryString();
       }
 
       $(document).on('submit', '#search', function() {
-        if ($('#Criteria').val() == "" || $('#Criteria').val() == null || $('#Category').val() == 0 || $('#Category').val() == null) {
-          ClearSearch();
+        if ($('#criteria').val() == "" || $('#criteria').val() == null || $('#category').val() == 0 || $('#category').val() == null) {
+          clearSearch();
         } else {
           SubmitForm();
         }
         return false;
       });
 
-      $("#clearSearch").click(function() {
-        if(currentFilter != '')
-          ClearSearch();
-      });
+      $(document).on('click', '#clear-search', function(){
+        if(currentFilter != "")
+          clearSearch();
+      })
 
       /// Helper Functions
       function BuildTableTR(data){
-        $('#myTable tbody').empty();
+        $('#my-table tbody').empty();
         for (let i = 0; i < snippetModel.length; i++) {
           let tr = $('<tr data-toggle="modal" data-id="' + snippetModel[i].Id +'" data-target="#dbModal" data-backdrop="static" data-keyboard="false" data-creator="' + snippetModel[i].Creator + '" data-language="' + snippetModel[i].Language + '" data-description="' + snippetModel[i].Description + '" data-snippet="' + snippetModel[i].Snippet + '">');
           $(tr).append("<td scope='row'>" + snippetModel[i].Id + "</td>");
@@ -526,17 +525,17 @@
           $(tr).append("<td>" + snippetModel[i].Description + "</td>");
           $(tr).append("<td><code>" + snippetModel[i].Snippet + "</code></td>");
           $(tr).append("</tr>");
-          $('#myTable tbody').append(tr);
-      }};
+          $('#my-table tbody').append(tr);
+      }}
 
-      function ClearSearch() {
+      function clearSearch() {
         WipeFilter();
         initializeModel();
       }
 
       function WipeFilter(){
-        $('#Criteria').val("");
-        $('#Category').val(0);
+        $('#criteria').val("");
+        $('#category').val(0);
         sortOn = '';
         currentFilter = '';
         filterOn = '';
@@ -552,13 +551,13 @@
             queryString = "/findSnippets?sortOn=" +sortOn+ "&order=" + order;
             break;
           case 2:
-            filterOn = $("#Category").val();
-            filter = encodeURIComponent($("#Criteria").val());
+            filterOn = $("#category").val();
+            filter = encodeURIComponent($("#criteria").val());
             queryString = "/findSnippets?filterOn=" + filterOn + "&filter=" + filter;
             break;
           case 3:
-            filterOn = $("#Category").val();
-            filter = encodeURIComponent($("#Criteria").val());
+            filterOn = $("#category").val();
+            filter = encodeURIComponent($("#criteria").val());
             queryString = "/findSnippets?filterOn=" + filterOn + "&filter=" + filter +"&sortOn=" +sortOn+ "&order=" + order;
           default:
             break;
