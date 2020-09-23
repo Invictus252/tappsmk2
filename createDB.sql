@@ -36,7 +36,7 @@ VALUES ("Jason", "Java", "DB connect from Function Junction", "function buildSni
 INSERT INTO Snippets(Creator, Language, Description, Code)
 VALUES ("Jason", "C++", "Creating Pointers", "string food = 'Pizza';
  string* ptr = &food; ");
-INSERT INTO Snippets(Creator, Languag, Description, Code)
+INSERT INTO Snippets(Creator, Language, Description, Code)
 VALUES ("Jason", "Python", "Python Dictionaries", " thisdict =  {
   'brand': 'Ford',
   'model': 'Mustang',
