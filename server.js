@@ -109,7 +109,7 @@ function register(req, res){
     else {
       connection.query("SELECT * FROM Users ORDER BY ID DESC LIMIT 1;",function(err, dbResult){
         if(err){
-          writeResult(res, {error: "Error creating user: " + err.message});
+          writeResult(res, {error: "Error loading user: " + err.message});
         }
         else {
           writeResult(res, {Id: dbResult[0].Id, Email:dbResult[0].Email});
