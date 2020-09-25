@@ -3,7 +3,14 @@ const fs = require('fs');
 const express = require("express");
 const session = require("express-session");
 const mysql = require("mysql");
+const bcrypt = require("bcryptjs");
+const fs = require("fs");
+
 const app = new express();
+
+const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
 const dbInfo = {
   host: "localhost",
   user: "root",
@@ -22,6 +29,7 @@ app.use(session(sessionOptions));
 app.use(express.static('public'));
 app.all("/", serveIndex);
 app.get("/findSnippets", findSnippets);
+app.get("/register", register);
 app.listen(3000, process.env.IP, startHandler());
 
 connection.connect(function(err) {
@@ -78,4 +86,54 @@ function makeQuery(query,res){
       writeResult(res, {result: snippets});
     }
   });
+}
+//User creation functions
+function register(req, res){
+  if(!validateEmail(req.query.email)) {
+
+    writeResult(res, {error: "Email is not valid!"})
+    return;
+  }
+  if(!validatePassword(req.query.password)){
+
+    writeResult(res, {error: "Password is invalid: Must be at least eight characters and must contain at least one letter and number!"})
+    return;
+  }
+
+  let email = getEmail(req);
+  let password = bcrypt.hashSync(req.query.password, 12);
+
+  connection.query("INSERT INTO Users (Email, Password) VAUES (?, ?)", [email, password], function(err, dbResult){
+    if(err){
+      writeResult(res, {error: "Error creating user: " + err.message});
+    }
+    else {
+      req.session.user = buildUser(dbResult[0]);
+      writeResult(res, {user: req.session.user});
+    }
+  });
+}
+
+function getEmail(req){
+  return String(req.query.email).toLocaleLowerCase();
+}
+
+function validateEmail(email) {
+  if(!email)
+    return false;
+
+  return emailRegEx.test(email.toLowerCase());
+}
+
+function validatePassword(password) {
+  if(!password)
+    return false;
+
+  return passwordRegEx.test(password);
+}
+
+function buildUser(dbObject) {
+  
+  console.log(dbObject);
+  return {id: dbObject.Id, email: dbObject.Email};
 }

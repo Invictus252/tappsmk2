@@ -4,6 +4,13 @@ CREATE DATABASE SnippetsDB;
 
 USE SnippetsDB;
 
+CREATE TABLE Users (
+  Id int NOT NULL AUTO_INCREMENT,
+  Email varchar(255) UNIQUE NOT NULL,
+  Password varchar(60) NOT NULL,
+  PRIMARY KEY (Id)
+);
+
 CREATE TABLE Snippets(
   Id int NOT NULL AUTO_INCREMENT,
   Creator varchar (255) NOT NULL,
