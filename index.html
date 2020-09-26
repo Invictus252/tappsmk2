@@ -276,7 +276,7 @@
           <div class="container-fluid">
             <button type="button" id="sidebarCollapse" class="btn btn-info">
               <i class="fas fa-align-left"></i>
-              <span>Toggle Sidebar</span>
+              <span>Toggle Search</span>
             </button>
             <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <i class="fas fa-align-justify"></i>
@@ -284,7 +284,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item active">
-                  <h2>Welcome User<img id="logo" class="p-2" src="img/fj.ico" height="50em"></h2>
+                  <h2 id ="userName">Welcome User<img id="logo" class="p-2" src="img/fj.ico" height="50em"></h2>
+                </li>
+                <li class="nav-item">
+                  <a href="#" id="register-btn" class="nav-link">Register</a>
                 </li>
               </ul>
             </div>
@@ -321,7 +324,40 @@
             </div>
           </div>
         </div>
-      </div>
+          <div id="login-modal" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 id="login-modal-title" class="modal-title">Register</h5>
+                  <button type="button" class="close" data-dismiss="modal" area-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form class="border border-primary p-3">
+                    <div class="form-group">
+                      <input id="email" type="text" class="form-control" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                      <input id="password" type="password" class="form-control" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                      <input id="firstName" type="text" class="form-control" placeholder="First Name">
+                    </div>
+                    <div class="form-group">
+                      <input id="lastName" type="text" class="form-control" placeholder="Last Name">
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button id="confirm-login-btn" type="button" class="btn btn-primary">Login</button>
+                  <button id="confirm-register-btn" type="button" class="btn btn-primary">Register</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+              </div>
+            </div>
+            </div>
+         </div>
     </div>
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -335,6 +371,7 @@
       $(document).ready(function() {
         /// Model
         var snippetModel = {};
+        var userModel = {};
         var currentFilter = '';
         var filterOn ='';
         var filter ='';
@@ -535,6 +572,43 @@
             BuildTableTR();
           });
         }
+
+        function makeAuthenticationRequest(path) {
+          let email = $("#email").val();
+          let password = $("#password").val();
+          let firstName = $("#firstName").val();
+          let lastName = $("#lastName").val();
+
+          let url = path + "?email=" + email + "&password=" + password + "&firstName=" + firstName + "&lastName=" + lastName;
+
+          let request = $.getJSON(url,function(data){
+            userModel = data.result;
+            $("#userName").text("Welcome " + userModel.FirstName);
+          });
+
+          $("#email").val("");
+          $("#password").val("");
+          $("#firstName").val("");
+          $("#lastName").val("");
+
+          $("#login-modal").modal("hide");
+        }
+
+        $("#register-btn").click(function() {
+          $("#email").val("");
+          $("#password").val("");
+
+          $("#confirm-login-btn").hide();
+          $("#confirm-register-btn").show();
+
+          $("#login-modal-title").text("Register");
+
+          $("#login-modal").modal("show");
+        });
+
+        $("#confirm-register-btn").click(function() {
+          makeAuthenticationRequest("register");
+        });
 
         $(document).ready(function () {
             $("#sidebar").mCustomScrollbar({

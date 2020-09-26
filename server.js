@@ -101,8 +101,10 @@ function register(req, res){
 
   let email = getEmail(req);
   let password = bcrypt.hashSync(req.query.password, 12);
+  let firstName = req.query.firstName;
+  let lastName = req.query.lastName;
 
-  connection.query("INSERT INTO Users (Email, Password) VALUES (?, ?)", [email, password], function(err, dbResult){
+  connection.query("INSERT INTO Users (Email, Password,FirstName,LastName) VALUES (?, ?,?,?)", [email, password,firstName,lastName], function(err, dbResult){
     if(err){
       writeResult(res, {error: "Error creating user: " + err.message});
     }
@@ -112,7 +114,7 @@ function register(req, res){
           writeResult(res, {error: "Error loading user: " + err.message});
         }
         else {
-          writeResult(res, {Id: dbResult[0].Id, Email:dbResult[0].Email});
+          writeResult(res, {result: dbResult[0]});
         }
     })
   }
@@ -138,5 +140,5 @@ function validatePassword(password) {
 
 function buildUser(dbObject) {
   console.log(dbObject);
-  return {Id: dbObject.Id, email: dbObject.Email};
+  return {Id: dbObject.Id, Email: dbObject.Email, FirstName: dbObject.FirstName,LastName: dbObject.LastName};
 }
