@@ -75,7 +75,6 @@ VALUES ("Josh", "C++", "Switch", "switch(expression) {
   default:
 }");
 
-
 INSERT INTO Snippets(Creator, Language, Description, Code)
 VALUES ("John", "Python", "Swap values between two variable", "a = 1 b = 2 a, b = b, a print(a) print");
 INSERT INTO Snippets(Creator, Language, Description, Code)
