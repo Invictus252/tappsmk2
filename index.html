@@ -388,7 +388,7 @@
           $('.sortFilter').hide();
           $.getJSON("/findSnippets", function(data) {
             snippetModel = data.result;
-            BuildTableTR();
+            BuildTable();
           });
         };
 
@@ -410,85 +410,85 @@
         $(document).on('click', '#ddCreatorAscFilterOrder', function(){
           sortOn = 'Creator';
           order = 'ASC';
-          BuildQueryString();
+          BuildAndMakeRequest();
         });
 
         $(document).on('click', '#ddCreatorDescFilterOrder', function(){
           sortOn = 'Creator';
           order = 'DESC';
-          BuildQueryString();
+          BuildAndMakeRequest();
         });
 
         $(document).on('click', '#ddDescriptionAscFilterOrder', function(){
           sortOn = 'Description';
           order = 'ASC';
-          BuildQueryString();
+          BuildAndMakeRequest();
         });
 
         $(document).on('click', '#ddDescriptionDescFilterOrder', function(){
           sortOn = 'Description';
           order = 'DESC';
-          BuildQueryString();
+          BuildAndMakeRequest();
         });
 
         $(document).on('click', '#ddLanguageAscFilterOrder', function(){
           sortOn = 'Language';
           order = 'ASC';
-          BuildQueryString();
+          BuildAndMakeRequest();
         });
 
         $(document).on('click', '#ddLanguageDescFilterOrder', function(){
           sortOn = 'Language';
           order = 'DESC';
-          BuildQueryString();
+          BuildAndMakeRequest();
         });
 
         $(document).on('click', '#ddCreatorAsc', function(){
           sortOn = 'Creator';
           order = 'ASC';
-          BuildQueryString();
+          BuildAndMakeRequest();
         });
 
         $(document).on('click', '#ddCreatorDesc', function(){
           sortOn = 'Creator';
           order = 'DESC';
-          BuildQueryString();
+          BuildAndMakeRequest();
         });
 
         $(document).on('click', '#ddCreatorAscFilter', function(){
           sortOn = 'Creator';
           order = 'ASC';
-          BuildQueryString();
+          BuildAndMakeRequest();
         });
 
         $(document).on('click', '#ddCreatorDescFilter', function(){
           sortOn = 'Creator';
           order = 'DESC';
-          BuildQueryString();
+          BuildAndMakeRequest();
         });
 
         $(document).on('click', '#ddLanguageAsc', function(){
           sortOn = 'Language';
           order = 'ASC';
-          BuildQueryString();
+          BuildAndMakeRequest();
         });
 
         $(document).on('click', '#ddLanguageDesc', function(){
           sortOn = 'Language';
           order = 'DESC';
-          BuildQueryString();
+          BuildAndMakeRequest();
         });
 
         $(document).on('click', '#ddDescriptionAsc', function(){
           sortOn = 'Description';
           order = 'ASC';
-          BuildQueryString();
+          BuildAndMakeRequest();
         });
 
         $(document).on('click', '#ddDescriptionDesc', function(){
           sortOn = 'Description';
           order = 'DESC';
-          BuildQueryString();
+          BuildAndMakeRequest();
         });
 
         /// Search & Clear Search
@@ -511,7 +511,7 @@
           }else if (filterOn == 'Description'){
             $('#sort-description-dropdown-filter').hide();
           }
-          BuildQueryString();
+          BuildAndMakeRequest();
         }
 
         $(document).on('submit', '#search', function() {
@@ -528,7 +528,7 @@
           initializeModel();
         });
         /// Helper Functions
-        function BuildTableTR(data){
+        function BuildTable(data){
           $('#my-table tbody').empty();
           for (let i = 0; i < snippetModel.length; i++) {
             let tr = $('<tr data-toggle="modal" data-id="' + snippetModel[i].Id +'" data-target="#dbModal" data-backdrop="static" data-keyboard="false" data-creator="' + snippetModel[i].Creator + '" data-language="' + snippetModel[i].Language + '" data-description="' + snippetModel[i].Description + '" data-snippet="' + snippetModel[i].Snippet + '">');
@@ -553,7 +553,7 @@
           $('.sortNoFilter').show();
         }
 
-        function BuildQueryString(){
+        function BuildAndMakeRequest(){
           let queryString = '/findSnippets?';
           if($("#category").val() != ''){
             filterOn = $("#category").val();
@@ -570,7 +570,7 @@
         function SendQuery(this_query){
           $.getJSON(this_query, function(data) {
             snippetModel = data.result;
-            BuildTableTR();
+            BuildTable();
           });
         }
 
