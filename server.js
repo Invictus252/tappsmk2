@@ -4,7 +4,6 @@ const express = require("express");
 const session = require("express-session");
 const mysql = require("mysql");
 const bcrypt = require("bcryptjs");
-const fs = require("fs");
 
 const app = new express();
 
@@ -102,18 +101,25 @@ function register(req, res){
 
   let email = getEmail(req);
   let password = bcrypt.hashSync(req.query.password, 12);
+  let firstName = req.query.firstName;
+  let lastName = req.query.lastName;
 
-  connection.query("INSERT INTO Users (Email, Password) VAUES (?, ?)", [email, password], function(err, dbResult){
+  connection.query("INSERT INTO Users (Email, Password,FirstName,LastName) VALUES (?, ?,?,?)", [email, password,firstName,lastName], function(err, dbResult){
     if(err){
       writeResult(res, {error: "Error creating user: " + err.message});
     }
     else {
-      req.session.user = buildUser(dbResult[0]);
-      writeResult(res, {user: req.session.user});
-    }
-  });
+      connection.query("SELECT * FROM Users ORDER BY ID DESC LIMIT 1;",function(err, dbResult){
+        if(err){
+          writeResult(res, {error: "Error loading user: " + err.message});
+        }
+        else {
+          writeResult(res, {result: dbResult[0]});
+        }
+    })
+  }
+})
 }
-
 function getEmail(req){
   return String(req.query.email).toLocaleLowerCase();
 }
@@ -133,7 +139,6 @@ function validatePassword(password) {
 }
 
 function buildUser(dbObject) {
-  
   console.log(dbObject);
-  return {id: dbObject.Id, email: dbObject.Email};
+  return {Id: dbObject.Id, Email: dbObject.Email, FirstName: dbObject.FirstName,LastName: dbObject.LastName};
 }
