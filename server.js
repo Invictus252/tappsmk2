@@ -43,7 +43,7 @@ function startHandler() {
 
 function serveIndex(req, res) {
   res.writeHead(200, {'Content-Type': 'text/html'});
-  var index = fs.readFileSync('index.html');
+  let index = fs.readFileSync('index.html');
   res.end(index);
 }
 
@@ -62,8 +62,8 @@ function buildSnippet(dbObject) {
 
 // Controller
 function findSnippets(req, res) {
-  var sql= "SELECT * FROM Snippets";
-  var sqlString = [sql];
+  let sql= "SELECT * FROM Snippets";
+  let sqlString = [sql];
   if(req.query.filterOn && req.query.filter) {
     sqlString.push(" WHERE " + req.query.filterOn + " LIKE '%" + req.query.filter + "%'");
   }
