@@ -8,116 +8,116 @@ $(document).ready(function() {
   var sortOn = '';
   var order = '';
   var searchType;
-  var IdFromRow,CreatorFromRow,LanguageFromRow,Description,SnippetFromRow;
+  var idFromRow,creatorFromRow,languageFromRow,description,snippetFromRow;
 
   function initializeModel(){
-    WipeFilter();
+    wipeFilter();
     $('#category').val(0);
     $('.sortNoFilter').show();
     $('.sortFilter').hide();
     $.getJSON("/findSnippets", function(data) {
       snippetModel = data.result;
-      BuildTable();
+      buildTable();
     });
   };
 
   /// Views
   $('#dbModal').modal({backdrop: "static", keyboard: false, show:false}).on('show.bs.modal', function(){
-    IdFromRow = $(event.target).closest('tr').data('id');
-    CreatorFromRow = $(event.target).closest('tr').data('creator');
-    LanguageFromRow = $(event.target).closest('tr').data('language');
-    DescriptionFromRow = $(event.target).closest('tr').data('description');
-    SnippetFromRow = $(event.target).closest('tr').data('snippet');
-    BuildModalFromTable(this);
+    idFromRow = $(event.target).closest('tr').data('id');
+    creatorFromRow = $(event.target).closest('tr').data('creator');
+    languageFromRow = $(event.target).closest('tr').data('language');
+    descriptionFromRow = $(event.target).closest('tr').data('description');
+    snippetFromRow = $(event.target).closest('tr').data('snippet');
+    buildModalFromTable(this);
 
-    function BuildModalFromTable(table_this){
-      $(table_this).find('.modal-title ').html(' Viewing ID # ' + IdFromRow );
-      $(table_this).find('.modal-body').html($('<p class="text-secondary"> Creator: ' + CreatorFromRow + '</p><p class="text-secondary"> Language: ' + LanguageFromRow + '</p><p class="text-secondary"> Description: ' + DescriptionFromRow + '</p><h3 class="text-primary">  Snippet: </h3><code>' + SnippetFromRow + '</code>'));
+    function buildModalFromTable(table_this){
+      $(table_this).find('.modal-title ').html(' Viewing ID # ' + idFromRow );
+      $(table_this).find('.modal-body').html($('<p class="text-secondary"> Creator: ' + creatorFromRow + '</p><p class="text-secondary"> Language: ' + languageFromRow + '</p><p class="text-secondary"> description: ' + descriptionFromRow + '</p><h3 class="text-primary">  Snippet: </h3><code>' + snippetFromRow + '</code>'));
     }
   });
 
   $(document).on('click', '#ddCreatorAscFilterOrder', function(){
     sortOn = 'Creator';
     order = 'ASC';
-    BuildAndMakeRequest();
+    buildAndMakeRequest();
   });
 
   $(document).on('click', '#ddCreatorDescFilterOrder', function(){
     sortOn = 'Creator';
     order = 'DESC';
-    BuildAndMakeRequest();
+    buildAndMakeRequest();
   });
 
-  $(document).on('click', '#ddDescriptionAscFilterOrder', function(){
-    sortOn = 'Description';
+  $(document).on('click', '#dddescriptionAscFilterOrder', function(){
+    sortOn = 'description';
     order = 'ASC';
-    BuildAndMakeRequest();
+    buildAndMakeRequest();
   });
 
-  $(document).on('click', '#ddDescriptionDescFilterOrder', function(){
-    sortOn = 'Description';
+  $(document).on('click', '#dddescriptionDescFilterOrder', function(){
+    sortOn = 'description';
     order = 'DESC';
-    BuildAndMakeRequest();
+    buildAndMakeRequest();
   });
 
   $(document).on('click', '#ddLanguageAscFilterOrder', function(){
     sortOn = 'Language';
     order = 'ASC';
-    BuildAndMakeRequest();
+    buildAndMakeRequest();
   });
 
   $(document).on('click', '#ddLanguageDescFilterOrder', function(){
     sortOn = 'Language';
     order = 'DESC';
-    BuildAndMakeRequest();
+    buildAndMakeRequest();
   });
 
   $(document).on('click', '#ddCreatorAsc', function(){
     sortOn = 'Creator';
     order = 'ASC';
-    BuildAndMakeRequest();
+    buildAndMakeRequest();
   });
 
   $(document).on('click', '#ddCreatorDesc', function(){
     sortOn = 'Creator';
     order = 'DESC';
-    BuildAndMakeRequest();
+    buildAndMakeRequest();
   });
 
   $(document).on('click', '#ddCreatorAscFilter', function(){
     sortOn = 'Creator';
     order = 'ASC';
-    BuildAndMakeRequest();
+    buildAndMakeRequest();
   });
 
   $(document).on('click', '#ddCreatorDescFilter', function(){
     sortOn = 'Creator';
     order = 'DESC';
-    BuildAndMakeRequest();
+    buildAndMakeRequest();
   });
 
   $(document).on('click', '#ddLanguageAsc', function(){
     sortOn = 'Language';
     order = 'ASC';
-    BuildAndMakeRequest();
+    buildAndMakeRequest();
   });
 
   $(document).on('click', '#ddLanguageDesc', function(){
     sortOn = 'Language';
     order = 'DESC';
-    BuildAndMakeRequest();
+    buildAndMakeRequest();
   });
 
-  $(document).on('click', '#ddDescriptionAsc', function(){
-    sortOn = 'Description';
+  $(document).on('click', '#dddescriptionAsc', function(){
+    sortOn = 'description';
     order = 'ASC';
-    BuildAndMakeRequest();
+    buildAndMakeRequest();
   });
 
-  $(document).on('click', '#ddDescriptionDesc', function(){
-    sortOn = 'Description';
+  $(document).on('click', '#dddescriptionDesc', function(){
+    sortOn = 'description';
     order = 'DESC';
-    BuildAndMakeRequest();
+    buildAndMakeRequest();
   });
 
   /// Search & Clear Search
@@ -137,10 +137,10 @@ $(document).ready(function() {
       $('#sort-creator-dropdown-filter').hide();
     }else if (filterOn == 'Language'){
       $('#sort-language-dropdown-filter').hide();
-    }else if (filterOn == 'Description'){
+    }else if (filterOn == 'description'){
       $('#sort-description-dropdown-filter').hide();
     }
-    BuildAndMakeRequest();
+    buildAndMakeRequest();
   }
 
   $(document).on('submit', '#search', function() {
@@ -153,24 +153,25 @@ $(document).ready(function() {
   });
 
   $("#clear-search").click(function() {
-    WipeFilter();
+    wipeFilter();
     initializeModel();
   });
   /// Helper Functions
-  function BuildTable(data){
+  function buildTable(data){
     $('#my-table tbody').empty();
     for (let i = 0; i < snippetModel.length; i++) {
-      let tr = $('<tr data-toggle="modal" data-id="' + snippetModel[i].Id +'" data-target="#dbModal" data-backdrop="static" data-keyboard="false" data-creator="' + snippetModel[i].Creator + '" data-language="' + snippetModel[i].Language + '" data-description="' + snippetModel[i].Description + '" data-snippet="' + snippetModel[i].Snippet + '">');
+      let tr = $('<tr data-toggle="modal" data-id="' + snippetModel[i].Id +'" data-target="#dbModal" data-backdrop="static" data-keyboard="false" data-creator="' + snippetModel[i].Creator + '" data-language="' + snippetModel[i].Language + '" data-description="' + snippetModel[i].description + '" data-snippet="' + snippetModel[i].Snippet + '">');
       $(tr).append("<td scope='row'>" + snippetModel[i].Id + "</td>");
       $(tr).append("<td>" + snippetModel[i].Creator + "</td>");
       $(tr).append("<td>" + snippetModel[i].Language + "</td>");
-      $(tr).append("<td>" + snippetModel[i].Description + "</td>");
+      $(tr).append("<td>" + snippetModel[i].description + "</td>");
       $(tr).append("<td><code>" + snippetModel[i].Snippet + "</code></td>");
       $(tr).append("</tr>");
       $('#my-table tbody').append(tr);
-  }};
+    }
+  };
 
-  function WipeFilter(){
+  function wipeFilter(){
     $('#criteria').val("");
     $('#category').val(0);
     sortOn = '';
@@ -182,7 +183,7 @@ $(document).ready(function() {
     $('.sortNoFilter').show();
   }
 
-  function BuildAndMakeRequest(){
+  function buildAndMakeRequest(){
     let queryString = '/findSnippets?';
     if($("#category").val() != ''){
       filterOn = $("#category").val();
@@ -199,7 +200,7 @@ $(document).ready(function() {
   function SendQuery(this_query){
     $.getJSON(this_query, function(data) {
       snippetModel = data.result;
-      BuildTable();
+      buildTable();
     });
   }
 

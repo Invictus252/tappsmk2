@@ -26,8 +26,10 @@ const connection = mysql.createConnection(dbInfo);
 app.use(session(sessionOptions));
 app.use(express.static('public'));
 app.all("/", serveIndex);
+app.get("/whoIsLoggedIn", whoIsLoggedIn);
 app.get("/findSnippets", findSnippets);
 app.get("/register", register);
+app.get("/login", login);
 app.listen(3000, process.env.IP, startHandler());
 
 connection.connect(function(err) {
@@ -86,6 +88,13 @@ function makeQuery(query,res){
   });
 }
 //User creation functions
+function whoIsLoggedIn(req, res) {
+  if(req.session.user == undefined)
+    writeResult(res, {user: undefined});
+  else
+    writeResult(res, {user: req.session.user});
+}
+
 function register(req, res){
   if(!validateEmail(req.query.email)) {
 
@@ -100,25 +109,47 @@ function register(req, res){
 
   let email = getEmail(req);
   let password = bcrypt.hashSync(req.query.password, 12);
-  let firstName = req.query.firstName;
-  let lastName = req.query.lastName;
+  let userName = req.query.userName;
 
-  connection.query("INSERT INTO Users (Email, Password,FirstName,LastName) VALUES (?, ?,?,?)", [email, password,firstName,lastName], function(err, dbResult){
+  connection.query("INSERT INTO Users (Email, Password,UserName) VALUES (?,?,?)", [email, password, userName], function(err, dbResult){
     if(err){
       writeResult(res, {error: "Error creating user: " + err.message});
     }
     else {
-      connection.query("SELECT * FROM Users ORDER BY ID DESC LIMIT 1;",function(err, dbResult){
-        if(err){
+      connection.query("SELECT * FROM Users ORDER BY ID DESC LIMIT 1;",function(err, dbResult) {
+        if(err) {
           writeResult(res, {error: "Error loading user: " + err.message});
         }
         else {
           writeResult(res, {result: dbResult[0]});
         }
-    })
-  }
-})
+      });
+    }
+  });
 }
+
+function login(req, res) {
+  if(!req.query.email || !req.query.password) {
+    writeResult(res, {error: "Email is required."});
+    return;
+  }
+
+  let email = getEmail(req);
+  connection.query("SELECT Id, Email, Password, UserName FROM Users WHERE Email = ?", [email], function(err, dbResult) {
+    if(err)
+      writeResult(res, {error: err.message});
+    else {
+      if(dbResult.length == 1 && bcrypt.compareSync(req.query.password, dbResult[0].Password)) {
+        req.session.user = buildUser(dbResult[0]);
+        writeResult(res, {user: req.session.user});
+      }
+      else {
+        writeResult(res, {error: "Invalid email or password."});
+      }
+    }
+  });
+}
+
 function getEmail(req){
   return String(req.query.email).toLocaleLowerCase();
 }
@@ -139,5 +170,5 @@ function validatePassword(password) {
 
 function buildUser(dbObject) {
   console.log(dbObject);
-  return {Id: dbObject.Id, Email: dbObject.Email, FirstName: dbObject.FirstName,LastName: dbObject.LastName};
+  return {Id: dbObject.Id, Email: dbObject.Email, UserName: dbObject.UserName};
 }
