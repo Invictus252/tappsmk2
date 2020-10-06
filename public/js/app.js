@@ -126,11 +126,11 @@ $(document).ready(function() {
       ClearSearch();
       alert("Search is incomplete. Please check your Filter or Criteria");
     } else {
-      SubmitForm();
+      submitForm();
     }
   });
 
-  function SubmitForm() {
+  function submitForm() {
     $(".sortNoFilter").hide();
     $(".sortFilter").show();
     if(filterOn == "Creator"){
@@ -147,7 +147,7 @@ $(document).ready(function() {
     if ($("#criteria").val() == "" || $("#criteria").val() == null || $("#category").val() == 0 || $("#category").val() == null) {
       ClearSearch();
     } else {
-      SubmitForm();
+      submitForm();
     }
     return false;
   });
@@ -194,10 +194,10 @@ $(document).ready(function() {
       queryString += "&sortOn=" +sortOn+ "&order=" + order;
     else
       queryString += "sortOn=" +sortOn+ "&order=" + order;
-    SendQuery(queryString);
+    sendQuery(queryString);
   }
 
-  function SendQuery(this_query){
+  function sendQuery(this_query){
     $.getJSON(this_query, function(data) {
       snippetModel = data.result;
       buildTable();
