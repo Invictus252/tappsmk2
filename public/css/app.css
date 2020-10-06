@@ -3,10 +3,10 @@ th {
   top: 0;
 }
 #sidebarCollapse{
-  background-color: #63adf2;
+  background-color: #eff0f1;
 }
 #sidebarCollapse:hover{
-  background-color: #304d6d;
+  background-color: #a7cced;
 }
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 body {
@@ -153,7 +153,7 @@ th {
   background-color: #304d6d;
 }
 .red:hover{
-  background-color: red;
+  background-color: #c4302b;
 }
 .green:hover{
   background-color: green;
@@ -167,4 +167,8 @@ th {
 }
 .btn-group > .btn:first-child:hover{
   background: white;
+}
+
+#login-btn:hover, #register-btn:hover, #logout-btn:hover{
+  background-color: #a7cced;
 }

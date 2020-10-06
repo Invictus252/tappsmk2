@@ -19,6 +19,7 @@ $(document).ready(function() {
       snippetModel = data.result;
       buildTable();
     });
+    $("#logout-btn").hide();
   };
 
   /// Views
@@ -135,9 +136,9 @@ $(document).ready(function() {
     $(".sortFilter").show();
     if(filterOn == "Creator"){
       $("#sort-creator-dropdown-filter").hide();
-    }else if (filterOn == "Language"){
+    } else if (filterOn == "Language"){
       $("#sort-language-dropdown-filter").hide();
-    }else if (filterOn == "description"){
+    } else if (filterOn == "description"){
       $("#sort-description-dropdown-filter").hide();
     }
     buildAndMakeRequest();
@@ -164,7 +165,7 @@ $(document).ready(function() {
       $(tr).append("<td scope='row'>" + snippetModel[i].Id + "</td>");
       $(tr).append("<td>" + snippetModel[i].Creator + "</td>");
       $(tr).append("<td>" + snippetModel[i].Language + "</td>");
-      $(tr).append("<td>" + snippetModel[i].description + "</td>");
+      $(tr).append("<td>" + snippetModel[i].Description + "</td>");
       $(tr).append("<td><code>" + snippetModel[i].Snippet + "</code></td>");
       $(tr).append("</tr>");
       $("#my-table tbody").append(tr);
@@ -191,9 +192,9 @@ $(document).ready(function() {
       queryString += "filterOn=" + filterOn + "&filter=" + filter;
     }
     if(sortOn != undefined && $("#category").val() != "" )
-      queryString += "&sortOn=" +sortOn+ "&order=" + order;
+      queryString += "&sortOn=" + sortOn + "&order=" + order;
     else
-      queryString += "sortOn=" +sortOn+ "&order=" + order;
+      queryString += "sortOn=" + sortOn + "&order=" + order;
     sendQuery(queryString);
   }
 
@@ -247,6 +248,9 @@ $(document).ready(function() {
         $("#login-modal").modal("hide");
         userModel = data.user;
         $("#userName").text("Welcome " + userModel.UserName);
+        $("#userName").append(" <img id='logo' class='p-2' src='img/fj.ico' height='50em'>");
+        $("#login-btn").hide();
+        $("#logout-btn").show();
       }
     });
   }

@@ -104,11 +104,9 @@ function register(req, res){
     writeResult(res, {error: "Password is invalid: Must be at least eight characters and must contain at least one Uppercase letter, one Lowercase letter, and a number!"})
     return;
   }
-
   let email = getEmail(req);
   let password = bcrypt.hashSync(req.query.password, 12);
   let userName = req.query.userName;
-
   connection.query("INSERT INTO Users (Email, Password,UserName) VALUES (?,?,?)", [email, password, userName], function(err, dbResult){
     if(err){
       writeResult(res, {error: "Error creating user: " + err.message});
@@ -131,7 +129,6 @@ function login(req, res) {
     writeResult(res, {error: "Email is required."});
     return;
   }
-
   let email = getEmail(req);
   connection.query("SELECT Id, Email, Password, UserName FROM Users WHERE Email = ?", [email], function(err, dbResult) {
     if(err)
@@ -155,14 +152,12 @@ function getEmail(req){
 function validateEmail(email) {
   if(!email)
     return false;
-
   return emailRegEx.test(email.toLowerCase());
 }
 
 function validatePassword(password) {
   if(!password)
     return false;
-
   return passwordRegEx.test(password);
 }
 
