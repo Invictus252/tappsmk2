@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
 const app = new express();
 
 const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/g;
+const passwordRegEx = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
 const dbInfo = {
   host: "localhost",
@@ -97,12 +97,10 @@ function whoIsLoggedIn(req, res) {
 
 function register(req, res){
   if(!validateEmail(req.query.email)) {
-
     writeResult(res, {error: "Email is not valid!"})
     return;
   }
   if(!validatePassword(req.query.password)){
-
     writeResult(res, {error: "Password is invalid: Must be at least eight characters and must contain at least one Uppercase letter, one Lowercase letter, and a number!"})
     return;
   }

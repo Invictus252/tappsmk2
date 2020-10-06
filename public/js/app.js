@@ -209,9 +209,10 @@ $(document).ready(function() {
     let password = $("#password").val();
     let userName = $("#firstName").val() + " " + $("#lastName").val();
 
-    if(path == "register")
+    if(path == "register"){
       var url = path + "?email=" + email + "&password=" + password + "&userName=" + userName;
       registerUser(url);
+    }
     if(path == "login"){
       var url = path + "?email=" + email + "&password=" + password;
       loginUser(url);
@@ -219,21 +220,24 @@ $(document).ready(function() {
   }
 
   function registerUser(url){
+    $("#successMessage").text("");
+    $("#email").val("");
+    $("#password").val("");
+    $("#firstName").val("");
+    $("#lastName").val("");
     let request = $.getJSON(url,function(data){
       if(data.error != undefined){
         $("#login-modal").modal("show");
         $("#errorMessage").text(data.error);
       }else{
-        $("#email").val("");
-        $("#password").val("");
-        $("#firstName").val("");
-        $("#lastName").val("");
-        $("#login-modal").modal("hide");
+        $("#successMessage").text("User successfully created!");
       }
     });
   }
 
   function loginUser(url){
+    $("#email").val("");
+    $("#password").val("");
     let request = $.getJSON(url,function(data){
       if(data.error != undefined){
         $("#login-modal").modal("show");
@@ -248,6 +252,8 @@ $(document).ready(function() {
   }
 
   $("#register-btn").click(function() {
+    $("#successMessage").text("");
+    $("#errorMessage").text("");
     $("#email").val("");
     $("#password").val("");
 
@@ -262,6 +268,7 @@ $(document).ready(function() {
   });
 
   $("#login-btn").click(function() {
+    $("#errorMessage").text("");
     $("#email").val("");
     $("#password").val("");
 
