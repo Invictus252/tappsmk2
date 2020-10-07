@@ -63,8 +63,10 @@ function buildSnippet(dbObject) {
 
 // Controller
 function findSnippets(req, res) {
+
   let sql= "SELECT * FROM Snippets";
   let sqlString = [sql];
+
   if(req.query.filterOn && req.query.filter) {
     sqlString.push(" WHERE " + req.query.filterOn + " LIKE '%" + req.query.filter + "%'");
   }
@@ -75,7 +77,7 @@ function findSnippets(req, res) {
 }
 
 // Helper Functions
-function makeQuery(query,res){
+function makeQuery(query,res) {
   query = query.join(" ");
   connection.query(query, function(err, dbResult) {
     if(err)
@@ -87,7 +89,7 @@ function makeQuery(query,res){
   });
 }
 //User creation functions
-function register(req, res){
+function register(req, res) {
   if(!validateEmail(req.query.email)) {
     writeResult(res, {error: "Email is not valid!"})
     return;
@@ -96,9 +98,11 @@ function register(req, res){
     writeResult(res, {error: "Password is invalid: Must be at least eight characters and must contain at least one Uppercase letter, one Lowercase letter, and a number!"})
     return;
   }
+
   let email = getEmail(req);
   let password = bcrypt.hashSync(req.query.password, 12);
   let userName = req.query.userName;
+
   connection.query("INSERT INTO Users (Email, Password,UserName) VALUES (?,?,?)", [email, password, userName], function(err, dbResult){
     if(err){
       writeResult(res, {error: "Error creating user: " + err.message});
@@ -137,7 +141,7 @@ function login(req, res) {
   });
 }
 
-function getEmail(req){
+function getEmail(req) {
   return String(req.query.email).toLocaleLowerCase();
 }
 
