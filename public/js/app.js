@@ -275,7 +275,6 @@ $(document).ready(function() {
         userModel = data.user;
         $("#user-Name").text("Welcome " + userModel.UserName);
         $("#login-btn").hide();
-        $("#logout-btn").show();
       }
     });
   }
