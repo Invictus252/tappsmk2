@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
 const app = new express();
 
 const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+const passwordRegEx = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
 const dbInfo = {
   host: "localhost",
@@ -26,7 +26,6 @@ const connection = mysql.createConnection(dbInfo);
 app.use(session(sessionOptions));
 app.use(express.static('public'));
 app.all("/", serveIndex);
-app.get("/whoIsLoggedIn", whoIsLoggedIn);
 app.get("/findSnippets", findSnippets);
 app.get("/register", register);
 app.get("/login", login);
@@ -88,29 +87,18 @@ function makeQuery(query,res){
   });
 }
 //User creation functions
-function whoIsLoggedIn(req, res) {
-  if(req.session.user == undefined)
-    writeResult(res, {user: undefined});
-  else
-    writeResult(res, {user: req.session.user});
-}
-
 function register(req, res){
   if(!validateEmail(req.query.email)) {
-
     writeResult(res, {error: "Email is not valid!"})
     return;
   }
   if(!validatePassword(req.query.password)){
-
-    writeResult(res, {error: "Password is invalid: Must be at least eight characters and must contain at least one letter and number!"})
+    writeResult(res, {error: "Password is invalid: Must be at least eight characters and must contain at least one Uppercase letter, one Lowercase letter, and a number!"})
     return;
   }
-
   let email = getEmail(req);
   let password = bcrypt.hashSync(req.query.password, 12);
   let userName = req.query.userName;
-
   connection.query("INSERT INTO Users (Email, Password,UserName) VALUES (?,?,?)", [email, password, userName], function(err, dbResult){
     if(err){
       writeResult(res, {error: "Error creating user: " + err.message});
@@ -133,7 +121,6 @@ function login(req, res) {
     writeResult(res, {error: "Email is required."});
     return;
   }
-
   let email = getEmail(req);
   connection.query("SELECT Id, Email, Password, UserName FROM Users WHERE Email = ?", [email], function(err, dbResult) {
     if(err)
@@ -157,18 +144,15 @@ function getEmail(req){
 function validateEmail(email) {
   if(!email)
     return false;
-
   return emailRegEx.test(email.toLowerCase());
 }
 
 function validatePassword(password) {
   if(!password)
     return false;
-
   return passwordRegEx.test(password);
 }
 
 function buildUser(dbObject) {
-  console.log(dbObject);
   return {Id: dbObject.Id, Email: dbObject.Email, UserName: dbObject.UserName};
 }
