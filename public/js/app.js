@@ -24,85 +24,85 @@ $(document).ready(function() {
     }
   });
 
-  $("#ddCreatorAscFilterOrder").click(function(){
+  $("#ddCreatorAscFilterOrder").click(function() {
     sortOn = "Creator";
     order = "ASC";
     buildAndMakeRequest();
   });
 
-  $("#ddCreatorDescFilterOrder").click(function(){
+  $("#ddCreatorDescFilterOrder").click(function() {
     sortOn = "Creator";
     order = "DESC";
     buildAndMakeRequest();
   });
 
-  $("#dddescriptionAscFilterOrder").click(function(){
+  $("#dddescriptionAscFilterOrder").click(function() {
     sortOn = "description";
     order = "ASC";
     buildAndMakeRequest();
   });
 
-  $("#dddescriptionDescFilterOrder").click(function(){
+  $("#dddescriptionDescFilterOrder").click(function() {
     sortOn = "description";
     order = "DESC";
     buildAndMakeRequest();
   });
 
-  $("#ddLanguageAscFilterOrder").click(function(){
+  $("#ddLanguageAscFilterOrder").click(function() {
     sortOn = "Language";
     order = "ASC";
     buildAndMakeRequest();
   });
 
-  $("#ddLanguageDescFilterOrder").click(function(){
+  $("#ddLanguageDescFilterOrder").click(function() {
     sortOn = "Language";
     order = "DESC";
     buildAndMakeRequest();
   });
 
-  $("#ddCreatorAsc").click(function(){
+  $("#ddCreatorAsc").click(function() {
     sortOn = "Creator";
     order = "ASC";
     buildAndMakeRequest();
   });
 
-  $("#ddCreatorDesc").click(function(){
+  $("#ddCreatorDesc").click(function() {
     sortOn = "Creator";
     order = "DESC";
     buildAndMakeRequest();
   });
 
-  $("#ddCreatorAscFilter").click(function(){
+  $("#ddCreatorAscFilter").click(function() {
     sortOn = "Creator";
     order = "ASC";
     buildAndMakeRequest();
   });
 
-  $("#ddCreatorDescFilter").click(function(){
+  $("#ddCreatorDescFilter").click(function() {
     sortOn = "Creator";
     order = "DESC";
     buildAndMakeRequest();
   });
 
-  $("#ddLanguageAsc").click(function(){
+  $("#ddLanguageAsc").click(function() {
     sortOn = "Language";
     order = "ASC";
     buildAndMakeRequest();
   });
 
-  $("#ddLanguageDesc").click(function(){
+  $("#ddLanguageDesc").click(function() {
     sortOn = "Language";
     order = "DESC";
     buildAndMakeRequest();
   });
 
-  $("#ddDescriptionAsc").click(function(){
+  $("#ddDescriptionAsc").click(function() {
     sortOn = "Description";
     order = "ASC";
     buildAndMakeRequest();
   });
 
-  $("#ddDescriptionDesc").click(function(){
+  $("#ddDescriptionDesc").click(function() {
     sortOn = "Description";
     order = "DESC";
     buildAndMakeRequest();
@@ -119,8 +119,7 @@ $(document).ready(function() {
     $("#email").val("");
     $("#password").val("");
     $("#confirm-login-btn").hide();
-    $("#lastName").show();
-    $("#firstName").show();
+    $("#userName").show();
     $("#confirm-register-btn").show();
     $("#login-modal-title").text("Register New User");
     $("#login-modal").modal("show");
@@ -132,8 +131,7 @@ $(document).ready(function() {
     $("#email").val("");
     $("#password").val("");
     $("#confirm-register-btn").hide();
-    $("#lastName").hide();
-    $("#firstName").hide();
+    $("#userName").hide();
     $("#confirm-login-btn").show();
     $("#login-modal-title").text("Login");
     $("#login-modal").modal("show");
@@ -180,15 +178,15 @@ $(document).ready(function() {
     $(".sortFilter").show();
     if(filterOn == "Creator"){
       $("#sort-creator-dropdown-filter").hide();
-    } else if (filterOn == "Language"){
+    } else if (filterOn == "Language") {
       $("#sort-language-dropdown-filter").hide();
-    } else if (filterOn == "description"){
+    } else if (filterOn == "description") {
       $("#sort-description-dropdown-filter").hide();
     }
     buildAndMakeRequest();
   }
 
-  function buildTable(data){
+  function buildTable(data) {
     $("#my-table tbody").empty();
     for (let i = 0; i < snippetModel.length; i++) {
       let tr = $("<tr data-toggle='modal' data-id='" + snippetModel[i].Id +"' data-target='#dbModal' data-backdrop='static' data-keyboard='false' data-creator='" + snippetModel[i].Creator + "' data-language='" + snippetModel[i].Language + "' data-description='" + snippetModel[i].Description + "' data-snippet='" + snippetModel[i].Snippet.replace(/'/g,"&quot;") + "'>");
@@ -214,9 +212,9 @@ $(document).ready(function() {
     $(".sortNoFilter").show();
   }
 
-  function buildAndMakeRequest(){
+  function buildAndMakeRequest() {
     let queryString = "/findSnippets?";
-    if($("#category").val() != ""){
+    if($("#category").val() != "") {
       filterOn = $("#category").val();
       filter = encodeURIComponent($("#criteria").val());
       queryString += "filterOn=" + filterOn + "&filter=" + filter;
@@ -228,7 +226,7 @@ $(document).ready(function() {
     sendQuery(queryString);
   }
 
-  function sendQuery(this_query){
+  function sendQuery(this_query) {
     $.getJSON(this_query, function(data) {
       snippetModel = data.result;
       buildTable();
@@ -238,7 +236,7 @@ $(document).ready(function() {
   function makeAuthenticationRequest(path) {
     let email = $("#email").val();
     let password = $("#password").val();
-    let userName = $("#firstName").val() + " " + $("#lastName").val();
+    let userName = $("#userName").val();
     if(path == "register"){
       var url = path + "?email=" + email + "&password=" + password + "&userName=" + userName;
       registerUser(url);
@@ -249,12 +247,11 @@ $(document).ready(function() {
     }
   }
 
-  function registerUser(url){
+  function registerUser(url) {
     $("#successMessage").text("");
     $("#email").val("");
     $("#password").val("");
-    $("#firstName").val("");
-    $("#lastName").val("");
+    $("#userName").val("");
     let request = $.getJSON(url,function(data){
       if(data.error != undefined){
         $("#login-modal").modal("show");
@@ -265,7 +262,7 @@ $(document).ready(function() {
     });
   }
 
-  function loginUser(url){
+  function loginUser(url) {
     $("#email").val("");
     $("#password").val("");
     let request = $.getJSON(url,function(data){
@@ -276,14 +273,14 @@ $(document).ready(function() {
       else{
         $("#login-modal").modal("hide");
         userModel = data.user;
-        $("#userName").text("Welcome " + userModel.UserName);
+        $("#user-Name").text("Welcome " + userModel.UserName);
         $("#login-btn").hide();
         $("#logout-btn").show();
       }
     });
   }
 
-  function initializeModel(){
+  function initializeModel() {
     wipeFilter();
     $("#category").val(0);
     $(".sortNoFilter").show();
