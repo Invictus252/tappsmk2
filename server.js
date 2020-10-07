@@ -26,7 +26,6 @@ const connection = mysql.createConnection(dbInfo);
 app.use(session(sessionOptions));
 app.use(express.static('public'));
 app.all("/", serveIndex);
-app.get("/whoIsLoggedIn", whoIsLoggedIn);
 app.get("/findSnippets", findSnippets);
 app.get("/register", register);
 app.get("/login", login);
@@ -88,13 +87,6 @@ function makeQuery(query,res){
   });
 }
 //User creation functions
-function whoIsLoggedIn(req, res) {
-  if(req.session.user == undefined)
-    writeResult(res, {user: undefined});
-  else
-    writeResult(res, {user: req.session.user});
-}
-
 function register(req, res){
   if(!validateEmail(req.query.email)) {
     writeResult(res, {error: "Email is not valid!"})

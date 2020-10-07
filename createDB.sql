@@ -21,6 +21,7 @@ CREATE TABLE Snippets(
   PRIMARY KEY(Id)
 );
 
+INSERT INTO Users(Email,Password,UserName) VALUES ("test","$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa","Chester the Tester");
 INSERT INTO Snippets(Creator, Language, Description, Code)
 VALUES ("Dylan", "SQL", "Wildcard", "SELECT * FROM Customers
 WHERE City LIKE 'ber%'; ");

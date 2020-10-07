@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  /// Model
+
   var snippetModel = {};
   var userModel = {};
   var currentFilter = "";
@@ -10,19 +10,6 @@ $(document).ready(function() {
   var searchType;
   var idFromRow,creatorFromRow,languageFromRow,description,snippetFromRow;
 
-  function initializeModel(){
-    wipeFilter();
-    $("#category").val(0);
-    $(".sortNoFilter").show();
-    $(".sortFilter").hide();
-    $.getJSON("/findSnippets", function(data) {
-      snippetModel = data.result;
-      buildTable();
-    });
-    $("#logout-btn").hide();
-  };
-
-  /// Views
   $("#dbModal").modal({backdrop: "static", keyboard: false, show:false}).on("show.bs.modal", function(){
     idFromRow = $(event.target).closest("tr").data("id");
     creatorFromRow = $(event.target).closest("tr").data("creator");
@@ -33,95 +20,133 @@ $(document).ready(function() {
 
     function buildModalFromTable(table_this){
       $(table_this).find(".modal-title ").html(" Viewing ID # " + idFromRow );
-      $(table_this).find(".modal-body").html($("<p class='text-secondary'> Creator: " + creatorFromRow + "</p><p class='text-secondary'> Language: " + languageFromRow + "</p><p class='text-secondary'> description: " + descriptionFromRow + "</p><h3 class='text-primary'>  Snippet: </h3><code>" + snippetFromRow + "</code>"));
+      $(table_this).find(".modal-body").html($("<p class='text-secondary'> Creator: " + creatorFromRow + "</p><p class='text-secondary'> Language: " + languageFromRow + "</p><p class='text-secondary'> Description: " + descriptionFromRow + "</p><h3 class='text-primary'>  Snippet: </h3><code>" + snippetFromRow + "</code>"));
     }
   });
 
-  $(document).on("click", "#ddCreatorAscFilterOrder", function(){
+  $("#ddCreatorAscFilterOrder").click(function(){
     sortOn = "Creator";
     order = "ASC";
     buildAndMakeRequest();
   });
 
-  $(document).on("click", "#ddCreatorDescFilterOrder", function(){
+  $("#ddCreatorDescFilterOrder").click(function(){
     sortOn = "Creator";
     order = "DESC";
     buildAndMakeRequest();
   });
 
-  $(document).on("click", "#dddescriptionAscFilterOrder", function(){
+  $("#dddescriptionAscFilterOrder").click(function(){
     sortOn = "description";
     order = "ASC";
     buildAndMakeRequest();
   });
 
-  $(document).on("click", "#dddescriptionDescFilterOrder", function(){
+  $("#dddescriptionDescFilterOrder").click(function(){
     sortOn = "description";
     order = "DESC";
     buildAndMakeRequest();
   });
 
-  $(document).on("click", "#ddLanguageAscFilterOrder", function(){
+  $("#ddLanguageAscFilterOrder").click(function(){
     sortOn = "Language";
     order = "ASC";
     buildAndMakeRequest();
   });
 
-  $(document).on("click", "#ddLanguageDescFilterOrder", function(){
+  $("#ddLanguageDescFilterOrder").click(function(){
     sortOn = "Language";
     order = "DESC";
     buildAndMakeRequest();
   });
 
-  $(document).on("click", "#ddCreatorAsc", function(){
+  $("#ddCreatorAsc").click(function(){
     sortOn = "Creator";
     order = "ASC";
     buildAndMakeRequest();
   });
 
-  $(document).on("click", "#ddCreatorDesc", function(){
+  $("#ddCreatorDesc").click(function(){
     sortOn = "Creator";
     order = "DESC";
     buildAndMakeRequest();
   });
 
-  $(document).on("click", "#ddCreatorAscFilter", function(){
+  $("#ddCreatorAscFilter").click(function(){
     sortOn = "Creator";
     order = "ASC";
     buildAndMakeRequest();
   });
 
-  $(document).on("click", "#ddCreatorDescFilter", function(){
+  $("#ddCreatorDescFilter").click(function(){
     sortOn = "Creator";
     order = "DESC";
     buildAndMakeRequest();
   });
 
-  $(document).on("click", "#ddLanguageAsc", function(){
+  $("#ddLanguageAsc").click(function(){
     sortOn = "Language";
     order = "ASC";
     buildAndMakeRequest();
   });
 
-  $(document).on("click", "#ddLanguageDesc", function(){
+  $("#ddLanguageDesc").click(function(){
     sortOn = "Language";
     order = "DESC";
     buildAndMakeRequest();
   });
 
-  $(document).on("click", "#dddescriptionAsc", function(){
-    sortOn = "description";
+  $("#ddDescriptionAsc").click(function(){
+    sortOn = "Description";
     order = "ASC";
     buildAndMakeRequest();
   });
 
-  $(document).on("click", "#dddescriptionDesc", function(){
-    sortOn = "description";
+  $("#ddDescriptionDesc").click(function(){
+    sortOn = "Description";
     order = "DESC";
     buildAndMakeRequest();
   });
 
-  /// Search & Clear Search
+  $("#clear-search").click(function() {
+    wipeFilter();
+    initializeModel();
+  });
+
+  $("#register-btn").click(function() {
+    $("#successMessage").text("");
+    $("#errorMessage").text("");
+    $("#email").val("");
+    $("#password").val("");
+    $("#confirm-login-btn").hide();
+    $("#lastName").show();
+    $("#firstName").show();
+    $("#confirm-register-btn").show();
+    $("#login-modal-title").text("Register New User");
+    $("#login-modal").modal("show");
+  });
+
+  $("#login-btn").click(function() {
+    $("#errorMessage").text("");
+    $("#successMessage").text("");
+    $("#email").val("");
+    $("#password").val("");
+    $("#confirm-register-btn").hide();
+    $("#lastName").hide();
+    $("#firstName").hide();
+    $("#confirm-login-btn").show();
+    $("#login-modal-title").text("Login");
+    $("#login-modal").modal("show");
+  });
+
+  $("#confirm-register-btn").click(function() {
+    makeAuthenticationRequest("register");
+  });
+
+  $("#confirm-login-btn").click(function() {
+    makeAuthenticationRequest("login");
+  });
+
   $("#search-buttons").click(function() {
     if ($("#criteria").val() == "" || $("#criteria").val() == null || $("#category").val() == 0 || $("#category").val() == null) {
       ClearSearch();
@@ -129,6 +154,25 @@ $(document).ready(function() {
     } else {
       submitForm();
     }
+  });
+
+  $("#sidebarCollapse").click(function () {
+    $("#sidebar, #content").toggleClass("active");
+    $(".collapse.in").toggleClass("in");
+    $("a[aria-expanded=true]").attr("aria-expanded", "false");
+  });
+
+  $("#search").submit(function() {
+    if ($("#criteria").val() == "" || $("#criteria").val() == null || $("#category").val() == 0 || $("#category").val() == null) {
+      ClearSearch();
+    } else {
+      submitForm();
+    }
+    return false;
+  });
+
+  $("#sidebar").mCustomScrollbar({
+    theme: "minimal"
   });
 
   function submitForm() {
@@ -144,29 +188,15 @@ $(document).ready(function() {
     buildAndMakeRequest();
   }
 
-  $(document).on("submit", "#search", function() {
-    if ($("#criteria").val() == "" || $("#criteria").val() == null || $("#category").val() == 0 || $("#category").val() == null) {
-      ClearSearch();
-    } else {
-      submitForm();
-    }
-    return false;
-  });
-
-  $("#clear-search").click(function() {
-    wipeFilter();
-    initializeModel();
-  });
-  /// Helper Functions
   function buildTable(data){
     $("#my-table tbody").empty();
     for (let i = 0; i < snippetModel.length; i++) {
-      let tr = $("<tr data-toggle='modal' data-id='" + snippetModel[i].Id +"' data-target='#dbModal' data-backdrop='static' data-keyboard='false' data-creator='" + snippetModel[i].Creator + "' data-language='" + snippetModel[i].Language + "' data-description='" + snippetModel[i].description + "' data-snippet='" + snippetModel[i].Snippet + "'>");
+      let tr = $("<tr data-toggle='modal' data-id='" + snippetModel[i].Id +"' data-target='#dbModal' data-backdrop='static' data-keyboard='false' data-creator='" + snippetModel[i].Creator + "' data-language='" + snippetModel[i].Language + "' data-description='" + snippetModel[i].Description + "' data-snippet='" + snippetModel[i].Snippet.replace(/'/g,"&quot;") + "'>");
       $(tr).append("<td scope='row'>" + snippetModel[i].Id + "</td>");
       $(tr).append("<td>" + snippetModel[i].Creator + "</td>");
       $(tr).append("<td>" + snippetModel[i].Language + "</td>");
       $(tr).append("<td>" + snippetModel[i].Description + "</td>");
-      $(tr).append("<td><code>" + snippetModel[i].Snippet + "</code></td>");
+      $(tr).append("<td><code>" + snippetModel[i].Snippet.replace(/'/g,"&quot;") + "</code></td>");
       $(tr).append("</tr>");
       $("#my-table tbody").append(tr);
     }
@@ -209,7 +239,6 @@ $(document).ready(function() {
     let email = $("#email").val();
     let password = $("#password").val();
     let userName = $("#firstName").val() + " " + $("#lastName").val();
-
     if(path == "register"){
       var url = path + "?email=" + email + "&password=" + password + "&userName=" + userName;
       registerUser(url);
@@ -248,61 +277,23 @@ $(document).ready(function() {
         $("#login-modal").modal("hide");
         userModel = data.user;
         $("#userName").text("Welcome " + userModel.UserName);
-        $("#userName").append(" <img id='logo' class='p-2' src='img/fj.ico' height='50em'>");
         $("#login-btn").hide();
         $("#logout-btn").show();
       }
     });
   }
 
-  $("#register-btn").click(function() {
-    $("#successMessage").text("");
-    $("#errorMessage").text("");
-    $("#email").val("");
-    $("#password").val("");
-
-    $("#confirm-login-btn").hide();
-    $("#lastName").show();
-    $("#firstName").show();
-    $("#confirm-register-btn").show();
-
-    $("#login-modal-title").text("Register New User");
-
-    $("#login-modal").modal("show");
-  });
-
-  $("#login-btn").click(function() {
-    $("#errorMessage").text("");
-    $("#email").val("");
-    $("#password").val("");
-
-    $("#confirm-register-btn").hide();
-    $("#lastName").hide();
-    $("#firstName").hide();
-    $("#confirm-login-btn").show();
-
-    $("#login-modal-title").text("Login");
-
-    $("#login-modal").modal("show");
-  });
-
-  $("#confirm-register-btn").click(function() {
-    makeAuthenticationRequest("register");
-  });
-
-  $("#confirm-login-btn").click(function() {
-    makeAuthenticationRequest("login");
-  });
-
-  $("#sidebar").mCustomScrollbar({
-    theme: "minimal"
-  });
-
-  $("#sidebarCollapse").on("click", function () {
-    $("#sidebar, #content").toggleClass("active");
-    $(".collapse.in").toggleClass("in");
-    $("a[aria-expanded=true]").attr("aria-expanded", "false");
-  });
+  function initializeModel(){
+    wipeFilter();
+    $("#category").val(0);
+    $(".sortNoFilter").show();
+    $(".sortFilter").hide();
+    $.getJSON("/findSnippets", function(data) {
+      snippetModel = data.result;
+      buildTable();
+    });
+    $("#logout-btn").hide();
+  };
 
   initializeModel();
 });
