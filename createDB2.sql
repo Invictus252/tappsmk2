@@ -22,36 +22,7 @@ CREATE TABLE Snippets(
   PRIMARY KEY(Id)
 );
 
-INSERT INTO Users(Email, Password, UserName) VALUES ("test","$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa","Chester the Tester");
---INSERT INTO Users(Email, Password, UserName) VALUEs ("acb@123.com", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa","Dylan");
-INSERT INTO Users(Email, Password, UserName) VALUEs ("Ebsidia@gmail.com", "$2y$12$zh2Z.tyIM78dje3aMEuxV.OzvARdOoJdnmVfhE2gIkqIvZo4ZMDwe", "Ebsidia");
---INSERT INTO Users(Email, Password, UserName) VALUEs ("apples@seed.com","$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa","Jonny");
 
-DROP DATABASE IF EXISTS SnippetsDB;
-
-CREATE DATABASE SnippetsDB;
-
-USE SnippetsDB;
-
-CREATE TABLE Users (
-  Id int NOT NULL AUTO_INCREMENT,
-  Email varchar(255) UNIQUE NOT NULL,
-  Password varchar(60) NOT NULL,
-  UserName varchar(255) NOT NULL,
-  PRIMARY KEY (Id)
-);
-
-CREATE TABLE Snippets(
-  Id int NOT NULL AUTO_INCREMENT,
-  UserId int NOT NULL,
-  Language varchar (255) NOT NULL,
-  Description varchar (255) NOT NULL,
-  Code varchar (255) NOT NULL,
-  FOREIGN KEY (UserId) REFERENCES Users(Id),
-  PRIMARY KEY(Id)
-);
-
-INSERT INTO Users(Email,Password,UserName) VALUES ("test","$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa","Chester the Tester");
 INSERT INTO Snippets(UserId, Language, Description, Code)
 VALUES (3, "SQL", "Wildcard", "SELECT * FROM Customers
 WHERE City LIKE 'ber%'; ");
