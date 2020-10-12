@@ -55,7 +55,7 @@ function writeResult(res, object) {
 
 function buildSnippet(dbObject) {
   return {Id: dbObject.Id,
-          Creator: dbObject.Creator,
+          Creator: dbObject.UserName,
           Language: dbObject.Language,
           Description: dbObject.Description,
           Snippet: dbObject.Code};
@@ -64,15 +64,16 @@ function buildSnippet(dbObject) {
 // Controller
 function findSnippets(req, res) {
 
-  let sql= "SELECT * FROM Snippets";
+  let sql= "SELECT Snippets.Id, Users.UserName, Snippets.Language,Snippets.Description, Snippets.Code FROM Snippets";
   let sqlString = [sql];
 
   if(req.query.filterOn && req.query.filter) {
     sqlString.push(" WHERE " + req.query.filterOn + " LIKE '%" + req.query.filter + "%'");
   }
   if(req.query.sortOn && req.query.order) {
-    sqlString.push(" ORDER BY " + req.query.sortOn + " " + req.query.order + ";");
+    sqlString.push(" ORDER BY " + req.query.sortOn + " " + req.query.order);
   }
+  sqlString.push(" INNER JOIN Users ON Snippets.UserId = Users.Id; ")
   makeQuery(sqlString,res);
 }
 
