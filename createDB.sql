@@ -22,10 +22,10 @@ CREATE TABLE Snippets(
   PRIMARY KEY(Id)
 );
 
-INSERT INTO Users(Email,Password,UserName) VALUES ("Josh","$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa","Josh");
-INSERT INTO Users(Email,Password,UserName) VALUES ("Jason","$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa","Jason");
-INSERT INTO Users(Email,Password,UserName) VALUES ("Dylan","$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa","Dylan");
-INSERT INTO Users(Email,Password,UserName) VALUES ("John","$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa","John");
+INSERT INTO Users(Email,Password,UserName) VALUES ("Josh@josh.com", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "Josh");
+INSERT INTO Users(Email,Password,UserName) VALUES ("Jason@jason.com", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "Jason");
+INSERT INTO Users(Email,Password,UserName) VALUES ("Dylan@dylan.com", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "Dylan");
+INSERT INTO Users(Email,Password,UserName) VALUES ("John@john.com", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "John");
 INSERT INTO Snippets(UserId, Language, Description, Code)
 VALUES (3, "SQL", "Wildcard", "SELECT * FROM Customers
 WHERE City LIKE 'ber%'; ");

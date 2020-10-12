@@ -25,13 +25,13 @@ $(document).ready(function() {
   });
 
   $("#ddCreatorAscFilterOrder").click(function() {
-    sortOn = "Creator";
+    sortOn = "UserName";
     order = "ASC";
     buildAndMakeRequest();
   });
 
   $("#ddCreatorDescFilterOrder").click(function() {
-    sortOn = "Creator";
+    sortOn = "UserName";
     order = "DESC";
     buildAndMakeRequest();
   });
@@ -61,25 +61,25 @@ $(document).ready(function() {
   });
 
   $("#ddCreatorAsc").click(function() {
-    sortOn = "Creator";
+    sortOn = "UserName";
     order = "ASC";
     buildAndMakeRequest();
   });
 
   $("#ddCreatorDesc").click(function() {
-    sortOn = "Creator";
+    sortOn = "UserName";
     order = "DESC";
     buildAndMakeRequest();
   });
 
   $("#ddCreatorAscFilter").click(function() {
-    sortOn = "Creator";
+    sortOn = "UserName";
     order = "ASC";
     buildAndMakeRequest();
   });
 
   $("#ddCreatorDescFilter").click(function() {
-    sortOn = "Creator";
+    sortOn = "UserName";
     order = "DESC";
     buildAndMakeRequest();
   });
@@ -176,7 +176,7 @@ $(document).ready(function() {
   function submitForm() {
     $(".sortNoFilter").hide();
     $(".sortFilter").show();
-    if(filterOn == "Creator"){
+    if(filterOn == "UserId"){
       $("#sort-creator-dropdown-filter").hide();
     } else if (filterOn == "Language") {
       $("#sort-language-dropdown-filter").hide();
@@ -189,8 +189,9 @@ $(document).ready(function() {
   function buildTable(data) {
     $("#my-table tbody").empty();
     for (let i = 0; i < snippetModel.length; i++) {
-      let tr = $("<tr data-toggle='modal' data-id='" + snippetModel[i].Id +"' data-target='#dbModal' data-backdrop='static' data-keyboard='false' data-creator='" + snippetModel[i].Creator + "' data-language='" + snippetModel[i].Language + "' data-description='" + snippetModel[i].Description + "' data-snippet='" + snippetModel[i].Snippet.replace(/'/g,"&quot;") + "'>");
+      let tr = $("<tr data-toggle='modal' data-id='" + snippetModel[i].Id +"' data-target='#dbModal' data-backdrop='static' data-keyboard='false' data-creator='" + snippetModel[i].Creator + "' data-language='" + snippetModel[i].Language + "' data-email='" + snippetModel[i].Email  + "' data-description='" + snippetModel[i].Description + "' data-snippet='" + snippetModel[i].Snippet.replace(/'/g,"&quot;") + "'>");
       $(tr).append("<td scope='row'>" + snippetModel[i].Id + "</td>");
+      $(tr).append("<td>" + snippetModel[i].Email + "</td>");
       $(tr).append("<td>" + snippetModel[i].Creator + "</td>");
       $(tr).append("<td>" + snippetModel[i].Language + "</td>");
       $(tr).append("<td>" + snippetModel[i].Description + "</td>");
@@ -217,6 +218,13 @@ $(document).ready(function() {
     if($("#category").val() != "") {
       filterOn = $("#category").val();
       filter = encodeURIComponent($("#criteria").val());
+      if(filterOn = "Creator"){
+        if(filter.search("%40") >= 0){
+          filterOn = "Email";
+        }
+        else
+          filterOn = "UserName";
+      }
       queryString += "filterOn=" + filterOn + "&filter=" + filter;
     }
     if(sortOn != undefined && $("#category").val() != "" )
