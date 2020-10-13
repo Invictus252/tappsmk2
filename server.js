@@ -8,6 +8,7 @@ const app = new express();
 
 const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const passwordRegEx = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+const usernameRegEx = /^[a-zA-Z\s]*$/;
 
 const dbInfo = {
   host: "localhost",
@@ -29,6 +30,7 @@ app.all("/", serveIndex);
 app.get("/findSnippets", findSnippets);
 app.get("/register", register);
 app.get("/login", login);
+app.get("/whoIsLoggedIn", whoIsLoggedIn);
 app.listen(3000, process.env.IP, startHandler());
 
 connection.connect(function(err) {
@@ -39,7 +41,7 @@ connection.connect(function(err) {
 function startHandler() {
   console.log("Server listening at http://localhost:3000")
   console.log("\x1b[31m", " FUNCTION JUNCTION is Aware");
-  console.log("\x1b[37m","\x1b[41m","    ̿' ̿'\̵͇̿̿\з=(◕_◕)=ε/̵͇̿̿/'̿'̿ ̿     ","\x1b[0m");
+  console.log("\x1b[37m", "\x1b[41m","    ̿' ̿'\̵͇̿̿\з=(◕_◕)=ε/̵͇̿̿/'̿'̿ ̿     ", "\x1b[0m");
 }
 
 function serveIndex(req, res) {
@@ -55,7 +57,8 @@ function writeResult(res, object) {
 
 function buildSnippet(dbObject) {
   return {Id: dbObject.Id,
-          Creator: dbObject.Creator,
+          Email: dbObject.Email,
+          Creator: dbObject.UserName,
           Language: dbObject.Language,
           Description: dbObject.Description,
           Snippet: dbObject.Code};
@@ -64,14 +67,13 @@ function buildSnippet(dbObject) {
 // Controller
 function findSnippets(req, res) {
 
-  let sql= "SELECT * FROM Snippets";
+  let sql= "SELECT Snippets.Id, Users.Email, Users.UserName, Snippets.Language, Snippets.Description, Snippets.Code FROM Snippets INNER JOIN Users ON Snippets.UserId = Users.Id";
   let sqlString = [sql];
-
   if(req.query.filterOn && req.query.filter) {
     sqlString.push(" WHERE " + req.query.filterOn + " LIKE '%" + req.query.filter + "%'");
   }
   if(req.query.sortOn && req.query.order) {
-    sqlString.push(" ORDER BY " + req.query.sortOn + " " + req.query.order + ";");
+    sqlString.push(" ORDER BY " + req.query.sortOn + " " + req.query.order);
   }
   makeQuery(sqlString,res);
 }
@@ -98,22 +100,27 @@ function register(req, res) {
     writeResult(res, {error: "Password is invalid: Must be at least eight characters and must contain at least one Uppercase letter, one Lowercase letter, and a number!"})
     return;
   }
-
+  if(!validateUserName(req.query.userName)){
+    writeResult(res, {error: "User Name is invalid: Must be only letters"})
+    return;
+  }
+  
   let email = getEmail(req);
   let password = bcrypt.hashSync(req.query.password, 12);
   let userName = req.query.userName;
 
-  connection.query("INSERT INTO Users (Email, Password,UserName) VALUES (?,?,?)", [email, password, userName], function(err, dbResult){
+  connection.query("INSERT INTO Users (Email, Password, UserName) VALUES (?, ?, ?)", [email, password, userName], function(err, dbResult){
     if(err){
       writeResult(res, {error: "Error creating user: " + err.message});
     }
     else {
-      connection.query("SELECT * FROM Users ORDER BY ID DESC LIMIT 1;",function(err, dbResult) {
+      connection.query("SELECT Id, Email, UserName FROM Users WHERE Email = ?", [email], function(err, dbResult) {
         if(err) {
           writeResult(res, {error: "Error loading user: " + err.message});
         }
         else {
-          writeResult(res, {result: dbResult[0]});
+          req.session.user = buildUser(dbResult[0]);
+          writeResult(res, {user: req.session.user});
         }
       });
     }
@@ -141,6 +148,13 @@ function login(req, res) {
   });
 }
 
+function whoIsLoggedIn(req, res) {
+  if(req.session.user == undefined)
+    writeResult(res, {user: undefined});
+  else
+    writeResult(res, {user: req.session.user});
+}
+
 function getEmail(req) {
   return String(req.query.email).toLocaleLowerCase();
 }
@@ -155,6 +169,12 @@ function validatePassword(password) {
   if(!password)
     return false;
   return passwordRegEx.test(password);
+}
+
+function validateUserName(userName) {
+  if(!userName)
+    return false;
+  return usernameRegEx.test(userName);
 }
 
 function buildUser(dbObject) {
