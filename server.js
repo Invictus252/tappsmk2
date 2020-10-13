@@ -29,6 +29,7 @@ app.all("/", serveIndex);
 app.get("/findSnippets", findSnippets);
 app.get("/register", register);
 app.get("/login", login);
+app.get("/whoIsLoggedIn", whoIsLoggedIn);
 app.listen(3000, process.env.IP, startHandler());
 
 connection.connect(function(err) {
@@ -39,7 +40,7 @@ connection.connect(function(err) {
 function startHandler() {
   console.log("Server listening at http://localhost:3000")
   console.log("\x1b[31m", " FUNCTION JUNCTION is Aware");
-  console.log("\x1b[37m","\x1b[41m","    ̿' ̿'\̵͇̿̿\з=(◕_◕)=ε/̵͇̿̿/'̿'̿ ̿     ","\x1b[0m");
+  console.log("\x1b[37m", "\x1b[41m","    ̿' ̿'\̵͇̿̿\з=(◕_◕)=ε/̵͇̿̿/'̿'̿ ̿     ", "\x1b[0m");
 }
 
 function serveIndex(req, res) {
@@ -103,17 +104,18 @@ function register(req, res) {
   let password = bcrypt.hashSync(req.query.password, 12);
   let userName = req.query.userName;
 
-  connection.query("INSERT INTO Users (Email, Password,UserName) VALUES (?,?,?)", [email, password, userName], function(err, dbResult){
+  connection.query("INSERT INTO Users (Email, Password, UserName) VALUES (?, ?, ?)", [email, password, userName], function(err, dbResult){
     if(err){
       writeResult(res, {error: "Error creating user: " + err.message});
     }
     else {
-      connection.query("SELECT * FROM Users ORDER BY ID DESC LIMIT 1;",function(err, dbResult) {
+      connection.query("SELECT Id, Email, UserName FROM Users WHERE Email = ?", [email], function(err, dbResult) {
         if(err) {
           writeResult(res, {error: "Error loading user: " + err.message});
         }
         else {
-          writeResult(res, {result: dbResult[0]});
+          req.session.user = buildUser(dbResult[0]);
+          writeResult(res, {user: req.session.user});
         }
       });
     }
@@ -139,6 +141,13 @@ function login(req, res) {
       }
     }
   });
+}
+
+function whoIsLoggedIn(req, res) {
+  if(req.session.user == undefined)
+    writeResult(res, {user: undefined});
+  else
+    writeResult(res, {user: req.session.user});
 }
 
 function getEmail(req) {

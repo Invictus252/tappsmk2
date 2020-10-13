@@ -3,15 +3,15 @@ $(document).ready(function() {
   var snippetModel = {};
   var userModel = {};
   var currentFilter = "";
-  var filterOn ="";
-  var filter ="";
+  var filterOn = "";
+  var filter = "";
   var sortOn = "";
   var order = "";
-  var searchType;
-  var idFromRow,creatorFromRow,languageFromRow,description,snippetFromRow;
+  var idFromRow,creatorFromRow,languageFromRow,description,snippetFromRow,emailFromRow;
 
   $("#dbModal").modal({backdrop: "static", keyboard: false, show:false}).on("show.bs.modal", function(){
     idFromRow = $(event.target).closest("tr").data("id");
+    emailFromRow = $(event.target).closest("tr").data("email");
     creatorFromRow = $(event.target).closest("tr").data("creator");
     languageFromRow = $(event.target).closest("tr").data("language");
     descriptionFromRow = $(event.target).closest("tr").data("description");
@@ -19,93 +19,93 @@ $(document).ready(function() {
     buildModalFromTable(this);
 
     function buildModalFromTable(table_this){
-      $(table_this).find(".modal-title ").html(" Viewing ID # " + idFromRow );
-      $(table_this).find(".modal-body").html($("<p class='text-secondary'> Creator: " + creatorFromRow + "</p><p class='text-secondary'> Language: " + languageFromRow + "</p><p class='text-secondary'> Description: " + descriptionFromRow + "</p><h3 class='text-primary'>  Snippet: </h3><code>" + snippetFromRow + "</code>"));
+      $(table_this).find(".modal-title ").html(" Viewing Snippet ID " + idFromRow );
+      $(table_this).find(".modal-body").html($("<p class='text-secondary'> Creator: " + creatorFromRow + "</p><p class='text-secondary'> Creator: <a class='text-primary' href='mailto:" + emailFromRow + "'>"+ emailFromRow + "</a></p><p class='text-secondary'> Language: " + languageFromRow + "</p><p class='text-secondary'> Description: " + descriptionFromRow + "</p><h3 class='text-primary'>  Snippet: </h3><code>" + snippetFromRow + "</code>"));
     }
   });
 
   $("#ddCreatorAscFilterOrder").click(function() {
     sortOn = "UserName";
     order = "ASC";
-    buildAndMakeRequest();
+    buildAndMakeSnippetRequest();
   });
 
   $("#ddCreatorDescFilterOrder").click(function() {
     sortOn = "UserName";
     order = "DESC";
-    buildAndMakeRequest();
+    buildAndMakeSnippetRequest();
   });
 
-  $("#dddescriptionAscFilterOrder").click(function() {
-    sortOn = "description";
+  $("#ddDescriptionAscFilterOrder").click(function() {
+    sortOn = "Description";
     order = "ASC";
-    buildAndMakeRequest();
+    buildAndMakeSnippetRequest();
   });
 
-  $("#dddescriptionDescFilterOrder").click(function() {
-    sortOn = "description";
+  $("#ddDescriptionDescFilterOrder").click(function() {
+    sortOn = "Description";
     order = "DESC";
-    buildAndMakeRequest();
+    buildAndMakeSnippetRequest();
   });
 
   $("#ddLanguageAscFilterOrder").click(function() {
     sortOn = "Language";
     order = "ASC";
-    buildAndMakeRequest();
+    buildAndMakeSnippetRequest();
   });
 
   $("#ddLanguageDescFilterOrder").click(function() {
     sortOn = "Language";
     order = "DESC";
-    buildAndMakeRequest();
+    buildAndMakeSnippetRequest();
   });
 
   $("#ddCreatorAsc").click(function() {
     sortOn = "UserName";
     order = "ASC";
-    buildAndMakeRequest();
+    buildAndMakeSnippetRequest();
   });
 
   $("#ddCreatorDesc").click(function() {
     sortOn = "UserName";
     order = "DESC";
-    buildAndMakeRequest();
+    buildAndMakeSnippetRequest();
   });
 
   $("#ddCreatorAscFilter").click(function() {
     sortOn = "UserName";
     order = "ASC";
-    buildAndMakeRequest();
+    buildAndMakeSnippetRequest();
   });
 
   $("#ddCreatorDescFilter").click(function() {
     sortOn = "UserName";
     order = "DESC";
-    buildAndMakeRequest();
+    buildAndMakeSnippetRequest();
   });
 
   $("#ddLanguageAsc").click(function() {
     sortOn = "Language";
     order = "ASC";
-    buildAndMakeRequest();
+    buildAndMakeSnippetRequest();
   });
 
   $("#ddLanguageDesc").click(function() {
     sortOn = "Language";
     order = "DESC";
-    buildAndMakeRequest();
+    buildAndMakeSnippetRequest();
   });
 
   $("#ddDescriptionAsc").click(function() {
     sortOn = "Description";
     order = "ASC";
-    buildAndMakeRequest();
+    buildAndMakeSnippetRequest();
   });
 
   $("#ddDescriptionDesc").click(function() {
     sortOn = "Description";
     order = "DESC";
-    buildAndMakeRequest();
+    buildAndMakeSnippetRequest();
   });
 
   $("#clear-search").click(function() {
@@ -138,11 +138,11 @@ $(document).ready(function() {
   });
 
   $("#confirm-register-btn").click(function() {
-    makeAuthenticationRequest("register");
+    makeUserRequest("register");
   });
 
   $("#confirm-login-btn").click(function() {
-    makeAuthenticationRequest("login");
+    makeUserRequest("login");
   });
 
   $("#search-buttons").click(function() {
@@ -183,7 +183,7 @@ $(document).ready(function() {
     } else if (filterOn == "description") {
       $("#sort-description-dropdown-filter").hide();
     }
-    buildAndMakeRequest();
+    buildAndMakeSnippetRequest();
   }
 
   function buildTable(data) {
@@ -213,7 +213,7 @@ $(document).ready(function() {
     $(".sortNoFilter").show();
   }
 
-  function buildAndMakeRequest() {
+  function buildAndMakeSnippetRequest() {
     let queryString = "/findSnippets?";
     if($("#category").val() != "") {
       filterOn = $("#category").val();
@@ -241,48 +241,37 @@ $(document).ready(function() {
     });
   }
 
-  function makeAuthenticationRequest(path) {
+  function makeUserRequest(path) {
     let email = $("#email").val();
     let password = $("#password").val();
     let userName = $("#userName").val();
     if(path == "register"){
       var url = path + "?email=" + email + "&password=" + password + "&userName=" + userName;
-      registerUser(url);
+      $("#successMessage").text("");
+      $("#email").val("");
+      $("#password").val("");
+      $("#userName").val("");
+      authRequest(url);
     }
     if(path == "login"){
       var url = path + "?email=" + email + "&password=" + password;
-      loginUser(url);
+      $("#email").val("");
+      $("#password").val("");
+      authRequest(url);
     }
   }
 
-  function registerUser(url) {
-    $("#successMessage").text("");
-    $("#email").val("");
-    $("#password").val("");
-    $("#userName").val("");
+  function authRequest(url) {
     let request = $.getJSON(url,function(data){
       if(data.error != undefined){
         $("#login-modal").modal("show");
         $("#errorMessage").text(data.error);
       }else{
-        $("#successMessage").text("User successfully created!");
-      }
-    });
-  }
-
-  function loginUser(url) {
-    $("#email").val("");
-    $("#password").val("");
-    let request = $.getJSON(url,function(data){
-      if(data.error != undefined){
-        $("#login-modal").modal("show");
-        $("#errorMessage").text(data.error);
-      }
-      else{
         $("#login-modal").modal("hide");
         userModel = data.user;
         $("#user-Name").text("Welcome " + userModel.UserName);
         $("#login-btn").hide();
+        $("#register-btn").hide();
       }
     });
   }
@@ -296,7 +285,14 @@ $(document).ready(function() {
       snippetModel = data.result;
       buildTable();
     });
-    $("#logout-btn").hide();
+    $.getJSON("/whoIsLoggedIn", function(data) {
+      userModel = data.user;
+      if(userModel != undefined){
+        $("#user-Name").text("Welcome " + userModel.UserName);
+        $("#login-btn").hide();
+        $("#register-btn").hide();
+      }
+    });
   };
 
   initializeModel();
