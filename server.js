@@ -8,6 +8,7 @@ const app = new express();
 
 const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const passwordRegEx = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+const usernameRegEx = /^[a-zA-Z\s]*$/;
 
 const dbInfo = {
   host: "localhost",
@@ -99,7 +100,11 @@ function register(req, res) {
     writeResult(res, {error: "Password is invalid: Must be at least eight characters and must contain at least one Uppercase letter, one Lowercase letter, and a number!"})
     return;
   }
-
+  if(!validateUserName(req.query.userName)){
+    writeResult(res, {error: "User Name is invalid: Must be only letters"})
+    return;
+  }
+  
   let email = getEmail(req);
   let password = bcrypt.hashSync(req.query.password, 12);
   let userName = req.query.userName;
@@ -164,6 +169,12 @@ function validatePassword(password) {
   if(!password)
     return false;
   return passwordRegEx.test(password);
+}
+
+function validateUserName(userName) {
+  if(!userName)
+    return false;
+  return usernameRegEx.test(userName);
 }
 
 function buildUser(dbObject) {
