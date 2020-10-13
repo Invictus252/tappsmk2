@@ -218,7 +218,7 @@ $(document).ready(function() {
     if($("#category").val() != "") {
       filterOn = $("#category").val();
       filter = encodeURIComponent($("#criteria").val());
-      if(filterOn = "Creator"){
+      if(filterOn == "Creator"){
         if(filter.search("%40") >= 0){
           filterOn = "Email";
         }
@@ -226,6 +226,7 @@ $(document).ready(function() {
           filterOn = "UserName";
       }
       queryString += "filterOn=" + filterOn + "&filter=" + filter;
+      console.log(queryString);
     }
     if(sortOn != undefined && $("#category").val() != "" )
       queryString += "&sortOn=" + sortOn + "&order=" + order;
