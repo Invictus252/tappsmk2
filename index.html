@@ -30,10 +30,10 @@
                 </div>
                 <select class="custom-select btn btn-secondary btn-block dropdown-toggle" id="category">
                   <option value="0" disabled selected hidden>Choose filter...</option>
-                  <option value="Creator" >Creator </option>
-                  <option value="Language">Language</option>
-                  <option value="Description">Description</option>
-                  <option value="Code">Snippet</option>
+                  <option value="Creator" data-toggle="tooltip" title="Filter by User Name or Email">Creator </option>
+                  <option value="Language" data-toggle="tooltip" title="Filter by Language">Language</option>
+                  <option value="Description" data-toggle="tooltip" title="Filter by Description Keyword">Description</option>
+                  <option value="Code" data-toggle="tooltip" title="Filter by Snippet Keyword">Snippet</option>
                 </select>
               </div>
             </li>
@@ -54,7 +54,7 @@
             <div class="btn-toolbar" role="toolbar" id="SortToolbar">
               <h2>Sort Options</h2>
               <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-                <button id="sort-creator-dropdown" type="button" class="btn dropdown-toggle btn-block sortNoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Creator
+                <button id="sort-creator-dropdown" type="button" class="btn dropdown-toggle btn-block sortNoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Creator
                 </button>
                 <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
                   <a id="ddCreatorAsc" class="dropdown-item" >Ascending</a>
@@ -120,9 +120,10 @@
                   <h2 id ="user-Name">Welcome User</h2>
                 </li>
               </ul>
-              <img id="logo" class="p-2" src="img/fj.ico" height="50em">
+              <img id="logo" class="p-2" src="img/fj.ico" height="50em" data-toggle="tooltip" title="Function Junction...What's your Function? ;)">
               <button id="register-btn" type="button" class="btn"><i class="fas fa-user-plus"></i><span class="p-2">Register</span></button>
               <button id="login-btn" type="button" class="btn "><i class="fas fa-sign-in-alt"></i><span class="p-2">Login</span></button>
+              <button id="logout-btn" type="button" class="btn "><i class="fas fa-sign-out-alt"></i><span class="p-2">Logout</span></button>
             </div>
           </div>
         </nav>
