@@ -30,6 +30,7 @@ app.all("/", serveIndex);
 app.get("/findSnippets", findSnippets);
 app.get("/register", register);
 app.get("/login", login);
+app.get("/logout", logout);
 app.get("/whoIsLoggedIn", whoIsLoggedIn);
 app.listen(3000, process.env.IP, startHandler());
 
@@ -104,7 +105,7 @@ function register(req, res) {
     writeResult(res, {error: "User Name is invalid: Must be only letters"})
     return;
   }
-  
+
   let email = getEmail(req);
   let password = bcrypt.hashSync(req.query.password, 12);
   let userName = req.query.userName;
@@ -146,6 +147,11 @@ function login(req, res) {
       }
     }
   });
+}
+
+function logout(req, res) {
+  req.session.user = undefined;
+  writeResult(res, {user: undefined});
 }
 
 function whoIsLoggedIn(req, res) {

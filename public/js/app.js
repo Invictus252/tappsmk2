@@ -137,6 +137,18 @@ $(document).ready(function() {
     $("#login-modal").modal("show");
   });
 
+  $("#logout-btn").click(function() {
+    $.getJSON("/logout",function(data) {
+      userModel = data.user;
+      wipeFilter();
+      $("#user-Name").text("Welcome User");
+      $("#login-btn").show();
+      $("#logout-btn").hide();
+      $("#register-btn").show();
+    });
+    initializeModel();
+  });
+
   $("#confirm-register-btn").click(function() {
     makeUserRequest("register");
   });
@@ -218,7 +230,7 @@ $(document).ready(function() {
     if($("#category").val() != "") {
       filterOn = $("#category").val();
       filter = encodeURIComponent($("#criteria").val());
-      if(filterOn = "Creator"){
+      if(filterOn == "Creator"){
         if(filter.search("%40") >= 0){
           filterOn = "Email";
         }
@@ -226,6 +238,7 @@ $(document).ready(function() {
           filterOn = "UserName";
       }
       queryString += "filterOn=" + filterOn + "&filter=" + filter;
+      console.log(queryString);
     }
     if(sortOn != undefined && $("#category").val() != "" )
       queryString += "&sortOn=" + sortOn + "&order=" + order;
@@ -271,6 +284,7 @@ $(document).ready(function() {
         userModel = data.user;
         $("#user-Name").text("Welcome " + userModel.UserName);
         $("#login-btn").hide();
+        $("#logout-btn").show();
         $("#register-btn").hide();
       }
     });
@@ -281,6 +295,7 @@ $(document).ready(function() {
     $("#category").val(0);
     $(".sortNoFilter").show();
     $(".sortFilter").hide();
+    $("#logout-btn").hide();
     $.getJSON("/findSnippets", function(data) {
       snippetModel = data.result;
       buildTable();
