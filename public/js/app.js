@@ -295,7 +295,7 @@ $(document).ready(function() {
     $("#category").val(0);
     $(".sortNoFilter").show();
     $(".sortFilter").hide();
-    $("#logout-btn").hide();
+    
     $.getJSON("/findSnippets", function(data) {
       snippetModel = data.result;
       buildTable();
@@ -307,6 +307,8 @@ $(document).ready(function() {
         $("#login-btn").hide();
         $("#register-btn").hide();
       }
+      else
+        $("#logout-btn").hide();
     });
   };
 
