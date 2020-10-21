@@ -231,13 +231,12 @@ $(document).ready(function() {
       filterOn = $("#category").val();
       filter = encodeURIComponent($("#criteria").val());
       if(filterOn == "Creator") {
-        if(filter.search("%40") >= 0)
+        if(filter.search("%40") || filter.search(".") >= 0)
           filterOn = "Email";
-        else 
+        else
           filterOn = "UserName";
       }
       queryString += "filterOn=" + filterOn + "&filter=" + filter;
-      console.log(queryString);
     }
     if(sortOn != undefined && $("#category").val() != "" )
       queryString += "&sortOn=" + sortOn + "&order=" + order;
@@ -294,7 +293,7 @@ $(document).ready(function() {
     $("#category").val(0);
     $(".sortNoFilter").show();
     $(".sortFilter").hide();
-    
+
     $.getJSON("/findSnippets", function(data) {
       snippetModel = data.result;
       buildTable();

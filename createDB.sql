@@ -26,6 +26,8 @@ INSERT INTO Users(Email,Password,UserName) VALUES ("Josh@josh.com", "$2a$12$Wvc1
 INSERT INTO Users(Email,Password,UserName) VALUES ("Jason@jason.com", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "Jason");
 INSERT INTO Users(Email,Password,UserName) VALUES ("Dylan@dylan.com", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "Dylan");
 INSERT INTO Users(Email,Password,UserName) VALUES ("John@john.com", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "John");
+INSERT INTO Users(Email,Password,UserName) VALUES ("test@test.edu", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "EDU");
+INSERT INTO Users(Email,Password,UserName) VALUES ("test@test.mil", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "MIL");
 INSERT INTO Snippets(UserId, Language, Description, Code)
 VALUES (3, "SQL", "Wildcard", "SELECT * FROM Customers
 WHERE City LIKE 'ber%'; ");
@@ -95,3 +97,7 @@ VALUES (4, "C#", "Get User Input", "// Type your username and press enter
 Console.WriteLine('Enter username:');
 string userName = Console.ReadLine();
 Console.WriteLine('Username is: '' + userName);");
+INSERT INTO Snippets(UserId, Language, Description, Code)
+VALUES (5, "Qbasic", "Print", "PRINT 'Hello World';");
+INSERT INTO Snippets(UserId, Language, Description, Code)
+VALUES (6, "Fortran", "Compile", "f95 -o hello hello.f");
