@@ -83,8 +83,9 @@ function findSnippets(req, res) {
 function makeQuery(query,res) {
   query = query.join(" ");
   connection.query(query, function(err, dbResult) {
-    if(err)
+    if(err) {
       writeResult(res, {error: err.message});
+    }
     else {
       let snippets = dbResult.map(function(snippet) {return buildSnippet(snippet)});
       writeResult(res, {result: snippets});
@@ -97,11 +98,11 @@ function register(req, res) {
     writeResult(res, {error: "Email is not valid!"})
     return;
   }
-  if(!validatePassword(req.query.password)){
+  if(!validatePassword(req.query.password)) {
     writeResult(res, {error: "Password is invalid: Must be at least eight characters and must contain at least one Uppercase letter, one Lowercase letter, and a number!"})
     return;
   }
-  if(!validateUserName(req.query.userName)){
+  if(!validateUserName(req.query.userName)) {
     writeResult(res, {error: "User Name is invalid: Must be only letters"})
     return;
   }
@@ -110,8 +111,8 @@ function register(req, res) {
   let password = bcrypt.hashSync(req.query.password, 12);
   let userName = req.query.userName;
 
-  connection.query("INSERT INTO Users (Email, Password, UserName) VALUES (?, ?, ?)", [email, password, userName], function(err, dbResult){
-    if(err){
+  connection.query("INSERT INTO Users (Email, Password, UserName) VALUES (?, ?, ?)", [email, password, userName], function(err, dbResult) {
+    if(err) {
       writeResult(res, {error: "Error creating user: " + err.message});
     }
     else {
@@ -135,8 +136,9 @@ function login(req, res) {
   }
   let email = getEmail(req);
   connection.query("SELECT Id, Email, Password, UserName FROM Users WHERE Email = ?", [email], function(err, dbResult) {
-    if(err)
+    if(err) {
       writeResult(res, {error: err.message});
+    }
     else {
       if(dbResult.length == 1 && bcrypt.compareSync(req.query.password, dbResult[0].Password)) {
         req.session.user = buildUser(dbResult[0]);
@@ -168,18 +170,21 @@ function getEmail(req) {
 function validateEmail(email) {
   if(!email)
     return false;
+
   return emailRegEx.test(email.toLowerCase());
 }
 
 function validatePassword(password) {
   if(!password)
     return false;
+
   return passwordRegEx.test(password);
 }
 
 function validateUserName(userName) {
   if(!userName)
     return false;
+    
   return usernameRegEx.test(userName);
 }
 

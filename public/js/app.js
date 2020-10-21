@@ -9,7 +9,7 @@ $(document).ready(function() {
   var order = "";
   var idFromRow,creatorFromRow,languageFromRow,description,snippetFromRow,emailFromRow;
 
-  $("#dbModal").modal({backdrop: "static", keyboard: false, show:false}).on("show.bs.modal", function(){
+  $("#dbModal").modal({backdrop: "static", keyboard: false, show:false}).on("show.bs.modal", function() {
     idFromRow = $(event.target).closest("tr").data("id");
     emailFromRow = $(event.target).closest("tr").data("email");
     creatorFromRow = $(event.target).closest("tr").data("creator");
@@ -188,7 +188,7 @@ $(document).ready(function() {
   function submitForm() {
     $(".sortNoFilter").hide();
     $(".sortFilter").show();
-    if(filterOn == "UserId"){
+    if(filterOn == "UserId") {
       $("#sort-creator-dropdown-filter").hide();
     } else if (filterOn == "Language") {
       $("#sort-language-dropdown-filter").hide();
@@ -213,7 +213,7 @@ $(document).ready(function() {
     }
   };
 
-  function wipeFilter(){
+  function wipeFilter() {
     $("#criteria").val("");
     $("#category").val(0);
     sortOn = "";
@@ -230,11 +230,10 @@ $(document).ready(function() {
     if($("#category").val() != "") {
       filterOn = $("#category").val();
       filter = encodeURIComponent($("#criteria").val());
-      if(filterOn == "Creator"){
-        if(filter.search("%40") >= 0){
+      if(filterOn == "Creator") {
+        if(filter.search("%40") >= 0)
           filterOn = "Email";
-        }
-        else
+        else 
           filterOn = "UserName";
       }
       queryString += "filterOn=" + filterOn + "&filter=" + filter;
@@ -258,7 +257,7 @@ $(document).ready(function() {
     let email = $("#email").val();
     let password = $("#password").val();
     let userName = $("#userName").val();
-    if(path == "register"){
+    if(path == "register") {
       var url = path + "?email=" + email + "&password=" + password + "&userName=" + userName;
       $("#successMessage").text("");
       $("#email").val("");
@@ -266,7 +265,7 @@ $(document).ready(function() {
       $("#userName").val("");
       authRequest(url);
     }
-    if(path == "login"){
+    if(path == "login") {
       var url = path + "?email=" + email + "&password=" + password;
       $("#email").val("");
       $("#password").val("");
@@ -276,10 +275,10 @@ $(document).ready(function() {
 
   function authRequest(url) {
     let request = $.getJSON(url,function(data){
-      if(data.error != undefined){
+      if(data.error != undefined) {
         $("#login-modal").modal("show");
         $("#errorMessage").text(data.error);
-      }else{
+      } else {
         $("#login-modal").modal("hide");
         userModel = data.user;
         $("#user-Name").text("Welcome " + userModel.UserName);
@@ -302,13 +301,13 @@ $(document).ready(function() {
     });
     $.getJSON("/whoIsLoggedIn", function(data) {
       userModel = data.user;
-      if(userModel != undefined){
+      if(userModel != undefined) {
         $("#user-Name").text("Welcome " + userModel.UserName);
         $("#login-btn").hide();
         $("#register-btn").hide();
-      }
-      else
+      } else {
         $("#logout-btn").hide();
+      }
     });
   };
 
