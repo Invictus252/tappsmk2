@@ -4,13 +4,41 @@ CREATE DATABASE SnippetsDB;
 
 USE SnippetsDB;
 
+CREATE TABLE SecurityQuestions(
+  Id int NOT NULL AUTO_INCREMENT,
+  Question varchar(255) NOT NULL,
+  PRIMARY KEY(Id)
+);
+
+INSERT INTO SecurityQuestions(Question) VALUES ("What is your father's middle name?");
+INSERT INTO SecurityQuestions(Question) VALUES ("What was the name of your first pet?");
+INSERT INTO SecurityQuestions(Question) VALUES ("What was your first car?");
+INSERT INTO SecurityQuestions(Question) VALUES ("What is your favorite video game?");
+INSERT INTO SecurityQuestions(Question) VALUES ("What is your favorite programming language?");
+
 CREATE TABLE Users (
   Id int NOT NULL AUTO_INCREMENT,
   Email varchar(255) UNIQUE NOT NULL,
   Password varchar(60) NOT NULL,
   UserName varchar(255) NOT NULL,
+  SecurityQuestion1Id int NOT NULL,
+  SecurityQuestion2Id int NOT NULL,
+  SecurityQuestion3Id int NOT NULL,
+  SecurityAnswer1 varchar(255) NOT NULL,
+  SecurityAnswer2 varchar(255) NOT NULL,
+  SecurityAnswer3 varchar(255) NOT NULL,
+  FOREIGN KEY (SecurityQuestion1Id) REFERENCES SecurityQuestions(Id),
+  FOREIGN KEY (SecurityQuestion2Id) REFERENCES SecurityQuestions(Id),
+  FOREIGN KEY (SecurityQuestion3Id) REFERENCES SecurityQuestions(Id),
   PRIMARY KEY (Id)
 );
+
+INSERT INTO Users(Email,Password,UserName,SecurityQuestion1Id,SecurityQuestion2Id,SecurityQuestion3Id,SecurityAnswer1,SecurityAnswer2,SecurityAnswer3) VALUES ("Josh@josh.com", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "Josh",1,2,3,"$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W","$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W","$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W");
+INSERT INTO Users(Email,Password,UserName,SecurityQuestion1Id,SecurityQuestion2Id,SecurityQuestion3Id,SecurityAnswer1,SecurityAnswer2,SecurityAnswer3) VALUES ("Jason@jason.com", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "Jason",1,2,3,"$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W","$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W","$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W");
+INSERT INTO Users(Email,Password,UserName,SecurityQuestion1Id,SecurityQuestion2Id,SecurityQuestion3Id,SecurityAnswer1,SecurityAnswer2,SecurityAnswer3) VALUES ("Dylan@dylan.com", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "Dylan",1,2,3,"$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W","$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W","$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W");
+INSERT INTO Users(Email,Password,UserName,SecurityQuestion1Id,SecurityQuestion2Id,SecurityQuestion3Id,SecurityAnswer1,SecurityAnswer2,SecurityAnswer3) VALUES ("John@john.com", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "John",1,2,3,"$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W","$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W","$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W");
+INSERT INTO Users(Email,Password,UserName,SecurityQuestion1Id,SecurityQuestion2Id,SecurityQuestion3Id,SecurityAnswer1,SecurityAnswer2,SecurityAnswer3) VALUES ("test@test.edu", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "EDU",1,2,3,"$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W","$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W","$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W");
+INSERT INTO Users(Email,Password,UserName,SecurityQuestion1Id,SecurityQuestion2Id,SecurityQuestion3Id,SecurityAnswer1,SecurityAnswer2,SecurityAnswer3) VALUES ("test@test.mil", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "MIL",1,2,3,"$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W","$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W","$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W");
 
 CREATE TABLE Snippets(
   Id int NOT NULL AUTO_INCREMENT,
@@ -22,12 +50,6 @@ CREATE TABLE Snippets(
   PRIMARY KEY(Id)
 );
 
-INSERT INTO Users(Email,Password,UserName) VALUES ("Josh@josh.com", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "Josh");
-INSERT INTO Users(Email,Password,UserName) VALUES ("Jason@jason.com", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "Jason");
-INSERT INTO Users(Email,Password,UserName) VALUES ("Dylan@dylan.com", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "Dylan");
-INSERT INTO Users(Email,Password,UserName) VALUES ("John@john.com", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "John");
-INSERT INTO Users(Email,Password,UserName) VALUES ("test@test.edu", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "EDU");
-INSERT INTO Users(Email,Password,UserName) VALUES ("test@test.mil", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "MIL");
 INSERT INTO Snippets(UserId, Language, Description, Code)
 VALUES (3, "SQL", "Wildcard", "SELECT * FROM Customers
 WHERE City LIKE 'ber%'; ");

@@ -2,6 +2,7 @@ $(document).ready(function() {
 
   var snippetModel = {};
   var userModel = {};
+  var questionModel = {};
   var currentFilter = "";
   var filterOn = "";
   var filter = "";
@@ -119,10 +120,18 @@ $(document).ready(function() {
     $("#email").val("");
     $("#password").val("");
     $("#confirm-login-btn").hide();
+    $("#forgotPassword-btn").hide();
+    $("#QuestionBank").show();
     $("#userName").show();
     $("#confirm-register-btn").show();
     $("#login-modal-title").text("Register New User");
     $("#login-modal").modal("show");
+    $("#SecurityQuestion1").val("");
+    $("#SecurityQuestion2").val("");
+    $("#SecurityQuestion3").val("");
+    $("#SecurityAnswer1").val("");
+    $("#SecurityAnswer2").val("");
+    $("#SecurityAnswer3").val("");
   });
 
   $("#login-btn").click(function() {
@@ -132,9 +141,19 @@ $(document).ready(function() {
     $("#password").val("");
     $("#confirm-register-btn").hide();
     $("#userName").hide();
+    $("#forgotPassword-btn").show();
+    $("#QuestionBank").hide();
     $("#confirm-login-btn").show();
     $("#login-modal-title").text("Login");
     $("#login-modal").modal("show");
+  });
+
+  $("#forgotPassword-btn").click(function() {
+    $("#login-modal").modal("hide");
+    $("#errorMessage").text("");
+    $("#successMessage").text("");
+    $("#passwordResetEmail").val("");
+    $("#forgotPassword-modal").modal("show");
   });
 
   $("#logout-btn").click(function() {
@@ -211,7 +230,16 @@ $(document).ready(function() {
       $(tr).append("</tr>");
       $("#my-table tbody").append(tr);
     }
-  };
+  }
+
+  function buildQuestions(data) {
+    for(let i = 1; i <= 3; i++ ){
+      for (let j = 0; j < questionModel.length; j++ ){
+        let option = $("<option value='" + questionModel[j].Id +"'>" + questionModel[j].Question + "</option>");
+        $("#SecurityQuestion" + i).append(option);
+      }
+    }
+  }
 
   function wipeFilter() {
     $("#criteria").val("");
@@ -256,12 +284,24 @@ $(document).ready(function() {
     let email = $("#email").val();
     let password = $("#password").val();
     let userName = $("#userName").val();
+    let securityQuestion1 = $("#SecurityQuestion1").val();
+    let securityQuestion2 = $("#SecurityQuestion2").val();
+    let securityQuestion3 = $("#SecurityQuestion3").val();
+    let securityAnswer1 =$("#SecurityAnswer1").val();
+    let securityAnswer2 =$("#SecurityAnswer2").val();
+    let securityAnswer3 =$("#SecurityAnswer3").val();
     if(path == "register") {
-      var url = path + "?email=" + email + "&password=" + password + "&userName=" + userName;
+      var url = path + "?email=" + email + "&password=" + password + "&userName=" + userName + "&securityQuestion1=" + securityQuestion1 + "&securityQuestion2=" + securityQuestion2 + "&securityQuestion3=" + securityQuestion3 + "&securityAnswer1=" + securityAnswer1 + "&securityAnswer2=" + securityAnswer2 + "&securityAnswer3=" + securityAnswer3;
       $("#successMessage").text("");
       $("#email").val("");
       $("#password").val("");
       $("#userName").val("");
+      $("#SecurityQuestion1").val("");
+      $("#SecurityQuestion2").val("");
+      $("#SecurityQuestion3").val("");
+      $("#SecurityAnswer1").val("");
+      $("#SecurityAnswer2").val("");
+      $("#SecurityAnswer3").val("");
       authRequest(url);
     }
     if(path == "login") {
@@ -298,6 +338,10 @@ $(document).ready(function() {
       snippetModel = data.result;
       buildTable();
     });
+    $.getJSON("/getSecurityQuestions", function(data) {
+      questionModel = data.result;
+      buildQuestions();
+    });
     $.getJSON("/whoIsLoggedIn", function(data) {
       userModel = data.user;
       if(userModel != undefined) {
@@ -311,4 +355,5 @@ $(document).ready(function() {
   };
 
   initializeModel();
+
 });
