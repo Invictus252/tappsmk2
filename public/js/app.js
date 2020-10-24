@@ -328,20 +328,21 @@ $(document).ready(function() {
     });
   }
 
-  function initializeModel() {
-    wipeFilter();
-    $("#category").val(0);
-    $(".sortNoFilter").show();
-    $(".sortFilter").hide();
-
+  function loadSnippets() {
     $.getJSON("/findSnippets", function(data) {
       snippetModel = data.result;
       buildTable();
     });
+  }
+
+  function loadSecurityQuestions() {
     $.getJSON("/getSecurityQuestions", function(data) {
       questionModel = data.result;
       buildQuestions();
     });
+  }
+
+  function checkUser() {
     $.getJSON("/whoIsLoggedIn", function(data) {
       userModel = data.user;
       if(userModel != undefined) {
@@ -352,7 +353,17 @@ $(document).ready(function() {
         $("#logout-btn").hide();
       }
     });
-  };
+  }
+
+  function initializeModel() {
+    wipeFilter();
+    $("#category").val(0);
+    $(".sortNoFilter").show();
+    $(".sortFilter").hide();
+    loadSnippets();
+    loadSecurityQuestions();
+    checkUser();
+  }
 
   initializeModel();
 
