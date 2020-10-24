@@ -178,3 +178,9 @@ svg{
 table{
   cursor: pointer;
 }
+
+#forgotPassword-btn{
+  position: absolute;
+  left: 10px;
+  bottom: 20px;
+}

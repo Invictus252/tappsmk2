@@ -110,8 +110,18 @@ function register(req, res) {
   let email = getEmail(req);
   let password = bcrypt.hashSync(req.query.password, 12);
   let userName = req.query.userName;
+  let securityQuestion1 = req.query.securityQuestion1;
+  let securityQuestion2 = req.query.securityQuestion2;
+  let securityQuestion3 = req.query.securityQuestion3;
+  if (!checkSecurityQuestions(securityQuestion1,securityQuestion2,securityQuestion3)) {
+    writeResult(res, {error: "Error creating user: You must choose 3 DIFFERENT Security Questions"});
+    return;    
+  }
+  let securityAnswer1 = bcrypt.hashSync(req.query.securityAnswer1, 12);
+  let securityAnswer2 = bcrypt.hashSync(req.query.securityAnswer2, 12);
+  let securityAnswer3 = bcrypt.hashSync(req.query.securityAnswer3, 12);
 
-  connection.query("INSERT INTO Users (Email, Password, UserName) VALUES (?, ?, ?)", [email, password, userName], function(err, dbResult) {
+  connection.query("INSERT INTO Users (Email, Password, UserName, SecurityQuestion1Id, SecurityQuestion2Id, SecurityQuestion3Id, SecurityAnswer1, SecurityAnswer2, SecurityAnswer3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [email, password, userName, securityQuestion1, securityQuestion2, securityQuestion3, securityAnswer1, securityAnswer2, securityAnswer3], function(err, dbResult) {
     if(err) {
       writeResult(res, {error: "Error creating user: " + err.message});
     }
@@ -184,10 +194,19 @@ function validatePassword(password) {
 function validateUserName(userName) {
   if(!userName)
     return false;
-    
+
   return usernameRegEx.test(userName);
 }
 
 function buildUser(dbObject) {
   return {Id: dbObject.Id, Email: dbObject.Email, UserName: dbObject.UserName};
+}
+
+function checkSecurityQuestions(x,y,z) {
+  if(x == y || y == z || x == z) {
+    return false;
+  }
+  else {
+    return true;
+  }
 }

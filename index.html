@@ -181,10 +181,69 @@
                   </div>
                   <div class="form-group">
                     <input id="password" type="password" class="form-control" placeholder="Password">
+                  </div>                                   
+                  <div id="QuestionBank">
+                    <h3>Security Questions</h3>
+                    <div class="form-group">
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <label class="input-group-text" for="inputGroupSelect01">Security Question 1</label>
+                        </div>
+                        <select class="custom-select btn btn-secondary btn-block dropdown-toggle" id="SecurityQuestion1">
+                          <option value="0" disabled selected hidden>Choose Security Question 1</option>
+                          <option value="1">What is your father's middle name?</option>
+                          <option value="2">What was the name of your first pet?</option>
+                          <option value="3">What was your first car?</option>
+                          <option value="4">What is your favorite video game?</option>
+                          <option value="5">What is your favorite programming language?</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <input id="SecurityAnswer1" type="text" class="form-control" placeholder="Security Answer 1?">
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <label class="input-group-text" for="inputGroupSelect01">Security Question 2</label>
+                        </div>
+                        <select class="custom-select btn btn-secondary btn-block dropdown-toggle" id="SecurityQuestion2">
+                          <option value="0" disabled selected hidden>Choose Security Question 2</option>
+                          <option value="1">What is your father's middle name?</option>
+                          <option value="2">What was the name of your first pet?</option>
+                          <option value="3">What was your first car?</option>
+                          <option value="4">What is your favorite video game?</option>
+                          <option value="5">What is your favorite programming language?</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <input id="SecurityAnswer2" type="text" class="form-control" placeholder="Security Answer 2?">
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <label class="input-group-text" for="inputGroupSelect01">Security Question 3</label>
+                        </div>
+                        <select class="custom-select btn btn-secondary btn-block dropdown-toggle" id="SecurityQuestion3">
+                          <option value="0" disabled selected hidden>Choose Security Question 3</option>
+                          <option value="1">What is your father's middle name?</option>
+                          <option value="2">What was the name of your first pet?</option>
+                          <option value="3">What was your first car?</option>
+                          <option value="4">What is your favorite video game?</option>
+                          <option value="5">What is your favorite programming language?</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <input id="SecurityAnswer3" type="text" class="form-control" placeholder="Security Answer 3?">
+                    </div>
                   </div>
+
                 </form>
               </div>
               <div class="modal-footer">
+                <button id="forgotPassword-btn" type="button" class="btn btn-secondary btn-sm"><i class="fas fa-key"></i><span class="p-2">Reset Password</span></button>
                 <button id="confirm-login-btn" type="button" class="btn btn-primary">Login</button>
                 <button id="confirm-register-btn" type="button" class="btn btn-primary">Register</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
