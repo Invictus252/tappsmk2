@@ -148,6 +148,14 @@ $(document).ready(function() {
     $("#login-modal").modal("show");
   });
 
+  $("#forgotPassword-btn").click(function() {
+    $("#login-modal").modal("hide");
+    $("#errorMessage").text("");
+    $("#successMessage").text("");
+    $("#passwordResetEmail").val("");
+    $("#forgotPassword-modal").modal("show");
+  });
+
   $("#logout-btn").click(function() {
     $.getJSON("/logout",function(data) {
       userModel = data.user;
@@ -347,4 +355,5 @@ $(document).ready(function() {
   };
 
   initializeModel();
+
 });

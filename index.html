@@ -142,7 +142,7 @@
           </tbody>
         </table>
         <!-- MODALS -->
-        <div class="modal fade" id="dbModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="dbModal" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-dialog-centered " role="document">
             <div class="modal-content ">
               <div class="modal-header">
@@ -159,7 +159,7 @@
             </div>
           </div>
         </div>
-        <div id="login-modal" class="modal" tabindex="-1" role="dialog">
+        <div id="login-modal" class="modal fade" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -189,38 +189,38 @@
                     <div class="form-group">
                       <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                          <label class="input-group-text" for="inputGroupSelect01">Security Question 1</label>
+                          <label class="input-group-text" for="securityQuestion1">Security Question 1</label>
                         </div>
                         <select class="custom-select btn btn-secondary btn-block dropdown-toggle" id="SecurityQuestion1">
                         </select>
                       </div>
                     </div>
                     <div class="form-group">
-                      <input id="SecurityAnswer1" type="text" class="form-control" placeholder="Security Answer 1?">
+                      <input id="SecurityAnswer1" type="text" class="form-control" placeholder="Security Answer 1">
                     </div>
                     <div class="form-group">
                       <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                          <label class="input-group-text" for="inputGroupSelect01">Security Question 2</label>
+                          <label class="input-group-text" for="securityQuestion2">Security Question 2</label>
                         </div>
                         <select class="custom-select btn btn-secondary btn-block dropdown-toggle" id="SecurityQuestion2">
                         </select>
                       </div>
                     </div>
                     <div class="form-group">
-                      <input id="SecurityAnswer2" type="text" class="form-control" placeholder="Security Answer 2?">
+                      <input id="SecurityAnswer2" type="text" class="form-control" placeholder="Security Answer 2">
                     </div>
                     <div class="form-group">
                       <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                          <label class="input-group-text" for="inputGroupSelect01">Security Question 3</label>
+                          <label class="input-group-text" for="securityQuestion3">Security Question 3</label>
                         </div>
                         <select class="custom-select btn btn-secondary btn-block dropdown-toggle" id="SecurityQuestion3">
                         </select>
                       </div>
                     </div>
                     <div class="form-group">
-                      <input id="SecurityAnswer3" type="text" class="form-control" placeholder="Security Answer 3?">
+                      <input id="SecurityAnswer3" type="text" class="form-control" placeholder="Security Answer 3">
                     </div>
                   </div>
 
@@ -231,6 +231,31 @@
                 <button id="confirm-login-btn" type="button" class="btn btn-primary">Login</button>
                 <button id="confirm-register-btn" type="button" class="btn btn-primary">Register</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="forgotPassword-modal" class="modal fade" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <img id="logo" class="p-2" src="img/fj.ico" height="50em">
+                <h5 class="modal-title">Reset Password</h5>
+                <button type="button" class="close" data-dismiss="modal" area-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p id="errorMessagePasswordReset" class="text-danger"></p>
+                <p id="successMessagePasswordReset" class="text-success"></p>
+                <form class="border border-primary p-3">
+                  <div class="form-group">
+                    <input id="passwordResetEmail" type="text" class="form-control" placeholder="Please enter account email">
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button id="passwordRetrieveEmail-btn" type="button" class="btn btn-primary"><span class="p-2">Submit</span></button>
               </div>
             </div>
           </div>
