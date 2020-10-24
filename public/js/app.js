@@ -2,6 +2,7 @@ $(document).ready(function() {
 
   var snippetModel = {};
   var userModel = {};
+  var questionModel = {};
   var currentFilter = "";
   var filterOn = "";
   var filter = "";
@@ -221,7 +222,16 @@ $(document).ready(function() {
       $(tr).append("</tr>");
       $("#my-table tbody").append(tr);
     }
-  };
+  }
+
+  function buildQuestions(data) {
+    for(let i = 1; i <= 3; i++ ){
+      for (let j = 0; j < questionModel.length; j++ ){
+        let option = $("<option value='" + questionModel[j].Id +"'>" + questionModel[j].Question + "</option>");
+        $("#SecurityQuestion" + i).append(option);
+      }
+    }
+  }
 
   function wipeFilter() {
     $("#criteria").val("");
@@ -319,6 +329,10 @@ $(document).ready(function() {
     $.getJSON("/findSnippets", function(data) {
       snippetModel = data.result;
       buildTable();
+    });
+    $.getJSON("/getSecurityQuestions", function(data) {
+      questionModel = data.result;
+      buildQuestions();
     });
     $.getJSON("/whoIsLoggedIn", function(data) {
       userModel = data.user;

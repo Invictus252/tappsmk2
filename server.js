@@ -32,6 +32,7 @@ app.get("/register", register);
 app.get("/login", login);
 app.get("/logout", logout);
 app.get("/whoIsLoggedIn", whoIsLoggedIn);
+app.get("/getSecurityQuestions", getSecurityQuestions);
 app.listen(3000, process.env.IP, startHandler());
 
 connection.connect(function(err) {
@@ -115,7 +116,7 @@ function register(req, res) {
   let securityQuestion3 = req.query.securityQuestion3;
   if (!checkSecurityQuestions(securityQuestion1,securityQuestion2,securityQuestion3)) {
     writeResult(res, {error: "Error creating user: You must choose 3 DIFFERENT Security Questions"});
-    return;    
+    return;
   }
   let securityAnswer1 = bcrypt.hashSync(req.query.securityAnswer1, 12);
   let securityAnswer2 = bcrypt.hashSync(req.query.securityAnswer2, 12);
@@ -209,4 +210,20 @@ function checkSecurityQuestions(x,y,z) {
   else {
     return true;
   }
+}
+
+function getSecurityQuestions(req,res){
+  connection.query("SELECT * FROM SecurityQuestions;", function(err, dbResult) {
+    if(err) {
+      writeResult(res, {error: err.message});
+    }
+    else {
+      let questions = dbResult.map(function(question) {return buildQuestion(question)});
+      writeResult(res, {result: questions});
+    }
+  });
+}
+
+function buildQuestion(dbObject) {
+  return {Id: dbObject.Id, Question: dbObject.Question};
 }
