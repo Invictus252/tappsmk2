@@ -1,119 +1,8 @@
 $(document).ready(function() {
   var stack = new Stack();
   var resetPasswordEmail = "";
-  var snippetModel = {};
   var userModel = {};
   var questionModel = {};
-  var currentFilter = "";
-  var filterOn = "";
-  var filter = "";
-  var sortOn = "";
-  var order = "";
-  var idFromRow,creatorFromRow,languageFromRow,description,snippetFromRow,emailFromRow;
-
-  $("#dbModal").modal({backdrop: "static", keyboard: false, show:false}).on("show.bs.modal", function() {
-    idFromRow = $(event.target).closest("tr").data("id");
-    emailFromRow = $(event.target).closest("tr").data("email");
-    creatorFromRow = $(event.target).closest("tr").data("creator");
-    languageFromRow = $(event.target).closest("tr").data("language");
-    descriptionFromRow = $(event.target).closest("tr").data("description");
-    snippetFromRow = $(event.target).closest("tr").data("snippet");
-    buildModalFromTable(this);
-
-    function buildModalFromTable(table_this){
-      $(table_this).find(".modal-title ").html(" Viewing Snippet ID " + idFromRow );
-      $(table_this).find(".modal-body").html($("<p class='text-secondary'> Creator: " + creatorFromRow + "</p><p class='text-secondary'> Creator: <a class='text-primary' href='mailto:" + emailFromRow + "'>"+ emailFromRow + "</a></p><p class='text-secondary'> Language: " + languageFromRow + "</p><p class='text-secondary'> Description: " + descriptionFromRow + "</p><h3 class='text-primary'>  Snippet: </h3><code>" + snippetFromRow + "</code>"));
-    }
-  });
-
-  $("#ddCreatorAscFilterOrder").click(function() {
-    sortOn = "UserName";
-    order = "ASC";
-    buildAndMakeSnippetRequest();
-  });
-
-  $("#ddCreatorDescFilterOrder").click(function() {
-    sortOn = "UserName";
-    order = "DESC";
-    buildAndMakeSnippetRequest();
-  });
-
-  $("#ddDescriptionAscFilterOrder").click(function() {
-    sortOn = "Description";
-    order = "ASC";
-    buildAndMakeSnippetRequest();
-  });
-
-  $("#ddDescriptionDescFilterOrder").click(function() {
-    sortOn = "Description";
-    order = "DESC";
-    buildAndMakeSnippetRequest();
-  });
-
-  $("#ddLanguageAscFilterOrder").click(function() {
-    sortOn = "Language";
-    order = "ASC";
-    buildAndMakeSnippetRequest();
-  });
-
-  $("#ddLanguageDescFilterOrder").click(function() {
-    sortOn = "Language";
-    order = "DESC";
-    buildAndMakeSnippetRequest();
-  });
-
-  $("#ddCreatorAsc").click(function() {
-    sortOn = "UserName";
-    order = "ASC";
-    buildAndMakeSnippetRequest();
-  });
-
-  $("#ddCreatorDesc").click(function() {
-    sortOn = "UserName";
-    order = "DESC";
-    buildAndMakeSnippetRequest();
-  });
-
-  $("#ddCreatorAscFilter").click(function() {
-    sortOn = "UserName";
-    order = "ASC";
-    buildAndMakeSnippetRequest();
-  });
-
-  $("#ddCreatorDescFilter").click(function() {
-    sortOn = "UserName";
-    order = "DESC";
-    buildAndMakeSnippetRequest();
-  });
-
-  $("#ddLanguageAsc").click(function() {
-    sortOn = "Language";
-    order = "ASC";
-    buildAndMakeSnippetRequest();
-  });
-
-  $("#ddLanguageDesc").click(function() {
-    sortOn = "Language";
-    order = "DESC";
-    buildAndMakeSnippetRequest();
-  });
-
-  $("#ddDescriptionAsc").click(function() {
-    sortOn = "Description";
-    order = "ASC";
-    buildAndMakeSnippetRequest();
-  });
-
-  $("#ddDescriptionDesc").click(function() {
-    sortOn = "Description";
-    order = "DESC";
-    buildAndMakeSnippetRequest();
-  });
-
-  $("#clear-search").click(function() {
-    wipeFilter();
-    initializeModel();
-  });
 
   $("#register-btn").click(function() {
     $("#successMessage").text("");
@@ -167,37 +56,6 @@ $(document).ready(function() {
 
   $("#confirm-login-btn").click(function() {
     makeUserRequest("login");
-  });
-  $("#statusCheck").click(function() {
-      ping($("pingurl").val()).then(function(delta) {
-          alert(delta);
-      }).catch(function(error) {
-          alert(String(error));
-      });
-  });
-
-  $("#search-buttons").click(function() {
-    if ($("#criteria").val() == "" || $("#criteria").val() == null || $("#category").val() == 0 || $("#category").val() == null) {
-      ClearSearch();
-      alert("Search is incomplete. Please check your Filter or Criteria");
-    } else {
-      submitForm();
-    }
-  });
-
-  // $("#sidebarCollapse").click(function () {
-  //   $("#sidebar, #content").toggleClass("active");
-  //   $(".collapse.in").toggleClass("in");
-  //   $("a[aria-expanded=true]").attr("aria-expanded", "false");
-  // });
-
-  $("#search").submit(function() {
-    if ($("#criteria").val() == "" || $("#criteria").val() == null || $("#category").val() == 0 || $("#category").val() == null) {
-      ClearSearch();
-    } else {
-      submitForm();
-    }
-    return false;
   });
 
   $('#login-modal').on('shown.bs.modal', function () {
@@ -289,34 +147,6 @@ $(document).ready(function() {
     });
   }
 
-  function submitForm() {
-    $(".sortNoFilter").hide();
-    $(".sortFilter").show();
-    if(filterOn == "UserId") {
-      $("#sort-creator-dropdown-filter").hide();
-    } else if (filterOn == "Language") {
-      $("#sort-language-dropdown-filter").hide();
-    } else if (filterOn == "description") {
-      $("#sort-description-dropdown-filter").hide();
-    }
-    buildAndMakeSnippetRequest();
-  }
-
-  function buildTable(data) {
-    $("#my-table tbody").empty();
-    for (let i = 0; i < snippetModel.length; i++) {
-      let tr = $("<tr data-toggle='modal' data-id='" + snippetModel[i].Id +"' data-target='#dbModal' data-backdrop='static' data-keyboard='false' data-creator='" + snippetModel[i].Creator + "' data-language='" + snippetModel[i].Language + "' data-email='" + snippetModel[i].Email  + "' data-description='" + snippetModel[i].Description + "' data-snippet='" + snippetModel[i].Snippet.replace(/'/g,"&quot;") + "'>");
-      $(tr).append("<td scope='row'>" + snippetModel[i].Id + "</td>");
-      $(tr).append("<td>" + snippetModel[i].Email + "</td>");
-      $(tr).append("<td>" + snippetModel[i].Creator + "</td>");
-      $(tr).append("<td>" + snippetModel[i].Language + "</td>");
-      $(tr).append("<td>" + snippetModel[i].Description + "</td>");
-      $(tr).append("<td><code>" + snippetModel[i].Snippet.replace(/'/g,"&quot;") + "</code></td>");
-      $(tr).append("</tr>");
-      $("#my-table tbody").append(tr);
-    }
-  }
-
   function buildQuestions(data) {
     for(let i = 1; i <= 2; i++ ) {
       $("#SecurityQuestion" + i).empty();
@@ -325,39 +155,6 @@ $(document).ready(function() {
         $("#SecurityQuestion" + i).append(option);
       }
     }
-  }
-
-  function wipeFilter() {
-    $("#criteria").val("");
-    $("#category").val(0);
-    sortOn = "";
-    currentFilter = "";
-    filterOn = "";
-    filter = "";
-    order = "";
-    $("#currentFilter").text("");
-    $(".sortNoFilter").show();
-  }
-
-  function buildAndMakeSnippetRequest() {
-    let queryString = "/findSnippets?";
-    if($("#category").val() != "") {
-      filterOn = $("#category").val();
-      filter = encodeURIComponent($("#criteria").val());
-      queryString += "filterOn=" + filterOn + "&filter=" + filter;
-    }
-    if(sortOn != undefined && $("#category").val() != "" )
-      queryString += "&sortOn=" + sortOn + "&order=" + order;
-    else
-      queryString += "sortOn=" + sortOn + "&order=" + order;
-    sendQuery(queryString);
-  }
-
-  function sendQuery(this_query) {
-    $.getJSON(this_query, function(data) {
-      snippetModel = data.result;
-      buildTable();
-    });
   }
 
   function makeUserRequest(path) {
@@ -401,13 +198,6 @@ $(document).ready(function() {
         $("#logout-btn").show();
         $("#register-btn").hide();
       }
-    });
-  }
-
-  function loadSnippets() {
-    $.getJSON("/findSnippets", function(data) {
-      snippetModel = data.result;
-      buildTable();
     });
   }
 
@@ -485,12 +275,6 @@ $(document).ready(function() {
       ctx.strokeStyle = 'green';
     if(x == 'C')
       ctx.strokeStyle = 'blue';
-    // ctx.beginPath();
-    // ctx.arc(a, b, 800, 0, 2 * Math.PI);
-    // ctx.setLineDash([]);
-    // ctx.stroke();
-    // ctx.closePath();
-    // ctx.setLineDash([5, 15]);
     ctx.textBaseline = "top";
     ctx.textAlign = "center";
     ctx.font = "15px Arial";
@@ -670,17 +454,82 @@ function getRandomInt(max) {
   }
 
   function initializeModel() {
-    wipeFilter();
-    $("#category").val(0);
-    $(".sortNoFilter").show();
-    $(".sortFilter").hide();
     loadSecurityQuestions();
     checkUser();
     loadVisuals();
+    start();
   }
 
   initializeModel();
 
+function ping(ip, callback) {
+  if (!this.inUse) {
+    this.status = 'unchecked';
+    this.inUse = true;
+    this.callback = callback;
+    this.ip = ip;
+    var _that = this;
+    this.img = new Image();
+    this.img.onload = function () {
+      _that.inUse = false;
+      _that.callback('responded');
+      if(_that.ip == "10.10.10.153:3000")
+        $(".alpha").css("border-top", "16px solid green");
+      if(_that.ip == "10.10.10.159:3000")
+        $(".charlie").css("border-top", "16px solid green");   
+      if(_that.ip == "localhost")
+        $(".localhost").css("border-top", "16px solid green");
+    };
+    this.img.onerror = function (e) {
+      if (_that.inUse) {
+        _that.inUse = false;
+        _that.callback('responded', e);
+        if(_that.ip == "10.10.10.153:3000")
+          $(".alpha").css("border-top", "16px solid green");
+        if(_that.ip == "10.10.10.159:3000")
+          $(".charlie").css("border-top", "16px solid green");   
+        if(_that.ip == "localhost")
+          $(".localhost").css("border-top", "16px solid green");
+      }
+    };
+    this.start = new Date().getTime();
+    this.img.src = "http://" + ip;
+    this.timer = setTimeout(function () {
+      if (_that.inUse) {
+        _that.inUse = false;
+        _that.callback('timeout');
+        if(_that.ip == "10.10.10.153:3000")
+          $(".alpha").css("border-top", "16px solid red");
+        if(_that.ip == "10.10.10.159:3000")
+          $(".charlie").css("border-top", "16px solid red");   
+        if(_that.ip == "localhost")
+          $(".localhost").css("border-top", "16px solid red");                  
+      }
+    }, 1500);
+  }
+}
+var PingModel = function (servers) {
+    var self = this;
+    var myServers = [];
+    ko.utils.arrayForEach(servers, function (location) {
+        myServers.push({
+            name: location,
+            status: ko.observable('unchecked')
+        });
+    });
+    self.servers = ko.observableArray(myServers);
+    ko.utils.arrayForEach(self.servers(), function (s) {
+        s.status('checking');
+        new ping(s.name, function (status, e) {
+            s.status(status);
+        });
+    });
+};
+var komodel = new PingModel(['localhost',
+    '10.10.10.153:3000',
+    '10.10.10.159:3000',
+    ]);
+ko.applyBindings(komodel);  
 
 });
 

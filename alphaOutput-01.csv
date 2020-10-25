@@ -1,0 +1,12 @@
+
+BSSID, First time seen, Last time seen, channel, Speed, Privacy, Cipher, Authentication, Power, # beacons, # IV, LAN IP, ID-length, ESSID, Key
+CC:40:D0:15:9B:9B, 2020-09-23 06:00:33, 2020-09-23 07:07:32, 10,  54, WPA2, CCMP, PSK, -42,    18964,    28207,   0.  0.  0.  0,   8, The Grid, 
+
+Station MAC, First time seen, Last time seen, Power, # packets, BSSID, Probed ESSIDs
+9C:32:CE:26:65:CC, 2020-09-23 06:00:41, 2020-09-23 06:03:27, -52,      540, CC:40:D0:15:9B:9B,
+44:07:0B:C6:BC:7C, 2020-09-23 06:00:36, 2020-09-23 07:07:30, -54,     6033, CC:40:D0:15:9B:9B,
+B8:27:EB:AB:CD:96, 2020-09-23 07:05:44, 2020-09-23 07:07:26, -50,       12, CC:40:D0:15:9B:9B,
+B8:27:EB:7E:3A:D3, 2020-09-23 06:25:01, 2020-09-23 07:07:31, -34,       15, CC:40:D0:15:9B:9B,
+D8:31:34:4E:36:0F, 2020-09-23 06:00:33, 2020-09-23 07:07:32, -34,    11529, CC:40:D0:15:9B:9B,
+F2:F8:F6:26:EF:71, 2020-09-23 06:00:40, 2020-09-23 07:07:07, -28,     1228, CC:40:D0:15:9B:9B,
+

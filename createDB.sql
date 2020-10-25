@@ -18,14 +18,14 @@ INSERT INTO SecurityQuestions(Question) VALUES ("What is your favorite programmi
 
 CREATE TABLE Users (
   Id int NOT NULL AUTO_INCREMENT,
-  Email varchar(255) UNIQUE NOT NULL,
+  Email varchar(100) UNIQUE NOT NULL,
   Password varchar(60) NOT NULL,
-  UserName varchar(255) NOT NULL,
+  UserName varchar(100) NOT NULL,
   AuthLevel int NOT NULL,
   SecurityQuestion1Id int NOT NULL,
   SecurityQuestion2Id int NOT NULL,
-  SecurityAnswer1 varchar(255) NOT NULL,
-  SecurityAnswer2 varchar(255) NOT NULL,
+  SecurityAnswer1 varchar(100) NOT NULL,
+  SecurityAnswer2 varchar(100) NOT NULL,
   FOREIGN KEY (SecurityQuestion1Id) REFERENCES SecurityQuestions(Id),
   FOREIGN KEY (SecurityQuestion2Id) REFERENCES SecurityQuestions(Id),
   PRIMARY KEY (Id)

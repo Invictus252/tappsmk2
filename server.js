@@ -3,6 +3,8 @@ const express = require("express");
 const session = require("express-session");
 const mysql = require("mysql");
 const bcrypt = require("bcryptjs");
+const ping = require('ping');
+const { exec } = require("child_process");
 
 const app = new express();
 
@@ -28,13 +30,14 @@ app.use(session(sessionOptions));
 app.use(express.static('public'));
 app.all("/", serveIndex);
 app.get("/register", register);
+// app.get("/systemStatus", systemStatus);
 app.get("/login", login);
 app.get("/logout", logout);
 app.get("/resetPassword", resetPassword);
 app.get("/whoIsLoggedIn", whoIsLoggedIn);
 app.get("/retrieveUserSecurityQuestions", retrieveUserSecurityQuestions);
 app.get("/getSecurityQuestions", getSecurityQuestions);
-app.listen(3000, process.env.IP, startHandler());
+app.listen(5000, process.env.IP, startHandler());
 
 connection.connect(function(err) {
   if(err) throw err;
@@ -83,25 +86,6 @@ function buildSnippet(dbObject) {
           Description: dbObject.Description,
           Snippet: dbObject.Code};
 }
-
-// function findSnippets(req, res) {
-//
-//   let sql= "SELECT Snippets.Id, Users.Email, Users.UserName, Snippets.Language, Snippets.Description, Snippets.Code FROM Snippets INNER JOIN Users ON Snippets.UserId = Users.Id";
-//   let sqlString = [sql];
-//   if(req.query.filterOn && req.query.filter) {
-//     if(req.query.filterOn == "Creator") {
-//       if(req.query.filter.search("%40") || req.query.filter.search(".") >= 0)
-//         req.query.filterOn = "Email";
-//       else
-//         req.query.filterOn = "UserName";
-//     }
-//     sqlString.push(" WHERE " + req.query.filterOn + " LIKE '%" + req.query.filter + "%'");
-//   }
-//   if(req.query.sortOn && req.query.order) {
-//     sqlString.push(" ORDER BY " + req.query.sortOn + " " + req.query.order);
-//   }
-//   makeQuery(sqlString,res);
-// }
 
 function makeQuery(query,res) {
   query = query.join(" ");
@@ -323,3 +307,69 @@ function buildQuestion(dbObject) {
 function buildUserQuestions(dbObject) {
   return {SecurityQuestion1Id: dbObject.SecurityQuestion1Id, SecurityQuestion2Id: dbObject.SecurityQuestion2Id};
 }
+
+  
+// function systemStatus(req, res){
+//   var pingResults = [];
+//   var element = {};
+//   var hosts = ['10.10.1.1', 'google.com', 'yahoo.com'];
+//   hosts.forEach(function (host) {
+//     ping.promise.probe(host)
+//       .then(function (res) {
+//         element.host = res.host;
+//         element.alive = res.alive;
+//         console.log(element);
+//         pingResults.push(element);
+//         console.log(pingResults);
+//       });
+//   }); 
+  // console.log(pingResults);
+  // writeResult(res, {results : pingResults});
+  // hosts.forEach(function(host){
+  //   ping.sys.probe(host, function(isAlive){
+  //     setTimeout(() => {  
+  //       results = isAlive ? (element.name = host, element.isAlive = isAlive): (element.name = host, element.isAlive = isAlive);
+  //       console.log(element);
+  //       pingResults.push(results)
+  //     }, 5000);
+      
+
+  //   });
+  // });
+  // setTimeout(() => {  writeResult(res, {result: results}); }, 16000);
+  
+  // pingResults = [];
+
+
+//   var hosts = ['10.10.1.1', 'google.com', 'yahoo.com'];
+
+//   for(var i =0;i < hosts.length;i++){
+//     ping.sys.probe(hosts[i], function(isAlive){        
+//       console.log(host[i]);
+//       element.name = host[i];
+//       element.isAlive = isAlive;
+//       // console.log(element);
+      
+//       pingResults.push(element);
+//       element ={};
+//     });
+//   }
+  
+//   console.log(pingResults);
+
+//}
+const net = require('net');
+// Create a server object
+const server = net.createServer((socket) => {
+  socket.on('data', (data) => {
+    console.log(data.toString());
+  });
+  socket.write('SERVER: Hello! This is server speaking.<br>');
+  socket.end('SERVER: Closing connection now.<br>');
+}).on('error', (err) => {
+  console.error(err);
+});
+// Open server on port 9898
+server.listen(9898, () => {
+  console.log('opened server on', server.address().port);
+});
