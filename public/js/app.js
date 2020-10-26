@@ -153,26 +153,38 @@ $(document).ready(function() {
     $("#errorMessage").text("");
     $("#successMessage").text("");
     $("#passwordResetEmail").val("");
-    $("#securityQuestion1reset").hide();
-    $("#securityQuestion2reset").hide();
-    $("#securityQuestion3reset").hide();
+
+    $("#userSecurityQuestion1").hide();
+    $("#userSecurityQuestion2").hide();
+    $("#userSecurityAnswer1").hide();
+    $("#userSecurityAnswer2").hide();
+    $("#userNewPassword").hide();
+    $("#changePassword-btn").hide();
+
     $("#forgotPassword-modal").modal("show");
   });
 
   $("#passwordRetrieveEmail-btn").click(function() {
-    let email = $("#passwordResetEmail").val();
 
-    $.getJSON("/retrieveUserSecurityQuestions?email=" + email, $("#passwordResetEmail").val()), function(data) {
-      userModel = data.user;
-      $("#login-modal").modal("hide");
-      $("#errorMessage").text("");
-      $("#successMessage").text("");
-      $("#passwordResetEmail").hide();
-      $("#securityQuestion1reset").val() = data.securityQuestion1;
-      $("#securityQuestion2reset").val() = data.securityQuestion2;
-      $("#securityQuestion3reset").val() = data.securityQuestion3;
-      $("#forgotPassword-modal").modal("show");
-    }
+    $("#errorMessage").text("");
+    $("#successMessage").text("");
+    $("#passwordResetEmail").hide();
+    $("#userSecurityQuestion1").text("1");
+    $("#userSecurityQuestion1").show();
+    $("#userSecurityQuestion2").text("2");
+    $("#userSecurityQuestion2").show();
+    $("#userSecurityAnswer1").show();
+    $("#userSecurityAnswer2").show();
+    $("#userNewPassword").show();
+    $("#changePassword-btn").show();
+    $("#passwordRetrieveEmail-btn").hide();
+    $("#changePassword-btn").show();
+  });
+
+  $("#passwordChangeCancel-btn").click(function() {
+    $("#passwordResetEmail").show();
+    $("#passwordRetrieveEmail-btn").show();
+
   });
 
   $("#logout-btn").click(function() {
@@ -252,7 +264,7 @@ $(document).ready(function() {
   }
 
   function buildQuestions(data) {
-    for(let i = 1; i <= 3; i++ ){
+    for(let i = 1; i <= 2; i++ ){
       for (let j = 0; j < questionModel.length; j++ ){
         let option = $("<option value='" + questionModel[j].Id +"'>" + questionModel[j].Question + "</option>");
         $("#SecurityQuestion" + i).append(option);
@@ -277,12 +289,6 @@ $(document).ready(function() {
     if($("#category").val() != "") {
       filterOn = $("#category").val();
       filter = encodeURIComponent($("#criteria").val());
-      if(filterOn == "Creator") {
-        if(filter.search("%40") || filter.search(".") >= 0)
-          filterOn = "Email";
-        else
-          filterOn = "UserName";
-      }
       queryString += "filterOn=" + filterOn + "&filter=" + filter;
     }
     if(sortOn != undefined && $("#category").val() != "" )
@@ -305,22 +311,18 @@ $(document).ready(function() {
     let userName = $("#userName").val();
     let securityQuestion1 = $("#SecurityQuestion1").val();
     let securityQuestion2 = $("#SecurityQuestion2").val();
-    let securityQuestion3 = $("#SecurityQuestion3").val();
     let securityAnswer1 =$("#SecurityAnswer1").val();
     let securityAnswer2 =$("#SecurityAnswer2").val();
-    let securityAnswer3 =$("#SecurityAnswer3").val();
     if(path == "register") {
-      var url = path + "?email=" + email + "&password=" + password + "&userName=" + userName + "&securityQuestion1=" + securityQuestion1 + "&securityQuestion2=" + securityQuestion2 + "&securityQuestion3=" + securityQuestion3 + "&securityAnswer1=" + securityAnswer1 + "&securityAnswer2=" + securityAnswer2 + "&securityAnswer3=" + securityAnswer3;
+      var url = path + "?email=" + email + "&password=" + password + "&userName=" + userName + "&securityQuestion1=" + securityQuestion1 + "&securityQuestion2=" + securityQuestion2 + "&securityAnswer1=" + securityAnswer1 + "&securityAnswer2=" + securityAnswer2;
       $("#successMessage").text("");
       $("#email").val("");
       $("#password").val("");
       $("#userName").val("");
       $("#SecurityQuestion1").val("");
       $("#SecurityQuestion2").val("");
-      $("#SecurityQuestion3").val("");
       $("#SecurityAnswer1").val("");
       $("#SecurityAnswer2").val("");
-      $("#SecurityAnswer3").val("");
       authRequest(url);
     }
     if(path == "login") {
@@ -347,20 +349,21 @@ $(document).ready(function() {
     });
   }
 
-  function initializeModel() {
-    wipeFilter();
-    $("#category").val(0);
-    $(".sortNoFilter").show();
-    $(".sortFilter").hide();
-
+  function loadSnippets() {
     $.getJSON("/findSnippets", function(data) {
       snippetModel = data.result;
       buildTable();
     });
+  }
+
+  function loadSecurityQuestions() {
     $.getJSON("/getSecurityQuestions", function(data) {
       questionModel = data.result;
       buildQuestions();
     });
+  }
+
+  function checkUser() {
     $.getJSON("/whoIsLoggedIn", function(data) {
       userModel = data.user;
       if(userModel != undefined) {
@@ -371,7 +374,17 @@ $(document).ready(function() {
         $("#logout-btn").hide();
       }
     });
-  };
+  }
+
+  function initializeModel() {
+    wipeFilter();
+    $("#category").val(0);
+    $(".sortNoFilter").show();
+    $(".sortFilter").hide();
+    loadSnippets();
+    loadSecurityQuestions();
+    checkUser();
+  }
 
   initializeModel();
 

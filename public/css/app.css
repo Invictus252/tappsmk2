@@ -168,8 +168,7 @@ th {
 .btn-group > .btn:first-child:hover{
   background: white;
 }
-
-#login-btn:hover, #register-btn:hover, #logout-btn:hover{
+#login-btn:hover, #register-btn:hover, #logout-btn:hover, #forgotPassword-btn:hover, #confirm-login-btn:hover{
   background-color: #a7cced;
 }
 svg{

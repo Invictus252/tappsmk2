@@ -185,7 +185,7 @@
                   </div>
                   <div id="QuestionBank">
                     <h3>Security Questions</h3>
-                    <small class="float-right">Must choose 3 different questions</small>
+                    <small class="float-right">Must choose 2 different questions</small>
                     <div class="form-group">
                       <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -210,25 +210,12 @@
                     <div class="form-group">
                       <input id="SecurityAnswer2" type="text" class="form-control" placeholder="Security Answer 2">
                     </div>
-                    <div class="form-group">
-                      <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <label class="input-group-text" for="securityQuestion3">Security Question 3</label>
-                        </div>
-                        <select class="custom-select btn btn-secondary btn-block dropdown-toggle" id="SecurityQuestion3">
-                        </select>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <input id="SecurityAnswer3" type="text" class="form-control" placeholder="Security Answer 3">
-                    </div>
                   </div>
-
                 </form>
               </div>
               <div class="modal-footer">
-                <button id="forgotPassword-btn" type="button" class="btn btn-secondary btn-sm"><i class="fas fa-key"></i><span class="p-2">Reset Password</span></button>
-                <button id="confirm-login-btn" type="button" class="btn btn-primary">Login</button>
+                <button id="forgotPassword-btn" type="button" class="btn btn-sm"><i class="fas fa-key"></i><span class="p-2">Reset Password</span></button>
+                <button id="confirm-login-btn" type="button" class="btn ">Login</button>
                 <button id="confirm-register-btn" type="button" class="btn btn-primary">Register</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
               </div>
@@ -248,23 +235,35 @@
               <div class="modal-body">
                 <p id="errorMessagePasswordReset" class="text-danger"></p>
                 <p id="successMessagePasswordReset" class="text-success"></p>
-                <form class="border border-primary p-3">
+                <form id="changingPassword" class="border border-primary p-3">
                   <div class="form-group">
                     <input id="passwordResetEmail" type="text" class="form-control" placeholder="Please enter account email">
                   </div>
                   <div class="form-group">
-                    <input id="securityQuestion1reset" type="text" class="form-control" placeholder="Question 1 Answer">
+
+                    <h6 id="userSecurityQuestion1">Question1</h6>
                   </div>
                   <div class="form-group">
-                    <input id="securityQuestion2reset" type="text" class="form-control" placeholder="Question 2 Answer">
+                    <input id="userSecurityAnswer1" type="text" class="form-control" placeholder="Security Answer 1">
                   </div>
                   <div class="form-group">
-                    <input id="securityQuestion3reset" type="text" class="form-control" placeholder="Question 3 Answer">
+                    <h6 id="userSecurityQuestion2">Question2</h6>
+                  </div>
+                  <div class="form-group">
+                    <input id="userSecurityAnswer2" type="text" class="form-control" placeholder="Security Answer 2">
+                  </div>
+                  <div id="userNewPassword" class="form-group">
+                    <h6>New Password must be at least eight characters and must contain at least one Uppercase letter, one Lowercase letter, and a number</h6>
+                    <input  type="text" class="form-control" placeholder="New Password">
+
+
                   </div>
                 </form>
               </div>
               <div class="modal-footer">
                 <button id="passwordRetrieveEmail-btn" type="button" class="btn btn-primary"><span class="p-2">Submit</span></button>
+                <button id="changePassword-btn" type="button" class="btn btn-primary"><span class="p-2">Change Password</span></button>
+                <button id="passwordChangeCancel-btn" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
               </div>
             </div>
           </div>
