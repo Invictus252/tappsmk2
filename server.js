@@ -197,8 +197,7 @@ function resetPassword(req, res) {
     }
     else {
       if(dbResult.length == 1 && bcrypt.compareSync(secAnswer1, dbResult[0].SecurityAnswer1) 
-        && dbResult.length == 1 && bcrypt.compareSync(secAnswer2, dbResult[0].SecurityAnswer2)  
-        && dbResult.length == 1 && bcrypt.compareSync(secAnswer3, dbResult[0].SecurityAnswer3)) {
+        && dbResult.length == 1 && bcrypt.compareSync(secAnswer2, dbResult[0].SecurityAnswer2)) {
         connection.query("UPDATE Users SET Password = ? WHERE Email = ?", [password, email], function(err, dbResult) {
           if(err) {
             writeResult(res, {error: "Error Reseting Password: " + err.message});
@@ -278,21 +277,30 @@ function retrieveUserSecurityQuestions(req,res) {
     return;
   }
 
-  let email = getEmail(req);
-  
-
-  connection.query("SELECT SecurityQuestion1Id, SecurityQuestion2Id, SecurityQuestion3Id FROM Users Where Email = ?;", [email], function(err, dbResult) {
+  connection.query("SELECT SecurityQuestion1Id, SecurityQuestion2Id FROM Users Where Email = ?;", [req.query.email], function(err, dbResult) {
     if(err) {
       writeResult(res, {error: err.message});
     }
     else {
-      let questions = dbResult.map(function(question) {return buildQuestion(question)});
-      console.log(questions[0].securityQuestion1);
-      writeResult(res, {result: questions});
+      let questions = dbResult.map(function(question) {return buildUserQuestions(question)});
+      connection.query("SELECT SecurityQuestions.Question FROM SecurityQuestions WHERE Id IN (?, ?);", [questions[0].SecurityQuestion1Id, questions[0].SecurityQuestion2Id], function(err, dbResult) {
+        if(err) {
+          writeResult(res, {error: err.message});
+        }
+        else {
+          let question = dbResult.map(function(question) {return buildQuestion(question)});
+          writeResult(res, {result: question});
+          console.log(question[0].Question);
+        }
+      });
     }
   });
 }
 
 function buildQuestion(dbObject) {
   return {Id: dbObject.Id, Question: dbObject.Question};
+}
+
+function buildUserQuestions(dbObject) {
+  return {SecurityQuestion1Id: dbObject.SecurityQuestion1Id, SecurityQuestion2Id: dbObject.SecurityQuestion2Id};
 }

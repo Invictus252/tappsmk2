@@ -165,20 +165,7 @@ $(document).ready(function() {
   });
 
   $("#passwordRetrieveEmail-btn").click(function() {
-
-    $("#errorMessage").text("");
-    $("#successMessage").text("");
-    $("#passwordResetEmail").hide();
-    $("#userSecurityQuestion1").text("1");
-    $("#userSecurityQuestion1").show();
-    $("#userSecurityQuestion2").text("2");
-    $("#userSecurityQuestion2").show();
-    $("#userSecurityAnswer1").show();
-    $("#userSecurityAnswer2").show();
-    $("#userNewPassword").show();
-    $("#changePassword-btn").show();
-    $("#passwordRetrieveEmail-btn").hide();
-    $("#changePassword-btn").show();
+    retrieveUserSecurityQuestions();
   });
 
   $("#passwordChangeCancel-btn").click(function() {
@@ -373,6 +360,27 @@ $(document).ready(function() {
       } else {
         $("#logout-btn").hide();
       }
+    });
+  }
+
+  function retrieveUserSecurityQuestions() {
+    let email = $("#passwordResetEmail").val(); 
+    let url = "/retrieveUserSecurityQuestions?email=" + email;
+      $.getJSON(url, function(data) {
+        let secQuestion = data;
+      $("#errorMessage").text("")
+      $("#successMessage").text("");
+      $("#passwordResetEmail").hide();
+      $("#userSecurityQuestion1").text(data.result[0].Question);
+      $("#userSecurityQuestion1").show();
+      $("#userSecurityQuestion2").text(data.result[1].Question);
+      $("#userSecurityQuestion2").show();
+      $("#userSecurityAnswer1").show();
+      $("#userSecurityAnswer2").show();
+      $("#userNewPassword").show();
+      $("#changePassword-btn").show();
+      $("#passwordRetrieveEmail-btn").hide();
+      $("#changePassword-btn").show();
     });
   }
 
