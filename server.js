@@ -72,6 +72,12 @@ function findSnippets(req, res) {
   let sql= "SELECT Snippets.Id, Users.Email, Users.UserName, Snippets.Language, Snippets.Description, Snippets.Code FROM Snippets INNER JOIN Users ON Snippets.UserId = Users.Id";
   let sqlString = [sql];
   if(req.query.filterOn && req.query.filter) {
+    if(req.query.filterOn == "Creator") {
+      if(req.query.filter.search("%40") || req.query.filter.search(".") >= 0)
+        req.query.filterOn = "Email";
+      else
+        req.query.filterOn = "UserName";
+    }
     sqlString.push(" WHERE " + req.query.filterOn + " LIKE '%" + req.query.filter + "%'");
   }
   if(req.query.sortOn && req.query.order) {
@@ -113,16 +119,14 @@ function register(req, res) {
   let userName = req.query.userName;
   let securityQuestion1 = req.query.securityQuestion1;
   let securityQuestion2 = req.query.securityQuestion2;
-  let securityQuestion3 = req.query.securityQuestion3;
-  if (!checkSecurityQuestions(securityQuestion1,securityQuestion2,securityQuestion3)) {
-    writeResult(res, {error: "Error creating user: You must choose 3 DIFFERENT Security Questions"});
+  if (!checkSecurityQuestions(securityQuestion1,securityQuestion2)) {
+    writeResult(res, {error: "Error creating user: You must choose 2 DIFFERENT Security Questions"});
     return;
   }
   let securityAnswer1 = bcrypt.hashSync(req.query.securityAnswer1, 12);
   let securityAnswer2 = bcrypt.hashSync(req.query.securityAnswer2, 12);
-  let securityAnswer3 = bcrypt.hashSync(req.query.securityAnswer3, 12);
 
-  connection.query("INSERT INTO Users (Email, Password, UserName, SecurityQuestion1Id, SecurityQuestion2Id, SecurityQuestion3Id, SecurityAnswer1, SecurityAnswer2, SecurityAnswer3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [email, password, userName, securityQuestion1, securityQuestion2, securityQuestion3, securityAnswer1, securityAnswer2, securityAnswer3], function(err, dbResult) {
+  connection.query("INSERT INTO Users (Email, Password, UserName, SecurityQuestion1Id, SecurityQuestion2Id,SecurityAnswer1, SecurityAnswer2) VALUES (?, ?, ?, ?, ?, ?, ?)", [email, password, userName, securityQuestion1, securityQuestion2, securityAnswer1, securityAnswer2], function(err, dbResult) {
     if(err) {
       writeResult(res, {error: "Error creating user: " + err.message});
     }
@@ -203,8 +207,8 @@ function buildUser(dbObject) {
   return {Id: dbObject.Id, Email: dbObject.Email, UserName: dbObject.UserName};
 }
 
-function checkSecurityQuestions(x,y,z) {
-  if(x == y || y == z || x == z) {
+function checkSecurityQuestions(x,y) {
+  if(x == y ) {
     return false;
   }
   else {
