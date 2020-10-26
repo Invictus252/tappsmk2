@@ -153,16 +153,19 @@ $(document).ready(function() {
     $("#errorMessage").text("");
     $("#successMessage").text("");
     $("#passwordResetEmail").val("");
+
     $("#userSecurityQuestion1").hide();
     $("#userSecurityQuestion2").hide();
     $("#userSecurityAnswer1").hide();
     $("#userSecurityAnswer2").hide();
     $("#userNewPassword").hide();
     $("#changePassword-btn").hide();
+
     $("#forgotPassword-modal").modal("show");
   });
 
   $("#passwordRetrieveEmail-btn").click(function() {
+
     $("#errorMessage").text("");
     $("#successMessage").text("");
     $("#passwordResetEmail").hide();
@@ -181,6 +184,7 @@ $(document).ready(function() {
   $("#passwordChangeCancel-btn").click(function() {
     $("#passwordResetEmail").show();
     $("#passwordRetrieveEmail-btn").show();
+
   });
 
   $("#logout-btn").click(function() {
