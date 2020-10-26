@@ -31,7 +31,9 @@ app.get("/findSnippets", findSnippets);
 app.get("/register", register);
 app.get("/login", login);
 app.get("/logout", logout);
+app.get("/resetPassword", resetPassword);
 app.get("/whoIsLoggedIn", whoIsLoggedIn);
+app.get("/retrieveUserSecurityQuestions", retrieveUserSecurityQuestions);
 app.get("/getSecurityQuestions", getSecurityQuestions);
 app.listen(3000, process.env.IP, startHandler());
 
@@ -167,6 +169,48 @@ function logout(req, res) {
   writeResult(res, {user: undefined});
 }
 
+function resetPassword(req, res) {
+	if(!validateEmail(req.query.email)) {
+    writeResult(res, {error: "Email is not valid!"})
+    return;
+  }
+
+	if(!validatePassword(req.query.password)) {
+    writeResult(res, {error: "Password is invalid: Must be at least eight characters and must contain at least one Uppercase letter, one Lowercase letter, and a number!"})
+    return;
+  }
+  
+  let secAnswer1 = req.query.securityAnswer1;
+  let secAnswer2 = req.query.securityAnswer2;
+  let secAnswer3 = req.query.securityAnswer3;
+	
+	let email = getEmail(req);
+	let password = bcrypt.hashSync(req.query.password, 12);
+	
+	connection.query("SELECT * FROM Users WHERE Email = ?", [email], function(err, dbResult) {
+    if(err) {
+      writeResult(res, {error: "Error creating user: " + err.message});
+    }
+    else {
+      if(dbResult.length == 1 && bcrypt.compareSync(secAnswer1, dbResult[0].SecurityAnswer1) 
+        && dbResult.length == 1 && bcrypt.compareSync(secAnswer2, dbResult[0].SecurityAnswer2)  
+        && dbResult.length == 1 && bcrypt.compareSync(secAnswer3, dbResult[0].SecurityAnswer3)) {
+        connection.query("UPDATE Users SET Password = ? WHERE Email = ?", [password, email], function(err, dbResult) {
+          if(err) {
+            writeResult(res, {error: "Error Reseting Password: " + err.message});
+          }
+          else {
+            writeResult(res, {user: req.session.user});
+          }
+        });
+      }
+      else {
+        writeResult(res, {user: req.session.user});
+      }
+    }
+  });
+}
+
 function whoIsLoggedIn(req, res) {
   if(req.session.user == undefined)
     writeResult(res, {user: undefined});
@@ -219,6 +263,27 @@ function getSecurityQuestions(req,res){
     }
     else {
       let questions = dbResult.map(function(question) {return buildQuestion(question)});
+      writeResult(res, {result: questions});
+    }
+  });
+}
+
+function retrieveUserSecurityQuestions(req,res) {
+  if(!req.query.email) {
+    writeResult(res, {error: "Valid Email is required."});
+    return;
+  }
+
+  let email = getEmail(req);
+  
+
+  connection.query("SELECT SecurityQuestion1Id, SecurityQuestion2Id, SecurityQuestion3Id FROM Users Where Email = ?;", [email], function(err, dbResult) {
+    if(err) {
+      writeResult(res, {error: err.message});
+    }
+    else {
+      let questions = dbResult.map(function(question) {return buildQuestion(question)});
+      console.log(questions[0].securityQuestion1);
       writeResult(res, {result: questions});
     }
   });

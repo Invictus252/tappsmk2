@@ -153,7 +153,26 @@ $(document).ready(function() {
     $("#errorMessage").text("");
     $("#successMessage").text("");
     $("#passwordResetEmail").val("");
+    $("#securityQuestion1reset").hide();
+    $("#securityQuestion2reset").hide();
+    $("#securityQuestion3reset").hide();
     $("#forgotPassword-modal").modal("show");
+  });
+
+  $("#passwordRetrieveEmail-btn").click(function() {
+    let email = $("#passwordResetEmail").val();
+
+    $.getJSON("/retrieveUserSecurityQuestions?email=" + email, $("#passwordResetEmail").val()), function(data) {
+      userModel = data.user;
+      $("#login-modal").modal("hide");
+      $("#errorMessage").text("");
+      $("#successMessage").text("");
+      $("#passwordResetEmail").hide();
+      $("#securityQuestion1reset").val() = data.securityQuestion1;
+      $("#securityQuestion2reset").val() = data.securityQuestion2;
+      $("#securityQuestion3reset").val() = data.securityQuestion3;
+      $("#forgotPassword-modal").modal("show");
+    }
   });
 
   $("#logout-btn").click(function() {
