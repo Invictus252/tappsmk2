@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+  var resetPasswordEmail = "";
   var snippetModel = {};
   var userModel = {};
   var questionModel = {};
@@ -148,32 +148,6 @@ $(document).ready(function() {
     $("#login-modal").modal("show");
   });
 
-  $("#forgotPassword-btn").click(function() {
-    $("#login-modal").modal("hide");
-    $("#errorMessage").text("");
-    $("#successMessage").text("");
-    $("#passwordResetEmail").val("");
-
-    $("#userSecurityQuestion1").hide();
-    $("#userSecurityQuestion2").hide();
-    $("#userSecurityAnswer1").hide();
-    $("#userSecurityAnswer2").hide();
-    $("#userNewPassword").hide();
-    $("#changePassword-btn").hide();
-
-    $("#forgotPassword-modal").modal("show");
-  });
-
-  $("#passwordRetrieveEmail-btn").click(function() {
-    retrieveUserSecurityQuestions();
-  });
-
-  $("#passwordChangeCancel-btn").click(function() {
-    $("#passwordResetEmail").show();
-    $("#passwordRetrieveEmail-btn").show();
-
-  });
-
   $("#logout-btn").click(function() {
     $.getJSON("/logout",function(data) {
       userModel = data.user;
@@ -221,6 +195,85 @@ $(document).ready(function() {
   $("#sidebar").mCustomScrollbar({
     theme: "minimal"
   });
+
+  $("#forgotPassword-btn").click(function() {
+    $("#login-modal").modal("hide");
+    $("#errorMessage").text("");
+    $("#successMessage").text("");
+    $("#passwordResetEmail").val("");
+    $("#userSecurityQuestion1").hide();
+    $("#userSecurityQuestion2").hide();
+    $("#userSecurityAnswer1").hide();
+    $("#userSecurityAnswer2").hide();
+    $("#userNewPassword").hide();
+    $("#passwordRules").hide();
+    $("#changePassword-btn").hide();
+    $("#forgotPassword-modal").modal("show");
+  });
+
+  $("#passwordRetrieveEmail-btn").click(function() {
+    retrieveUserSecurityQuestions();
+  });
+
+  $("#changePassword-btn").click(function() {
+    let answer1 = $("#userSecurityAnswer1").val();
+    let answer2 = $("#userSecurityAnswer2").val();
+    let newPassword = $("#userNewPassword").val();
+    let url = "/resetPassword?email=" + resetPasswordEmail +"&securityAnswer1=" + answer1 + "&securityAnswer2=" + answer2 + "&password=" + newPassword
+    let request = $.getJSON(url,function(data){
+      if(data.error != undefined) {
+        $("#forgotPassword-modal").modal("show");
+        $("#errorMessagePasswordReset").text(data.error);
+      } else {
+        alert("Password Succesfully Changed!");
+        $("#forgotPassword-modal").modal("hide");
+        userModel = data.user;
+        $("#user-Name").text("Welcome " + userModel.UserName);
+        $("#login-btn").hide();
+        $("#logout-btn").show();
+        $("#register-btn").hide();
+        $("#passwordResetEmail").show();
+        $("#passwordRetrieveEmail-btn").show();
+        $("#errorMessagePasswordReset").text("");
+        $("#userSecurityAnswer1").val("");
+        $("#userSecurityAnswer2").val("");
+        $("#userNewPassword").val("");
+      }
+    });
+  });
+
+  $("#passwordChangeCancel-btn").click(function() {
+    $("#passwordResetEmail").show();
+    $("#passwordRetrieveEmail-btn").show();
+    $("#errorMessagePasswordReset").text("");
+  });
+
+  function retrieveUserSecurityQuestions() {
+    resetPasswordEmail = $("#passwordResetEmail").val();
+    let url = "/retrieveUserSecurityQuestions?email=" + resetPasswordEmail;
+    $.getJSON(url, function(data) {
+      if(data.error != undefined) {
+        $("#forgotPassword-modal").modal("show");
+        $("#errorMessagePasswordReset").text(data.error);
+      } else {
+        let securityQuestions = data.result;
+        $("#errorMessage").text("")
+        $("#successMessage").text("");
+        $("#passwordResetEmail").hide();
+        $("#userSecurityQuestion1").text(securityQuestions[0].Question);
+        $("#userSecurityQuestion1").show();
+        $("#userSecurityQuestion2").text(securityQuestions[1].Question);
+        $("#userSecurityQuestion2").show();
+        $("#userSecurityAnswer1").show();
+        $("#userSecurityAnswer2").show();
+        $("#userNewPassword").show();
+        $("#passwordRules").show();
+        $("#changePassword-btn").show();
+        $("#passwordRetrieveEmail-btn").hide();
+        $("#changePassword-btn").show();
+      }
+    });
+  }
 
   function submitForm() {
     $(".sortNoFilter").hide();
@@ -360,27 +413,6 @@ $(document).ready(function() {
       } else {
         $("#logout-btn").hide();
       }
-    });
-  }
-
-  function retrieveUserSecurityQuestions() {
-    let email = $("#passwordResetEmail").val(); 
-    let url = "/retrieveUserSecurityQuestions?email=" + email;
-      $.getJSON(url, function(data) {
-        let secQuestion = data;
-      $("#errorMessage").text("")
-      $("#successMessage").text("");
-      $("#passwordResetEmail").hide();
-      $("#userSecurityQuestion1").text(data.result[0].Question);
-      $("#userSecurityQuestion1").show();
-      $("#userSecurityQuestion2").text(data.result[1].Question);
-      $("#userSecurityQuestion2").show();
-      $("#userSecurityAnswer1").show();
-      $("#userSecurityAnswer2").show();
-      $("#userNewPassword").show();
-      $("#changePassword-btn").show();
-      $("#passwordRetrieveEmail-btn").hide();
-      $("#changePassword-btn").show();
     });
   }
 

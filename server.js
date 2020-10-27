@@ -183,29 +183,29 @@ function resetPassword(req, res) {
     writeResult(res, {error: "Password is invalid: Must be at least eight characters and must contain at least one Uppercase letter, one Lowercase letter, and a number!"})
     return;
   }
-  
+
   let secAnswer1 = req.query.securityAnswer1;
   let secAnswer2 = req.query.securityAnswer2;
-  let secAnswer3 = req.query.securityAnswer3;
-	
+
 	let email = getEmail(req);
 	let password = bcrypt.hashSync(req.query.password, 12);
-	
+
 	connection.query("SELECT * FROM Users WHERE Email = ?", [email], function(err, dbResult) {
     if(err) {
       writeResult(res, {error: "Error creating user: " + err.message});
     }
     else {
-      if(dbResult.length == 1 && bcrypt.compareSync(secAnswer1, dbResult[0].SecurityAnswer1) 
+      if(dbResult.length == 1 && bcrypt.compareSync(secAnswer1, dbResult[0].SecurityAnswer1)
         && dbResult.length == 1 && bcrypt.compareSync(secAnswer2, dbResult[0].SecurityAnswer2)) {
-        connection.query("UPDATE Users SET Password = ? WHERE Email = ?", [password, email], function(err, dbResult) {
-          if(err) {
-            writeResult(res, {error: "Error Reseting Password: " + err.message});
-          }
-          else {
-            writeResult(res, {user: req.session.user});
-          }
-        });
+          req.session.user = buildUser(dbResult[0]);
+          connection.query("UPDATE Users SET Password = ? WHERE Email = ?", [password, email], function(err, dbResult) {
+            if(err) {
+              writeResult(res, {error: "Error Reseting Password: " + err.message});
+            }
+            else {
+              writeResult(res, {user: req.session.user});
+            }
+          });
       }
       else {
         writeResult(res, {user: req.session.user});
@@ -272,25 +272,23 @@ function getSecurityQuestions(req,res){
 }
 
 function retrieveUserSecurityQuestions(req,res) {
-  if(!req.query.email) {
+  if(!req.query.email || !validateEmail(req.query.email)) {
     writeResult(res, {error: "Valid Email is required."});
     return;
   }
-
-  connection.query("SELECT SecurityQuestion1Id, SecurityQuestion2Id FROM Users Where Email = ?;", [req.query.email], function(err, dbResult) {
+  connection.query("SELECT SecurityQuestion1Id, SecurityQuestion2Id FROM Users WHERE Email = ?;", [req.query.email], function(err, dbResult) {
     if(err) {
       writeResult(res, {error: err.message});
     }
     else {
       let questions = dbResult.map(function(question) {return buildUserQuestions(question)});
-      connection.query("SELECT SecurityQuestions.Question FROM SecurityQuestions WHERE Id IN (?, ?);", [questions[0].SecurityQuestion1Id, questions[0].SecurityQuestion2Id], function(err, dbResult) {
+      connection.query("SELECT Question FROM SecurityQuestions WHERE Id IN (?, ?);", [questions[0].SecurityQuestion1Id, questions[0].SecurityQuestion2Id], function(err, dbResult) {
         if(err) {
           writeResult(res, {error: err.message});
         }
         else {
           let question = dbResult.map(function(question) {return buildQuestion(question)});
           writeResult(res, {result: question});
-          console.log(question[0].Question);
         }
       });
     }
