@@ -4,7 +4,7 @@ CREATE DATABASE SnippetsDB;
 
 USE SnippetsDB;
 
-CREATE TABLE SecurityQuestions(
+CREATE TABLE SecurityQuestions (
   Id int NOT NULL AUTO_INCREMENT,
   Question varchar(255) NOT NULL,
   PRIMARY KEY(Id)
@@ -37,7 +37,7 @@ INSERT INTO Users(Email,Password,UserName,SecurityQuestion1Id,SecurityQuestion2I
 INSERT INTO Users(Email,Password,UserName,SecurityQuestion1Id,SecurityQuestion2Id,SecurityAnswer1,SecurityAnswer2) VALUES ("test@test.edu", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "EDU",1,2,"$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W","$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W");
 INSERT INTO Users(Email,Password,UserName,SecurityQuestion1Id,SecurityQuestion2Id,SecurityAnswer1,SecurityAnswer2) VALUES ("test@test.mil", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "MIL",1,2,"$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W","$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W");
 
-CREATE TABLE Snippets(
+CREATE TABLE Snippets (
   Id int NOT NULL AUTO_INCREMENT,
   UserId int NOT NULL,
   Language varchar (255) NOT NULL,
