@@ -121,10 +121,12 @@ function register(req, res) {
   let userName = req.query.userName;
   let securityQuestion1 = req.query.securityQuestion1;
   let securityQuestion2 = req.query.securityQuestion2;
+
   if (!checkSecurityQuestions(securityQuestion1,securityQuestion2)) {
     writeResult(res, {error: "Error creating user: You must choose 2 DIFFERENT Security Questions"});
     return;
   }
+
   let securityAnswer1 = bcrypt.hashSync(req.query.securityAnswer1, 12);
   let securityAnswer2 = bcrypt.hashSync(req.query.securityAnswer2, 12);
 
@@ -151,6 +153,7 @@ function login(req, res) {
     writeResult(res, {error: "Email is required."});
     return;
   }
+
   let email = getEmail(req);
   connection.query("SELECT Id, Email, Password, UserName FROM Users WHERE Email = ?", [email], function(err, dbResult) {
     if(err) {
@@ -178,14 +181,17 @@ function resetPassword(req, res) {
     writeResult(res, {error: "Email is not valid!"})
     return;
   }
+
 	if(!validatePassword(req.query.password)) {
     writeResult(res, {error: "Password is invalid: Must be at least eight characters and must contain at least one Uppercase letter, one Lowercase letter, and a number!"})
     return;
   }
+
   let secAnswer1 = req.query.securityAnswer1;
   let secAnswer2 = req.query.securityAnswer2;
 	let email = getEmail(req);
-	let password = bcrypt.hashSync(req.query.password, 12);
+  let password = bcrypt.hashSync(req.query.password, 12);
+  
 	connection.query("SELECT * FROM Users WHERE Email = ?", [email], function(err, dbResult) {
     if(err) {
       writeResult(res, {error: "Error creating user: " + err.message});
@@ -251,7 +257,7 @@ function checkSecurityQuestions(x,y) {
   }
 }
 
-function getSecurityQuestions(req,res){
+function getSecurityQuestions(req,res) {
   connection.query("SELECT * FROM SecurityQuestions;", function(err, dbResult) {
     if(err) {
       writeResult(res, {error: err.message});

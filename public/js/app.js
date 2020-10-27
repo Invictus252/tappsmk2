@@ -220,7 +220,7 @@ $(document).ready(function() {
     let answer2 = $("#userSecurityAnswer2").val();
     let newPassword = $("#userNewPassword").val();
     let url = "/resetPassword?email=" + resetPasswordEmail +"&securityAnswer1=" + answer1 + "&securityAnswer2=" + answer2 + "&password=" + newPassword
-    let request = $.getJSON(url,function(data){
+    let request = $.getJSON(url,function(data) {
       if(data.error != undefined) {
         $("#forgotPassword-modal").modal("show");
         $("#errorMessagePasswordReset").text(data.error);
@@ -304,8 +304,8 @@ $(document).ready(function() {
   }
 
   function buildQuestions(data) {
-    for(let i = 1; i <= 2; i++ ){
-      for (let j = 0; j < questionModel.length; j++ ){
+    for(let i = 1; i <= 2; i++ ) {
+      for (let j = 0; j < questionModel.length; j++ ) {
         let option = $("<option value='" + questionModel[j].Id +"'>" + questionModel[j].Question + "</option>");
         $("#SecurityQuestion" + i).append(option);
       }
