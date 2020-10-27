@@ -178,25 +178,20 @@ function resetPassword(req, res) {
     writeResult(res, {error: "Email is not valid!"})
     return;
   }
-
 	if(!validatePassword(req.query.password)) {
     writeResult(res, {error: "Password is invalid: Must be at least eight characters and must contain at least one Uppercase letter, one Lowercase letter, and a number!"})
     return;
   }
-
   let secAnswer1 = req.query.securityAnswer1;
   let secAnswer2 = req.query.securityAnswer2;
-
 	let email = getEmail(req);
 	let password = bcrypt.hashSync(req.query.password, 12);
-
 	connection.query("SELECT * FROM Users WHERE Email = ?", [email], function(err, dbResult) {
     if(err) {
       writeResult(res, {error: "Error creating user: " + err.message});
     }
     else {
-      if(dbResult.length == 1 && bcrypt.compareSync(secAnswer1, dbResult[0].SecurityAnswer1)
-        && dbResult.length == 1 && bcrypt.compareSync(secAnswer2, dbResult[0].SecurityAnswer2)) {
+      if((bcrypt.compareSync(secAnswer1, dbResult[0].SecurityAnswer1) && bcrypt.compareSync(secAnswer2, dbResult[0].SecurityAnswer2)) == true) {
           req.session.user = buildUser(dbResult[0]);
           connection.query("UPDATE Users SET Password = ? WHERE Email = ?", [password, email], function(err, dbResult) {
             if(err) {
@@ -208,7 +203,7 @@ function resetPassword(req, res) {
           });
       }
       else {
-        writeResult(res, {user: req.session.user});
+        writeResult(res, {error: "Answers do not match. Check your answers and resubmit"});
       }
     }
   });
@@ -228,21 +223,18 @@ function getEmail(req) {
 function validateEmail(email) {
   if(!email)
     return false;
-
   return emailRegEx.test(email.toLowerCase());
 }
 
 function validatePassword(password) {
   if(!password)
     return false;
-
   return passwordRegEx.test(password);
 }
 
 function validateUserName(userName) {
   if(!userName)
     return false;
-
   return usernameRegEx.test(userName);
 }
 
