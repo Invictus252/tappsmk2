@@ -254,6 +254,7 @@ $(document).ready(function() {
   });
 
   function retrieveUserSecurityQuestions() {
+    $("#errorMessagePasswordReset").text("");
     resetPasswordEmail = $("#passwordResetEmail").val();
     let url = "/retrieveUserSecurityQuestions?email=" + resetPasswordEmail;
     $.getJSON(url, function(data) {
@@ -262,6 +263,7 @@ $(document).ready(function() {
         $("#errorMessagePasswordReset").text(data.error);
       } else {
         let securityQuestions = data.result;
+        console.log(securityQuestions);
         $("#errorMessage").text("")
         $("#successMessage").text("");
         $("#passwordResetEmail").hide();
