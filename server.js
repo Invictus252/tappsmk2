@@ -277,9 +277,12 @@ function retrieveUserSecurityQuestions(req,res) {
     if(err) {
       writeResult(res, {error: err.message});
     }
+    if(dbResult.length == 0) {
+      writeResult(res, {error: "Invalid User"});
+    }
     else {
       let questions = dbResult.map(function(question) {return buildUserQuestions(question)});
-      
+
       let question1ID = questions[0].SecurityQuestion1Id;
       let question2ID = questions[0].SecurityQuestion2Id;
 
