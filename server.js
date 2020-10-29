@@ -272,6 +272,7 @@ function retrieveUserSecurityQuestions(req,res) {
     writeResult(res, {error: "Valid Email is required."});
     return;
   }
+
   connection.query("SELECT SecurityQuestion1Id, SecurityQuestion2Id FROM Users WHERE Email = ?;", [req.query.email], function(err, dbResult) {
     if(err) {
       writeResult(res, {error: err.message});
@@ -282,14 +283,13 @@ function retrieveUserSecurityQuestions(req,res) {
       let question1ID = questions[0].SecurityQuestion1Id;
       let question2ID = questions[0].SecurityQuestion2Id;
 
-      connection.query("SELECT SecurityQuestions.Question FROM SecurityQuestions WHERE Id IN (?, ?) ORDER BY FIELD(Id, ?, ?);", [question1ID, question2ID, question1ID, question2ID], function(err, dbResult2) {
+      connection.query("SELECT SecurityQuestions.Question FROM SecurityQuestions WHERE Id IN (?, ?) ORDER BY FIELD(Id, ?, ?);", [question1ID, question2ID, question1ID, question2ID], function(err, dbResult) {
         if(err) {
           writeResult(res, {error: err.message});
         }
         else {
-          let question = dbResult2.map(function(question) {return buildQuestion(question)});
-          console.log(question[0].question);
-          writeResult(res, {result: question});
+          let question = dbResult.map(function(question) {return buildQuestion(question)});
+          writeResult(res, {result: question})
         }
       });
     }
