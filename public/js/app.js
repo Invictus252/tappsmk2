@@ -200,6 +200,12 @@ $(document).ready(function() {
     theme: "minimal"
   });
 
+  var audio = $("#train")[0];
+  $("#logo").mouseenter(function() {
+    $('#train').prop("volume", 0.02);
+    audio.play();
+  });
+
   $("#forgotPassword-btn").click(function() {
     $("#login-modal").modal("hide");
     $("#errorMessage").text("");
