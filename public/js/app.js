@@ -269,7 +269,6 @@ $(document).ready(function() {
         $("#errorMessagePasswordReset").text(data.error);
       } else {
         let securityQuestions = data.result;
-        console.log(securityQuestions);
         $("#errorMessage").text("")
         $("#successMessage").text("");
         $("#passwordResetEmail").hide();
