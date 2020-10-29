@@ -192,6 +192,10 @@ $(document).ready(function() {
     return false;
   });
 
+  $('#login-modal').on('shown.bs.modal', function () {
+      $('#email').focus();
+  })
+
   $("#sidebar").mCustomScrollbar({
     theme: "minimal"
   });
