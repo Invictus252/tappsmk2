@@ -212,6 +212,7 @@ $(document).ready(function() {
     $("#userNewPassword").hide();
     $("#passwordRules").hide();
     $("#changePassword-btn").hide();
+    $("#passwordResetEmail").show();
     $("#forgotPassword-modal").modal("show");
   });
 
@@ -309,6 +310,7 @@ $(document).ready(function() {
 
   function buildQuestions(data) {
     for(let i = 1; i <= 2; i++ ) {
+      $("#SecurityQuestion" + i).empty();
       for (let j = 0; j < questionModel.length; j++ ) {
         let option = $("<option value='" + questionModel[j].Id +"'>" + questionModel[j].Question + "</option>");
         $("#SecurityQuestion" + i).append(option);

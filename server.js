@@ -41,7 +41,6 @@ connection.connect(function(err) {
   if(err) throw err;
 });
 
-/// APP FUNCTIONS BELOW
 function startHandler() {
   console.log("Server listening at http://localhost:3000")
   console.log("\x1b[31m", " FUNCTION JUNCTION is Aware");
@@ -68,7 +67,6 @@ function buildSnippet(dbObject) {
           Snippet: dbObject.Code};
 }
 
-// Controller
 function findSnippets(req, res) {
 
   let sql= "SELECT Snippets.Id, Users.Email, Users.UserName, Snippets.Language, Snippets.Description, Snippets.Code FROM Snippets INNER JOIN Users ON Snippets.UserId = Users.Id";
@@ -88,7 +86,6 @@ function findSnippets(req, res) {
   makeQuery(sqlString,res);
 }
 
-// Helper Functions
 function makeQuery(query,res) {
   query = query.join(" ");
   connection.query(query, function(err, dbResult) {
@@ -101,7 +98,7 @@ function makeQuery(query,res) {
     }
   });
 }
-//User creation functions
+
 function register(req, res) {
   if(!validateEmail(req.query.email)) {
     writeResult(res, {error: "Email is not valid!"})
@@ -191,7 +188,7 @@ function resetPassword(req, res) {
   let secAnswer2 = req.query.securityAnswer2;
 	let email = getEmail(req);
   let password = bcrypt.hashSync(req.query.password, 12);
-  
+
 	connection.query("SELECT * FROM Users WHERE Email = ?", [email], function(err, dbResult) {
     if(err) {
       writeResult(res, {error: "Error creating user: " + err.message});
