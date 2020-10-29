@@ -194,7 +194,8 @@ function resetPassword(req, res) {
       writeResult(res, {error: "Error creating user: " + err.message});
     }
     else {
-      if((bcrypt.compareSync(secAnswer1, dbResult[0].SecurityAnswer1) && bcrypt.compareSync(secAnswer2, dbResult[0].SecurityAnswer2)) == true) {
+      if((dbResult.length == 1 && bcrypt.compareSync(secAnswer1, dbResult[0].SecurityAnswer1))
+        && (dbResult.length == 1 && bcrypt.compareSync(secAnswer2, dbResult[0].SecurityAnswer2)) == true) {
           req.session.user = buildUser(dbResult[0]);
           connection.query("UPDATE Users SET Password = ? WHERE Email = ?", [password, email], function(err, dbResult) {
             if(err) {
