@@ -195,8 +195,7 @@ function resetPassword(req, res) {
     }
     else {
       if((dbResult.length == 1 && bcrypt.compareSync(secAnswer1, dbResult[0].SecurityAnswer1))
-        && (dbResult.length == 1 && bcrypt.compareSync(secAnswer2, dbResult[0].SecurityAnswer2)) == true || (dbResult.length == 1 && bcrypt.compareSync(secAnswer1, dbResult[0].SecurityAnswer2))
-          && (dbResult.length == 1 && bcrypt.compareSync(secAnswer2, dbResult[0].SecurityAnswer1)) == true) {
+        && (dbResult.length == 1 && bcrypt.compareSync(secAnswer2, dbResult[0].SecurityAnswer2)) == true) {
           req.session.user = buildUser(dbResult[0]);
           connection.query("UPDATE Users SET Password = ? WHERE Email = ?", [password, email], function(err, dbResult) {
             if(err) {
@@ -279,12 +278,17 @@ function retrieveUserSecurityQuestions(req,res) {
     }
     else {
       let questions = dbResult.map(function(question) {return buildUserQuestions(question)});
-      connection.query("SELECT Question FROM SecurityQuestions WHERE Id IN (?, ?);", [questions[0].SecurityQuestion1Id, questions[0].SecurityQuestion2Id], function(err, dbResult) {
+      
+      let question1ID = questions[0].SecurityQuestion1Id;
+      let question2ID = questions[0].SecurityQuestion2Id;
+
+      connection.query("SELECT SecurityQuestions.Question FROM SecurityQuestions WHERE Id IN (?, ?) ORDER BY FIELD(Id, ?, ?);", [question1ID, question2ID, question1ID, question2ID], function(err, dbResult2) {
         if(err) {
           writeResult(res, {error: err.message});
         }
         else {
-          let question = dbResult.map(function(question) {return buildQuestion(question)});
+          let question = dbResult2.map(function(question) {return buildQuestion(question)});
+          console.log(question[0].question);
           writeResult(res, {result: question});
         }
       });
