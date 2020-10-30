@@ -44,7 +44,7 @@ app.get("/getUserCount", getUserCount);
 app.get("/getTasks", getTasks);
 app.get("/getDBsize", getDBsize);
 app.get("/readyDir", readyDir);
-app.listen(5000, process.env.IP, startHandler());
+app.listen(process.env.PORT || 3000, process.env.IP, startHandler());
 
 connection.connect(function(err) {
   if(err) throw err;
