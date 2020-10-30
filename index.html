@@ -1,298 +1,485 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Pragma" content="no-cache">
-    <link rel="icon" type="image/ico" href="img/tapps.ico"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>TappsNET</title>
-    <link href="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.css" rel="stylesheet">
-    <link href="https://unpkg.com/bootstrap-table@1.18.0/dist/extensions/sticky-header/bootstrap-table-sticky-header.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/app.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-  </head>
-  <body>
-    <div class="wrapper">
-      <nav id="sidebar">
-        <div class="sidebar-header">
-          <h1>TappsNET</h1><img id="logo" class="p-2 mx-auto d-block" src="img/tapps.ico" height="100em" data-toggle="tooltip" title="Upset the setup">
-        </div>
-        <div class="card" style="width: 16rem;">
-          <div class="card-body">
-            <h5 class="card-title text-primary">Ping  Status</h5>
-            <ul class="list-unstyled CTAs ">
-              <li class="d-flex ">
-                <span class="green-loader"></span><p class="card-text text-success">Online</p>
-              </li>
-              <li class="d-flex ">
-                <span class="yellow-loader"></span><p class="card-text text-warning">Connecting</p>
-              </li>
-              <li class="d-flex ">
-                <span class="red-loader"></span><p class="card-text text-danger">Offline</p>
-              </li>              
-             </ul>
-          </div>
-        </div>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon"
+      type="image/png"
+      href="img/tapps.ico">
+  <title>TappsNET | Dashboard</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+  <!-- summernote -->
+  <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul>
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <button id="register-btn" type="button" class="btn"><i class="fas fa-user-plus"></i><span class="p-2">Register</span></button>
+      </li>
+      <li class="nav-item">
+        <button id="login-btn" type="button" class="btn "><i class="fas fa-sign-in-alt"></i><span class="p-2">Login</span></button>
+      </li>
+      <li class="nav-item">
+        <button id="logout-btn" type="button" class="btn "><i class="fas fa-sign-out-alt"></i><span class="p-2">Logout</span></button>
+      </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+          <i class="fas fa-th-large"></i>
+        </a>
+      </li> -->
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="#" class="brand-link">
+      <img id="logo" src="img/tapps.ico" alt="TappsNET Logo" class="brand-image img-circle elevation-3 text-danger" style="opacity: .8">
+      <span class="brand-text font-weight-light">TappsNET</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+
+      <!-- Sidebar Menu -->
+      <nav id="deviceStatus" class="mt-2">
         <ul class="list-unstyled CTAs ">
           <li class="d-flex justify-content-around">
             <span class="alpha loader"></span>
-            <span class="localhost loader"></span>
-            <span class="charlie loader"></span>
           </li>
           <li class="d-flex justify-content-around">
             <h3>A</h3>
+          </li>
+          <li class="d-flex justify-content-around">
+            <span class="localhost loader"></span>
+          </li>
+          <li class="d-flex justify-content-around">
             <h3>B</h3>
+          </li>
+          <li class="d-flex justify-content-around">
+            <span class="charlie loader"></span>
+          </li>
+          <li class="d-flex justify-content-around">
             <h3>C</h3>
           </li>
-          <li>
-            <div class="stopwatch">
-              <h3>Scan Status</h3>
-              <div class="circle">
-                
-                <span class="time" id="display">00:00:00</span>
-              </div>
-        
-              <div class="controls">
-                <button class="buttonPlay">
-                  <img id="playButton" src="https://res.cloudinary.com/https-tinloof-com/image/upload/v1593360448/blog/time-in-js/play-button_opkxmt.svg" />
-        
-                  <img id="pauseButton" src="https://res.cloudinary.com/https-tinloof-com/image/upload/v1593360448/blog/time-in-js/pause-button_pinhpy.svg" />
-                </button>
-        
-                <button class="buttonReset">
-                  <img id="resetButton" src="https://res.cloudinary.com/https-tinloof-com/image/upload/v1593360448/blog/time-in-js/reset-button_mdv6wf.svg" />
-                </button>
-              </div>
-            </div>
-          </li>          
-       </ul>
-        <!-- <ul class="list-unstyled CTAs">
-            <div class="btn-toolbar" role="toolbar" id="SortToolbar">
-              <h2>Sort Options</h2>
-              <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-                <button id="sort-creator-dropdown" type="button" class="btn dropdown-toggle btn-block sortNoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Creator
-                </button>
-                <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
-                  <a id="ddCreatorAsc" class="dropdown-item" >Ascending</a>
-                  <a id="ddCreatorDesc" class="dropdown-item" >Descending</a>
-                </div>
-              </div>
-              <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-                <button id="sort-language-dropdown" type="button" class="btn dropdown-toggle btn-block sortNoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Language
-                </button>
-                <div class="dropdown-menu btn-block" aria-labelledby="btnGroupLanguage">
-                  <a id="ddLanguageAsc" class="dropdown-item" >Ascending</a>
-                  <a id="ddLanguageDesc" class="dropdown-item" >Descending</a>
-                </div>
-              </div>
-              <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-                <button id="sort-description-dropdown" type="button" class="btn dropdown-toggle btn-block sortNoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Description
-                </button>
-                <div class="dropdown-menu btn-block" aria-labelledby="btnGroupDescription">
-                  <a id="ddDescriptionAsc" class="dropdown-item" >Ascending</a>
-                  <a id="ddDescriptionDesc" class="dropdown-item" >Descending</a>
-                </div>
-              </div>
-              <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-                <button id="sort-creator-dropdown-filter" type="button" class="btn dropdown-toggle btn-block sortFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Creator
-                </button>
-                <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
-                  <a id="ddCreatorAscFilterOrder" class="dropdown-item" >Ascending</a>
-                  <a id="ddCreatorDescFilterOrder" class="dropdown-item" >Descending</a>
-                </div>
-              </div>
-              <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-                <button id="sort-language-dropdown-filter" type="button" class="btn dropdown-toggle btn-block sortFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Language
-                </button>
-                <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
-                  <a id="ddLanguageAscFilterOrder" class="dropdown-item" >Ascending</a>
-                  <a id="ddLanguageDescFilterOrder" class="dropdown-item" >Descending</a>
-                </div>
-              </div>
-              <div class="btn-group btn-group-lg btn-block mr-2" role="group" aria-label="Sort group">
-                <button id="sort-description-dropdown-filter" type="button" class="btn dropdown-toggle btn-block sortFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  Description
-                </button>
-                <div class="dropdown-menu btn-block" aria-labelledby="btnGroupCreator">
-                  <a id="ddDescriptionAscFilterOrder" class="dropdown-item" >Ascending</a>
-                  <a id="ddDescriptionDescFilterOrder" class="dropdown-item" >Descending</a>
-                </div>
-              </div>
-            </div>
-          </ul> -->
+        </ul>
       </nav>
-      <div id="content">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-          <div class="container-fluid">
-            <h2 id ="user-Name">Welcome User</h2>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item active">
-                </li>
-              </ul>
-              <img id="logo" class="p-2" src="img/tapps.ico" height="50em" data-toggle="tooltip" title="Upset the setup">
-              <button id="register-btn" type="button" class="btn"><i class="fas fa-user-plus"></i><span class="p-2">Register</span></button>
-              <button id="login-btn" type="button" class="btn "><i class="fas fa-sign-in-alt"></i><span class="p-2">Login</span></button>
-              <button id="logout-btn" type="button" class="btn "><i class="fas fa-sign-out-alt"></i><span class="p-2">Logout</span></button>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Dashboard</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div id="infoBoard" class="row">
+          <!-- ./col -->
+          <div class="col-lg-4 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <!-- <h3>53<sup style="font-size: 20px">%</sup></h3> -->
+                <h3 id="scanCount"></h3>
+
+                <p>Processed Scans</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-eye"></i>
+              </div>
+              <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
             </div>
           </div>
-        </nav>
-        <div id="canvasesdiv">
-    <canvas id="static" width=1580 height=725>This text is displayed if your browser does not support HTML5 Canvas</canvas>
-    <canvas id="dynamic" width=1580 height=725>This text is displayed if your browser does not support HTML5 Canvas</canvas>
-</div>
-        <!-- <table id ="my-table" class="table table-hover table-light ">
-          <thead >
-            <tr>
-              <th>Snippet Id</th>
-              <th>Creator Email</th>
-              <th>Creator Name</th>
-              <th>Language</th>
-              <th>Description</th>
-              <th>Snippet</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table> -->
-        <!-- MODALS -->
-        <div class="modal fade" id="dbModal" tabindex="-1" role="dialog">
-          <div class="modal-dialog modal-dialog-centered " role="document">
-            <div class="modal-content ">
-              <div class="modal-header">
-                <h5 class="modal-title"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+          <!-- ./col -->
+          <div class="col-lg-4 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3 id="userCount"></h3>
+
+                <p>User Registrations</p>
               </div>
-              <div class="modal-body"></div>
-                <div class="modal-footer">
-                  <img id="logo" align="left" class="p-2" src="img/tapps.ico" height="50em">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
               </div>
+              <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
             </div>
           </div>
+          <!-- ./col -->
+          <div class="col-lg-4 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3 id="dbSize"></h3>
+
+                <p>DataBase Size in MBs</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+              </div>
+              <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+            </div>
+          </div>
+          <!-- ./col -->
         </div>
-        <div id="login-modal" class="modal fade" tabindex="-1" role="dialog">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <img id="logo" class="p-2" src="img/tapps.ico" height="50em">
-                <h5 id="login-modal-title" class="modal-title"></h5>
-                <button type="button" class="close" data-dismiss="modal" area-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+          <!-- Left col -->
+          <section class="col-lg-8 connectedSortable">
+            <!-- /.card -->
+            <div id="scanControlCard" class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="ion ion-clipboard mr-1"></i>
+                  Scan Control
+                </h3>
+                <!-- card tools -->
+                <div class="card-tools">
+                  <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+
               </div>
-              <div class="modal-body">
-                <p id="errorMessage" class="text-danger"></p>
-                <p id="successMessage" class="text-success"></p>
-                <form class="border border-primary p-3">
-                  <div class="form-group">
-                    <small class="float-right">Please fill out all fields</small>
-                    <input id="email" type="text" class="form-control" placeholder="Email">
-                  </div>
-                  <div class="form-group">
-                    <input id="userName" type="text" class="form-control" placeholder="User Name">
-                  </div>
-                  <div class="form-group">
-                    <input id="password" type="password" class="form-control" placeholder="Password">
-                  </div>
-                  <div id="QuestionBank">
-                    <h3>Security Questions</h3>
-                    <small class="float-right">Must choose 2 different questions</small>
+              <!-- /.card-header -->
+              <div class="card-body">
+                  <!-- /.card -->
+                  <form action="/">
                     <div class="form-group">
-                      <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <label class="input-group-text" for="securityQuestion1">Security Question 1</label>
-                        </div>
-                        <select class="custom-select btn btn-secondary btn-block dropdown-toggle" id="SecurityQuestion1">
-                        </select>
-                      </div>
+                      <label for="location">Location:</label>
+                      <input type="text" class="form-control" id="location">
                     </div>
                     <div class="form-group">
-                      <input id="SecurityAnswer1" type="text" class="form-control" placeholder="Security Answer 1">
+                      <label for="notes">Notes:</label>
+                      <input type="text" class="form-control" id="notes">
                     </div>
-                    <div class="form-group">
-                      <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <label class="input-group-text" for="securityQuestion2">Security Question 2</label>
-                        </div>
-                        <select class="custom-select btn btn-secondary btn-block dropdown-toggle" id="SecurityQuestion2">
-                        </select>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <input id="SecurityAnswer2" type="text" class="form-control" placeholder="Security Answer 2">
-                    </div>
+                    <button type="submit" class="btn btn-default">Ready Scan</button>
+                  </form> 
+
+                  <!-- /.card -->
                   </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button id="forgotPassword-btn" type="button" class="btn btn-sm"><i class="fas fa-key"></i><span class="p-2">Reset Password</span></button>
-                <button id="confirm-login-btn" type="button" class="btn ">Login</button>
-                <button id="confirm-register-btn" type="button" class="btn btn-primary">Register</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-              </div>
+              <!-- /.card-body -->
             </div>
-          </div>
+
+            <!-- /.card -->
+          </section>
+          <!-- /.Left col -->
+          <!-- right col (We are only adding the ID to make the widgets sortable)-->
+          <section class="col-lg-4 connectedSortable">
+
+            <div id="visualScanCard" class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="ion ion-map mr-1"></i>
+                  Active Scan
+                </h3>
+                <!-- card tools -->
+                <div class="card-tools">
+                  <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+
+              </div>
+              <!-- /.card-header -->
+              <div  class="card-body">
+                  <!-- /.card -->
+                  <canvas id="static" width='1600' height='725' >This text is displayed if your browser does not support HTML5 Canvas</canvas>
+
+                  <!-- /.card -->
+                  </div>
+              <!-- /.card-body -->
+            </div>
+                        <!-- TO DO List -->
+                        <div id="todoCard" class="card">
+                          <div class="card-header">
+                            <h3 class="card-title">
+                              <i class="ion ion-checkmark mr-1"></i>
+                              To Do List
+                            </h3>
+                            <!-- card tools -->
+                            <div class="card-tools">
+                              <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
+                                <i class="fas fa-minus"></i>
+                              </button>
+                            </div>
+
+                          </div>
+                          <!-- /.card-header -->
+                          <div class="card-body">
+                            <ul id="todoList" class="todo-list" data-widget="todo-list">
+                                  </ul>
+                          </div>
+                          <!-- /.card-body -->
+                        </div>
+            <!-- Timer card -->
+            <div id="timerCard" class="card bg-gradient-primary">
+              <div class="card-header border-0">
+                <h3 class="card-title">
+                  <i class="fas fa-clock mr-1"></i>
+                  Program Timer
+                </h3>
+                <!-- card tools -->
+                <div class="card-tools">
+                  <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+                <!-- /.card-tools -->
+              </div>
+              <div class="card-body">
+                <div class="stopwatch" id="scan">
+                  <div class="circle">
+
+                    <span class="time" id="display">00:00:00</span>
+                  </div>
+
+                  <div class="controls">
+                    <button class="buttonPlay">
+                      <img id="playButton" src="https://res.cloudinary.com/https-tinloof-com/image/upload/v1593360448/blog/time-in-js/play-button_opkxmt.svg" />
+
+                      <img id="pauseButton" src="https://res.cloudinary.com/https-tinloof-com/image/upload/v1593360448/blog/time-in-js/pause-button_pinhpy.svg" />
+                    </button>
+
+                    <button class="buttonReset">
+                      <img id="resetButton" src="https://res.cloudinary.com/https-tinloof-com/image/upload/v1593360448/blog/time-in-js/reset-button_mdv6wf.svg" />
+                    </button>
+                  </div>
+                </div>
+                </div>
+              <!-- /.card-body-->
+            </div>
+            <!-- /.card -->
+
+          </section>
+          <!-- right col -->
+          <section class="col-lg-12 connectedSortable">
+            <!-- /.card -->
+
+
+            <!-- /.card -->
+          </section>
         </div>
-        <div id="forgotPassword-modal" class="modal fade" tabindex="-1" role="dialog">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <img id="logo" class="p-2" src="img/tapps.ico" height="50em">
-                <h5 class="modal-title">Reset Password</h5>
-                <button type="button" class="close" data-dismiss="modal" area-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <div id="login-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <img id="logo" class="p-2" src="img/tapps.ico" height="50em">
+          <h5 id="login-modal-title" class="modal-title"></h5>
+          <button type="button" class="close" data-dismiss="modal" area-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="errorMessage" class="text-danger"></p>
+          <p id="successMessage" class="text-success"></p>
+          <form class="border border-primary p-3">
+            <div class="form-group">
+              <small class="float-right">Please fill out all fields</small>
+              <input id="email" type="text" class="form-control" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <input id="userName" type="text" class="form-control" placeholder="User Name">
+            </div>
+            <div class="form-group">
+              <input id="password" type="password" class="form-control" placeholder="Password">
+            </div>
+            <div id="QuestionBank">
+              <h3>Security Questions</h3>
+              <small class="float-right">Must choose 2 different questions</small>
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="securityQuestion1">Security Question 1</label>
+                  </div>
+                  <select class="custom-select btn btn-secondary btn-block dropdown-toggle" id="SecurityQuestion1">
+                  </select>
+                </div>
               </div>
-              <div class="modal-body">
-                <p id="errorMessagePasswordReset" class="text-danger"></p>
-                <p id="successMessagePasswordReset" class="text-success"></p>
-                <form id="changingPassword" class="border border-primary p-3">
-                  <div class="form-group">
-                    <input id="passwordResetEmail" type="text" class="form-control" placeholder="Please enter account email">
-                  </div>
-                  <div class="form-group">
-                    <h6 id="userSecurityQuestion1">Question1</h6>
-                  </div>
-                  <div class="form-group">
-                    <input id="userSecurityAnswer1" type="text" class="form-control" placeholder="Security Answer 1">
-                  </div>
-                  <div class="form-group">
-                    <h6 id="userSecurityQuestion2">Question2</h6>
-                  </div>
-                  <div class="form-group">
-                    <input id="userSecurityAnswer2" type="text" class="form-control" placeholder="Security Answer 2">
-                  </div>
-                  <div class="form-group">
-                    <h6 id="passwordRules">New Password must be at least eight characters and must contain at least one Uppercase letter, one Lowercase letter, and a number</h6>
-                    <input id="userNewPassword" type="password" class="form-control" placeholder="New Password">
-                  </div>
-                </form>
+              <div class="form-group">
+                <input id="SecurityAnswer1" type="text" class="form-control" placeholder="Security Answer 1">
               </div>
-              <div class="modal-footer">
-                <button id="passwordRetrieveEmail-btn" type="button" class="btn btn-primary"><span class="p-2">Submit</span></button>
-                <button id="changePassword-btn" type="button" class="btn btn-primary"><span class="p-2">Change Password</span></button>
-                <button id="passwordChangeCancel-btn" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="securityQuestion2">Security Question 2</label>
+                  </div>
+                  <select class="custom-select btn btn-secondary btn-block dropdown-toggle" id="SecurityQuestion2">
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <input id="SecurityAnswer2" type="text" class="form-control" placeholder="Security Answer 2">
               </div>
             </div>
-          </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button id="forgotPassword-btn" type="button" class="btn btn-sm"><i class="fas fa-key"></i><span class="p-2">Reset Password</span></button>
+          <button id="confirm-login-btn" type="button" class="btn ">Login</button>
+          <button id="confirm-register-btn" type="button" class="btn btn-primary">Register</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
         </div>
       </div>
     </div>
+  </div>
+  <div id="forgotPassword-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <img id="logo" class="p-2" src="img/tapps.ico" height="50em">
+          <h5 class="modal-title">Reset Password</h5>
+          <button type="button" class="close" data-dismiss="modal" area-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="errorMessagePasswordReset" class="text-danger"></p>
+          <p id="successMessagePasswordReset" class="text-success"></p>
+          <form id="changingPassword" class="border border-primary p-3">
+            <div class="form-group">
+              <input id="passwordResetEmail" type="text" class="form-control" placeholder="Please enter account email">
+            </div>
+            <div class="form-group">
+              <h6 id="userSecurityQuestion1">Question1</h6>
+            </div>
+            <div class="form-group">
+              <input id="userSecurityAnswer1" type="text" class="form-control" placeholder="Security Answer 1">
+            </div>
+            <div class="form-group">
+              <h6 id="userSecurityQuestion2">Question2</h6>
+            </div>
+            <div class="form-group">
+              <input id="userSecurityAnswer2" type="text" class="form-control" placeholder="Security Answer 2">
+            </div>
+            <div class="form-group">
+              <h6 id="passwordRules">New Password must be at least eight characters and must contain at least one Uppercase letter, one Lowercase letter, and a number</h6>
+              <input id="userNewPassword" type="password" class="form-control" placeholder="New Password">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button id="passwordRetrieveEmail-btn" type="button" class="btn btn-primary"><span class="p-2">Submit</span></button>
+          <button id="changePassword-btn" type="button" class="btn btn-primary"><span class="p-2">Change Password</span></button>
+          <button id="passwordChangeCancel-btn" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.content-wrapper -->
+  <!-- <footer class="main-footer sticky">
+    <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 3.1.0-pre
+    </div>
+  </footer> -->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/stack.js"></script>
-    <script src="js/ping.js"></script>
-    <script src="js/stopWatch.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
-  </body>
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<!-- <script src="plugins/sparklines/sparkline.js"></script> -->
+<!-- JQVMap -->
+<script src="plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="plugins/moment/moment.min.js"></script>
+<script src="plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="dist/js/demo.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="dist/js/pages/dashboard.js"></script>
+<script src="js/stopWatch.js"></script>
+<script src="js/app.js"></script>
+<script src="js/stack.js"></script>
+<script src="js/ping.js"></script>
+<script src="js/scanVector.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+</body>
 </html>

@@ -3,6 +3,11 @@ $(document).ready(function() {
   var resetPasswordEmail = "";
   var userModel = {};
   var questionModel = {};
+  var scanModel = {};
+  var storedScanCount ={};
+  var userCount = {};
+  var dbSize = {};
+  var taskModel = {};
 
   $("#register-btn").click(function() {
     $("#successMessage").text("");
@@ -41,8 +46,7 @@ $(document).ready(function() {
   $("#logout-btn").click(function() {
     $.getJSON("/logout",function(data) {
       userModel = data.user;
-      wipeFilter();
-      $("#user-Name").text("Welcome User");
+      checkUser();
       $("#login-btn").show();
       $("#logout-btn").hide();
       $("#register-btn").show();
@@ -61,10 +65,6 @@ $(document).ready(function() {
   $('#login-modal').on('shown.bs.modal', function () {
       $('#email').focus();
   })
-
-  $("#sidebar").mCustomScrollbar({
-    theme: "minimal"
-  });
 
   $("#forgotPassword-btn").click(function() {
     $("#login-modal").modal("hide");
@@ -99,7 +99,7 @@ $(document).ready(function() {
         alert("Password Succesfully Changed!");
         $("#forgotPassword-modal").modal("hide");
         userModel = data.user;
-        $("#user-Name").text("Welcome " + userModel.UserName);
+        $("#user-Name").text(userModel.UserName);
         $("#login-btn").hide();
         $("#logout-btn").show();
         $("#register-btn").hide();
@@ -193,10 +193,28 @@ $(document).ready(function() {
       } else {
         $("#login-modal").modal("hide");
         userModel = data.user;
-        $("#user-Name").text("Welcome " + userModel.UserName);
+        $("#userName").text(userModel.UserName);
         $("#login-btn").hide();
         $("#logout-btn").show();
         $("#register-btn").hide();
+        if(userModel.AuthLevel == 1){
+          getScanCount();
+          getUserCount();
+          getDBsize();
+          $("#timerCard").show();
+          $("#visualScanCard").show();
+          $("#todoCard").show();
+          $("#deviceStatus").show();
+          $("#infoBoard").show();
+          $("#scanControlCard").show();
+        } else {
+          $("#timerCard").hide();
+          $("#visualScanCard").hide();
+          $("#todoCard").hide();
+          $("#deviceStatus").hide();
+          $("#infoBoard").hide();
+          $("#scanControlCard").hide();
+        }
       }
     });
   }
@@ -212,17 +230,101 @@ $(document).ready(function() {
     $.getJSON("/whoIsLoggedIn", function(data) {
       userModel = data.user;
       if(userModel != undefined) {
-        $("#user-Name").text("Welcome " + userModel.UserName);
+        $("#user-Name").text(userModel.UserName);
         $("#login-btn").hide();
         $("#register-btn").hide();
+        if(userModel.AuthLevel == 1){
+          getScanCount();
+          getUserCount();
+          getDBsize();
+          $("#timerCard").show();
+          $("#visualScanCard").show();
+          $("#todoCard").show();
+          $("#deviceStatus").show();
+          $("#infoBoard").show();
+          $("#scanControlCard").show();
+        } else {
+          $("#timerCard").hide();
+          $("#visualScanCard").hide();
+          $("#todoCard").hide();
+          $("#deviceStatus").hide();
+          $("#infoBoard").hide();
+          $("#scanControlCard").hide();
+        }
       } else {
         $("#logout-btn").hide();
       }
     });
   }
 
+  function buildScans(ctx,a,b){
+    $.getJSON("/getScans", function(data) {
+      scanModel = data.result;
+      ctx.lineWidth = 2;
+      for(let i = 0; i < scanModel.length; i++){
+        ctx.beginPath();
+        ctx.arc(a, b, Math.abs(scanModel[i].Power * 10), 0, 2 * Math.PI);
+        ctx.setLineDash([]);
+        ctx.stroke();
+        ctx.closePath();
+      }
+      // trackDevice(ctx);
+    });
+  }
+
+  function getScanCount(){
+    $.getJSON("/getScanCount", function(data) {
+      storedScanCount = data.result;
+      $('#scanCount').text(storedScanCount)
+      // trackDevice(ctx);
+    });
+  }
+
+  function getUserCount(){
+    $.getJSON("/getUserCount", function(data) {
+      userCount = data.result;
+      $('#userCount').text(userCount)
+      // trackDevice(ctx);
+    });
+  }
+
+  function getDBsize(){
+    $.getJSON("/getDBsize", function(data) {
+      dbSize = data.result;
+      $('#dbSize').text(dbSize)
+      // trackDevice(ctx);
+    });
+  }
+
+  function getTasks(){
+    $("#todoList").empty();
+    $.getJSON("/getTasks", function(data) {
+      taskModel = data.result;
+      for(let i = 0; i < taskModel.length; i++){
+        $("#todoList").append("<li><span class='handle'><i class='fas fa-ellipsis-v'></i><i class='fas fa-ellipsis-v'></i></span><div class='icheck-primary d-inline ml-2'><input type='checkbox' value='' name='todo"+i+"' id='todoCheck"+i+"'><label for='todoCheck"+i+"'></label></div><span class='text'>"+taskModel[i].Task+"</span><div class='tools'><i class='fas fa-edit'></i><i class='fas fa-trash'></i></div></li>");
+      }
+    });
+  }
+
+  // function trackDevice(ctx){
+  //   let r1 = 40
+  //   let r2 = 2
+  //   let r3 = 80
+  //   let A = 2*1555 - 2*20
+  //   let B = 2*5 - 2*5
+  //   let C = r1**2 - r2**2 - 20**2 + 1555**2 - 5**2 + 5**2
+  //   let D = 2*790 - 2*1555
+  //   let E = 2*720 - 2*5
+  //   let F = r2**2 - r3**2 - 1555**2 + 790**2 - 5**2 + 720**2
+  //   let x = Math.abs((C*E - F*B) / (E*A - B*D))
+  //   let y = Math.abs((C*D - A*F) / (B*D - A*E))
+  //   console.log(x,y );
+  //   markDevice(ctx,x,y);
+  // }
+
   function drawTriangleA(ctx) {
     let height = 10 * Math.cos(Math.PI / 6);
+
 
     ctx.beginPath();
     ctx.moveTo(5, 5);
@@ -234,37 +336,40 @@ $(document).ready(function() {
     ctx.closePath();
     ctx.fill();
     scanPerimeter(ctx,20,5,'A');
+    // buildScans(ctx,20,5);
   }
 
-  function drawTriangleB(ctx) {
+  function drawTriangleC(ctx) {
     let height = 10 * Math.cos(Math.PI / 6);
-
+    ctx.font = "20px Arial";
+    ctx.fillText("Charlie", 1545, 50);
+    ctx.fillText("Alpha", 30, 50);
+    ctx.fillText("Bravo", 785, 665);
     ctx.beginPath();
     ctx.moveTo(1570, 5);
     ctx.lineTo(1540, 5);
     ctx.lineTo(1555, 30 - height);
     ctx.closePath();
-
     // the fill color
     ctx.fillStyle = "#FFCC00";
     ctx.closePath();
     ctx.fill();
-    scanPerimeter(ctx,1555,5,'B');
+    scanPerimeter(ctx,1555,5,'C');
+    // buildScans(ctx,1555,5);
   }
 
-  function drawTriangleC(ctx) {
+  function drawTriangleB(ctx) {
     let height = 10 * Math.cos(Math.PI / 6);
-
     ctx.beginPath();
-    ctx.moveTo(815, 720);
-    ctx.lineTo(785, 720);
-    ctx.lineTo(800, 695 + height);
+    ctx.moveTo(805, 720);
+    ctx.lineTo(775, 720);
+    ctx.lineTo(790, 695 + height);
     ctx.closePath();
-
     // the fill color
     ctx.fillStyle = "#FFCC00";
     ctx.fill();
-    scanPerimeter(ctx,800,720,'C');
+    scanPerimeter(ctx,790,720,'B');
+    // buildScans(ctx,790,720);
   }
 
   function scanPerimeter(ctx,a,b,x) {
@@ -283,10 +388,6 @@ $(document).ready(function() {
     ctx.textAlign = "center";
     ctx.font = "15px Arial";
     ctx.fillCircleText("-25dbm Signal Range", a, b, 250, Math.PI * 1.5);
-    ctx.textBaseline = "top";
-    ctx.textAlign = "center";
-    ctx.font = "15px Arial";
-    ctx.fillCircleText("-75dbm Signal Range", a, b, 250, Math.PI * 1.5);
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.arc(a, b, 250, 0, 2 * Math.PI);
@@ -319,18 +420,18 @@ $(document).ready(function() {
         ctx.fill();
   }
 
-function clearCircle(context,x,y) {
-	context.save();
-	context.beginPath();
-	context.arc(x, y, 19, 0, 2*Math.PI, true);
-	context.clip();
-	context.clearRect(x-19,y-19,19*2,19*2);
-	context.restore();
-}
+  function clearCircle(context,x,y) {
+    context.save();
+    context.beginPath();
+    context.arc(x, y, 19, 0, 2*Math.PI, true);
+    context.clip();
+    context.clearRect(x-19,y-19,19*2,19*2);
+    context.restore();
+  }
 
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
 
   function loadVisuals(){
         // static canvas
@@ -338,12 +439,12 @@ function getRandomInt(max) {
         var staticCtx = static.getContext("2d");
 
         // dynamic canvas
-        var dynamic = document.getElementById("dynamic");
-        var dynamicCtx = dynamic.getContext("2d");
+        // var dynamic = document.getElementById("dynamic");
+        // var dynamicCtx = dynamic.getContext("2d");
 
         // animation status
         var FPS = 30;
-        var INTERVAL = 1000000 / FPS;
+        var INTERVAL = 1000 / FPS;
 
         // our background
         var staticBackground = {
@@ -415,7 +516,7 @@ function getRandomInt(max) {
                 this.x += this.velX;
                 this.y += this.velY;
                 // render the object
-                markDevice(dynamicCtx,this.x,this.y);
+                // markDevice(dynamicCtx,this.x,this.y);
             }
         };
 
@@ -440,97 +541,101 @@ function getRandomInt(max) {
           clearCircle(dynamicCtx, tmp.x, tmp.y)
         }
 
-        function animate() {
-            setInterval(function () {
-                // only need to redraw dynamic objects
-                drawDynamic();
-                // clearDynamic();
+        // function animate() {
+        //     setInterval(function () {
+        //         // only need to redraw dynamic objects
+        //         drawDynamic();
+        //         clearDynamic();
 
-            }, INTERVAL);
-        }
+        //     }, INTERVAL);
+        // }
 
         drawStatic(); // draw the static objects
-        animate(); // entry point for animated (dynamic) objects
+        // animate(); // entry point for animated (dynamic) objects
   }
 
   function initializeModel() {
     loadSecurityQuestions();
     checkUser();
     loadVisuals();
-    start();
+    getTasks();
+    $("#timerCard").hide();
+    $("#visualScanCard").hide();
+    $("#todoCard").hide();
+    $("#deviceStatus").hide();
+    $("#infoBoard").hide();
+    $("#scanControlCard").hide();
   }
 
-  initializeModel();
-
-function ping(ip, callback) {
-  if (!this.inUse) {
-    this.status = 'unchecked';
-    this.inUse = true;
-    this.callback = callback;
-    this.ip = ip;
-    var _that = this;
-    this.img = new Image();
-    this.img.onload = function () {
-      _that.inUse = false;
-      _that.callback('responded');
-      if(_that.ip == "10.10.10.153:3000")
-        $(".alpha").css("border-top", "16px solid green");
-      if(_that.ip == "10.10.10.159:3000")
-        $(".charlie").css("border-top", "16px solid green");   
-      if(_that.ip == "localhost")
-        $(".localhost").css("border-top", "16px solid green");
-    };
-    this.img.onerror = function (e) {
-      if (_that.inUse) {
+  function ping(ip, callback) {
+    if (!this.inUse) {
+      this.status = 'unchecked';
+      this.inUse = true;
+      this.callback = callback;
+      this.ip = ip;
+      var _that = this;
+      this.img = new Image();
+      this.img.onload = function () {
         _that.inUse = false;
-        _that.callback('responded', e);
+        _that.callback('responded');
         if(_that.ip == "10.10.10.153:3000")
           $(".alpha").css("border-top", "16px solid green");
-        if(_that.ip == "10.10.10.159:3000")
-          $(".charlie").css("border-top", "16px solid green");   
+        if(_that.ip == "10.10.10.158:5000")
+          $(".charlie").css("border-top", "16px solid green");
         if(_that.ip == "localhost")
           $(".localhost").css("border-top", "16px solid green");
-      }
-    };
-    this.start = new Date().getTime();
-    this.img.src = "http://" + ip;
-    this.timer = setTimeout(function () {
-      if (_that.inUse) {
-        _that.inUse = false;
-        _that.callback('timeout');
-        if(_that.ip == "10.10.10.153:3000")
-          $(".alpha").css("border-top", "16px solid red");
-        if(_that.ip == "10.10.10.159:3000")
-          $(".charlie").css("border-top", "16px solid red");   
-        if(_that.ip == "localhost")
-          $(".localhost").css("border-top", "16px solid red");                  
-      }
-    }, 1500);
+      };
+      this.img.onerror = function (e) {
+        if (_that.inUse) {
+          _that.inUse = false;
+          _that.callback('responded', e);
+          if(_that.ip == "10.10.10.153:3000")
+            $(".alpha").css("border-top", "16px solid green");
+          if(_that.ip == "10.10.10.158:5000")
+            $(".charlie").css("border-top", "16px solid green");
+          if(_that.ip == "localhost")
+            $(".localhost").css("border-top", "16px solid green");
+        }
+      };
+      this.start = new Date().getTime();
+      this.img.src = "http://" + ip;
+      this.timer = setTimeout(function () {
+        if (_that.inUse) {
+          _that.inUse = false;
+          _that.callback('timeout');
+          if(_that.ip == "10.10.10.153:3000")
+            $(".alpha").css("border-top", "16px solid red");
+          if(_that.ip == "10.10.10.158:5000")
+            $(".charlie").css("border-top", "16px solid red");
+          if(_that.ip == "localhost")
+            $(".localhost").css("border-top", "16px solid red");
+        }
+      }, 1500);
+    }
   }
-}
-var PingModel = function (servers) {
-    var self = this;
-    var myServers = [];
-    ko.utils.arrayForEach(servers, function (location) {
-        myServers.push({
-            name: location,
-            status: ko.observable('unchecked')
-        });
-    });
-    self.servers = ko.observableArray(myServers);
-    ko.utils.arrayForEach(self.servers(), function (s) {
-        s.status('checking');
-        new ping(s.name, function (status, e) {
-            s.status(status);
-        });
-    });
-};
-var komodel = new PingModel(['localhost',
-    '10.10.10.153:3000',
-    '10.10.10.159:3000',
-    ]);
-ko.applyBindings(komodel);  
-
+  var PingModel = function (servers) {
+      var self = this;
+      var myServers = [];
+      ko.utils.arrayForEach(servers, function (location) {
+          myServers.push({
+              name: location,
+              status: ko.observable('unchecked')
+          });
+      });
+      self.servers = ko.observableArray(myServers);
+      ko.utils.arrayForEach(self.servers(), function (s) {
+          s.status('checking');
+          new ping(s.name, function (status, e) {
+              s.status(status);
+          });
+      });
+  };
+  var komodel = new PingModel(['localhost',
+      '10.10.10.153:3000',
+      '10.10.10.158:5000',
+      ]);
+  ko.applyBindings(komodel);
+  initializeModel();
 });
 
 (function(){

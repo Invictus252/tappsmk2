@@ -3,11 +3,8 @@ const express = require("express");
 const session = require("express-session");
 const mysql = require("mysql");
 const bcrypt = require("bcryptjs");
-const ping = require('ping');
-const { exec } = require("child_process");
-
 const app = new express();
-
+var airodump = {};
 const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const passwordRegEx = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 const usernameRegEx = /^[a-zA-Z\s]*$/;
@@ -22,7 +19,7 @@ const sessionOptions = {
   secret: "ChooChoo",
   resave: false,
   saveUninitialized: false,
-  cookie: {maxAge: 600000}
+  cookie: {maxAge: null}
 };
 const connection = mysql.createConnection(dbInfo);
 
@@ -30,19 +27,28 @@ app.use(session(sessionOptions));
 app.use(express.static('public'));
 app.all("/", serveIndex);
 app.get("/register", register);
-// app.get("/systemStatus", systemStatus);
 app.get("/login", login);
 app.get("/logout", logout);
 app.get("/resetPassword", resetPassword);
 app.get("/whoIsLoggedIn", whoIsLoggedIn);
 app.get("/retrieveUserSecurityQuestions", retrieveUserSecurityQuestions);
 app.get("/getSecurityQuestions", getSecurityQuestions);
+app.get("/initAirmon", initAirmon);
+app.get("/killAirmon", killAirmon);
+app.get("/initAirodump", initAirodump);
+app.get("/killAirodump", killAirodump);
+app.get("/processScan", processScan);
+app.get("/getScanResults", getScanResults);
+app.get("/getScanCount", getScanCount);
+app.get("/getUserCount", getUserCount);
+app.get("/getTasks", getTasks);
+app.get("/getDBsize", getDBsize);
+app.get("/readyDir", readyDir);
 app.listen(5000, process.env.IP, startHandler());
 
 connection.connect(function(err) {
   if(err) throw err;
 });
-
 
 function startHandler() {
     const worldArt2 =".. . . . . . . . . . . . . . . . . . . BRAVO . . . . . . .\n"+
@@ -76,28 +82,6 @@ function serveIndex(req, res) {
 function writeResult(res, object) {
   res.writeHead(200, {"Content-Type" : "application/json"});
   res.end(JSON.stringify(object));
-}
-
-function buildSnippet(dbObject) {
-  return {Id: dbObject.Id,
-          Email: dbObject.Email,
-          Creator: dbObject.UserName,
-          Language: dbObject.Language,
-          Description: dbObject.Description,
-          Snippet: dbObject.Code};
-}
-
-function makeQuery(query,res) {
-  query = query.join(" ");
-  connection.query(query, function(err, dbResult) {
-    if(err) {
-      writeResult(res, {error: err.message});
-    }
-    else {
-      let snippets = dbResult.map(function(snippet) {return buildSnippet(snippet)});
-      writeResult(res, {result: snippets});
-    }
-  });
 }
 
 function register(req, res) {
@@ -153,7 +137,7 @@ function login(req, res) {
   }
 
   let email = getEmail(req);
-  connection.query("SELECT Id, Email, Password, UserName FROM Users WHERE Email = ?", [email], function(err, dbResult) {
+  connection.query("SELECT Id, Email, Password, UserName, AuthLevel FROM Users WHERE Email = ?", [email], function(err, dbResult) {
     if(err) {
       writeResult(res, {error: err.message});
     }
@@ -268,6 +252,67 @@ function getSecurityQuestions(req,res) {
   });
 }
 
+function getScanResults(req,res) {
+  connection.query("SELECT * FROM ScanResults;", function(err, dbResult) {
+    if(err) {
+      writeResult(res, {error: err.message});
+    }
+    else {
+      let scans = dbResult.map(function(scan) {return buildScan(scan)});
+      writeResult(res, {result: scans});
+    }
+  });
+}
+
+function getScanCount(req,res) {
+  connection.query("SELECT COUNT(*) FROM StoredScans;", function(err, dbResult) {
+    if(err) {
+      writeResult(res, {error: err.message});
+    }
+    else {
+      let stored = dbResult[0]['COUNT(*)'];
+      writeResult(res, {result: stored});
+    }
+  });
+}
+
+function getUserCount(req,res) {
+  connection.query("SELECT COUNT(*) FROM Users;", function(err, dbResult) {
+    if(err) {
+      writeResult(res, {error: err.message});
+    }
+    else {
+      let count = dbResult[0]['COUNT(*)'];
+      writeResult(res, {result: count});
+    }
+  });
+}
+
+function getTasks(req,res) {
+  connection.query("SELECT * FROM CreationTasks;", function(err, dbResult) {
+    if(err) {
+      writeResult(res, {error: err.message});
+    }
+    else {
+      let tasks = dbResult.map(function(task) {return buildTask(task)});
+      writeResult(res, {result: tasks});
+    }
+  });
+}
+
+function getDBsize(req,res) {
+  connection.query("SELECT ROUND(SUM(data_length + index_length) / 1024 / 1024, 1) 'Size'  FROM information_schema.tables WHERE table_schema = 'TappsDB';", function(err, dbResult) {
+    if(err) {
+      writeResult(res, {error: err.message});
+    }
+    else {
+      let size = dbResult[0]['Size'];
+      writeResult(res, {result: size});
+    }
+  });
+}
+
+
 function retrieveUserSecurityQuestions(req,res) {
   if(!req.query.email || !validateEmail(req.query.email)) {
     writeResult(res, {error: "Valid Email is required."});
@@ -304,72 +349,88 @@ function buildQuestion(dbObject) {
   return {Id: dbObject.Id, Question: dbObject.Question};
 }
 
+function buildTask(dbObject) {
+  return {Id: dbObject.Id, Task: dbObject.Task, BeginDate: dbObject.Begin};
+}
+
 function buildUserQuestions(dbObject) {
   return {SecurityQuestion1Id: dbObject.SecurityQuestion1Id, SecurityQuestion2Id: dbObject.SecurityQuestion2Id};
 }
 
-  
-// function systemStatus(req, res){
-//   var pingResults = [];
-//   var element = {};
-//   var hosts = ['10.10.1.1', 'google.com', 'yahoo.com'];
-//   hosts.forEach(function (host) {
-//     ping.promise.probe(host)
-//       .then(function (res) {
-//         element.host = res.host;
-//         element.alive = res.alive;
-//         console.log(element);
-//         pingResults.push(element);
-//         console.log(pingResults);
-//       });
-//   }); 
-  // console.log(pingResults);
-  // writeResult(res, {results : pingResults});
-  // hosts.forEach(function(host){
-  //   ping.sys.probe(host, function(isAlive){
-  //     setTimeout(() => {  
-  //       results = isAlive ? (element.name = host, element.isAlive = isAlive): (element.name = host, element.isAlive = isAlive);
-  //       console.log(element);
-  //       pingResults.push(results)
-  //     }, 5000);
-      
+function buildScan(dbObject) {
+  return {Id: dbObject.Id, DeviceName: dbObject.DeviceName, Mac: dbObject.Mac, OUI :dbObject.OUI, Power: dbObject.Power, Distance: dbObject.Distance, FTS: dbObject.FirstTimeSeen, LTS: dbObject.LastTimeSeen };
+}
 
-  //   });
-  // });
-  // setTimeout(() => {  writeResult(res, {result: results}); }, 16000);
-  
-  // pingResults = [];
+function initAirmon(req,res){
+  let proc = require('child_process');
+  child = proc.spawn('airmon-ng',['start','wlan1']);
 
-
-//   var hosts = ['10.10.1.1', 'google.com', 'yahoo.com'];
-
-//   for(var i =0;i < hosts.length;i++){
-//     ping.sys.probe(hosts[i], function(isAlive){        
-//       console.log(host[i]);
-//       element.name = host[i];
-//       element.isAlive = isAlive;
-//       // console.log(element);
-      
-//       pingResults.push(element);
-//       element ={};
-//     });
-//   }
-  
-//   console.log(pingResults);
-
-//}
-const net = require('net');
-// Create a server object
-const server = net.createServer((socket) => {
-  socket.on('data', (data) => {
-    console.log(data.toString());
+  child.stderr.on('data', function (data) {
+    // console.log(data.toString());
   });
-  socket.write('SERVER: Hello! This is server speaking.<br>');
-  socket.end('SERVER: Closing connection now.<br>');
-}).on('error', (err) => {
-  console.error(err);
-});
-// Open server on port 9898
-server.listen(9898, () => {
-  console.log('opened server on', server.address().port);
-});
+  writeResult(res, {success: "Monitor initialized"});
+}
+
+function initAirodump(req,res){
+  let proc = require('child_process');
+  airodump = proc.spawn('airodump-ng', ['-w','test','--output-format', 'csv','wlan1mon']);
+
+  airodump.stderr.on('data', function (data) {
+    // console.log(data.toString());
+  });
+  writeResult(res, {success: "Dump initialized"});
+}
+
+function killAirodump(req,res){
+  airodump.kill();
+  writeResult(res, {success: "Dump killed"});
+}
+
+function killAirmon(req,res){
+  let proc = require('child_process');
+  child = proc.spawn('airmon-ng',['stop','wlan1mon']);
+
+  child.stderr.on('data', function (data) {
+    // console.log(data.toString());
+  });
+  child = proc.spawn('ifconfig',['wlan1','up']);
+
+  child.stderr.on('data', function (data) {
+    // console.log(data.toString());
+  });
+  writeResult(res, {success: "Monitor killed & reinitialized"});
+}
+
+function processScan(req,res){
+  let proc = require('child_process');
+  child = proc.spawn('airgraph-ng' ,['-g','CAPR','-i', 'test-01.csv','-o','test.png','-s',1]);
+
+  child.stderr.on('data', function (data) {
+    // console.log(data.toString());
+  });
+  writeResult(res, {success: "Scan processing successfully"});
+
+}
+
+function readyDir(req,res){
+  let this_png = 'test.png';
+  let this_csv = 'test-01.csv';
+
+  fs.unlink(this_png, (err) => {
+    if (err) {
+      console.error(err)
+      return
+    }
+
+    //file removed
+  });
+  fs.unlink(this_csv, (err) => {
+    if (err) {
+      console.error(err)
+      return
+    }
+
+    //file removed
+  });
+  writeResult(res, {success: "DIR Ready"});
+}
