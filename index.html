@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Pragma" content="no-cache">
-    <link rel="icon" type="image/ico" href="img/fj.ico"/>
+    <link rel="icon" type="image/ico" href="img/tapps.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Function Junction</title>
+    <title>TappNET</title>
     <link href="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.css" rel="stylesheet">
     <link href="https://unpkg.com/bootstrap-table@1.18.0/dist/extensions/sticky-header/bootstrap-table-sticky-header.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -19,7 +19,7 @@
     <div class="wrapper">
       <nav id="sidebar">
         <div class="sidebar-header">
-          <h1>Function Junction</h1>
+          <h1>TappNET</h1>
         </div>
         <ul class="list-unstyled CTAs">
           <form id="search" class="form-inline">
@@ -120,14 +120,18 @@
                   <h2 id ="user-Name">Welcome User</h2>
                 </li>
               </ul>
-              <img id="logo" class="p-2" src="img/fj.ico" height="50em" data-toggle="tooltip" title="&#127926;Function Junction...What's your Function?&#127926;">
+              <img id="logo" class="p-2" src="img/tapps.ico" height="50em" data-toggle="tooltip" title="Upset the setup">
               <button id="register-btn" type="button" class="btn"><i class="fas fa-user-plus"></i><span class="p-2">Register</span></button>
               <button id="login-btn" type="button" class="btn "><i class="fas fa-sign-in-alt"></i><span class="p-2">Login</span></button>
               <button id="logout-btn" type="button" class="btn "><i class="fas fa-sign-out-alt"></i><span class="p-2">Logout</span></button>
             </div>
           </div>
         </nav>
-        <table id ="my-table" class="table table-hover table-light ">
+        <div id="canvasesdiv">
+    <canvas id="static" width=1000 height=450>This text is displayed if your browser does not support HTML5 Canvas</canvas>
+    <canvas id="dynamic" width=1000 height=450>This text is displayed if your browser does not support HTML5 Canvas</canvas>
+</div>
+        <!-- <table id ="my-table" class="table table-hover table-light ">
           <thead >
             <tr>
               <th>Snippet Id</th>
@@ -140,7 +144,7 @@
           </thead>
           <tbody>
           </tbody>
-        </table>
+        </table> -->
         <!-- MODALS -->
         <div class="modal fade" id="dbModal" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-dialog-centered " role="document">
@@ -153,7 +157,7 @@
               </div>
               <div class="modal-body"></div>
                 <div class="modal-footer">
-                  <img id="logo" align="left" class="p-2" src="img/fj.ico" height="50em">
+                  <img id="logo" align="left" class="p-2" src="img/tapps.ico" height="50em">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
             </div>
@@ -163,7 +167,7 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <img id="logo" class="p-2" src="img/fj.ico" height="50em">
+                <img id="logo" class="p-2" src="img/tapps.ico" height="50em">
                 <h5 id="login-modal-title" class="modal-title"></h5>
                 <button type="button" class="close" data-dismiss="modal" area-label="Close">
                   <span aria-hidden="true">&times;</span>
@@ -226,7 +230,7 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <img id="logo" class="p-2" src="img/fj.ico" height="50em">
+                <img id="logo" class="p-2" src="img/tapps.ico" height="50em">
                 <h5 class="modal-title">Reset Password</h5>
                 <button type="button" class="close" data-dismiss="modal" area-label="Close">
                   <span aria-hidden="true">&times;</span>
@@ -272,5 +276,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/stack.js"></script>
   </body>
 </html>

@@ -6,12 +6,15 @@ th {
   background-color: #eff0f1;
 }
 #sidebarCollapse:hover{
-  background-color: #a7cced;
+  background-color: grey;
+}
+.sidebar-header > h1{
+  color:#03fc03;
 }
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 body {
   font-family: 'Poppins', sans-serif;
-  background: #a7cced;
+  background: black;
 }
 p {
   font-family: 'Poppins', sans-serif;
@@ -60,7 +63,7 @@ a:focus {
   left: 0;
   height: 100vh;
   z-index: 999;
-  background: #545e75;
+  background: grey;
   color: #fff;
   transition: all 0.3s;
 }
@@ -69,7 +72,7 @@ a:focus {
 }
 #sidebar .sidebar-header {
   padding: 20px;
-  background: #545e75;
+  background: grey;
 }
 #sidebar ul.components {
   padding: 20px 0;
@@ -169,10 +172,10 @@ th {
   background: white;
 }
 #login-btn:hover, #register-btn:hover, #logout-btn:hover, #forgotPassword-btn:hover, #confirm-login-btn:hover{
-  background-color: #a7cced;
+  background-color: grey;
 }
 svg{
-  color:#24b1df;
+  color:#03fc03;
 }
 table{
   cursor: pointer;
@@ -182,4 +185,25 @@ table{
   position: absolute;
   left: 10px;
   bottom: 20px;
+}
+.btn.focus, .btn:focus{
+  box-shadow: none;
+}
+
+#canvasesdiv {
+    position:relative;
+    width:1000px;
+    height:450px;
+}
+#static {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+#dynamic {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
 }

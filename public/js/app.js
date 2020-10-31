@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  var stack = new Stack();
   var resetPasswordEmail = "";
   var snippetModel = {};
   var userModel = {};
@@ -423,14 +424,212 @@ $(document).ready(function() {
     });
   }
 
+  function drawTriangleA(ctx) {
+    let height = 10 * Math.cos(Math.PI / 6);
+
+    ctx.beginPath();
+    ctx.moveTo(5, 5);
+    ctx.lineTo(35, 5);
+    ctx.lineTo(20, 30 - height);
+    ctx.closePath();
+    // the fill color
+    ctx.fillStyle = "#FFCC00";
+    ctx.closePath();
+    ctx.fill();
+    scanPerimeter(ctx,20,5);
+  }
+
+  function drawTriangleB(ctx) {
+    let height = 10 * Math.cos(Math.PI / 6);
+
+    ctx.beginPath();
+    ctx.moveTo(990, 5);
+    ctx.lineTo(960, 5);
+    ctx.lineTo(975, 30 - height);
+    ctx.closePath();
+
+    // the fill color
+    ctx.fillStyle = "#FFCC00";
+    ctx.closePath();
+    ctx.fill();
+    scanPerimeter(ctx,975,5);
+  }
+
+  function drawTriangleC(ctx) {
+    let height = 10 * Math.cos(Math.PI / 6);
+
+    ctx.beginPath();
+    ctx.moveTo(495, 445);
+    ctx.lineTo(465, 445);
+    ctx.lineTo(480, 425 + height);
+    ctx.closePath();
+
+    // the fill color
+    ctx.fillStyle = "#FFCC00";
+    ctx.fill();
+    scanPerimeter(ctx,480,445);
+  }
+
+  function scanPerimeter(ctx,a,b) {
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = 'red';
+    ctx.beginPath();
+    ctx.arc(a, b, 400, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.closePath();
+  }
+
+  function markDevice(ctx,x,y) {
+    ctx.strokeStyle = 'black';
+    ctx.beginPath();
+    ctx.arc(x, y, 15, 0, 2 * Math.PI);
+    ctx.stroke();
+        ctx.fillStyle = "blue";
+        ctx.fill();
+  }
+
+function clearCircle(context,x,y) {
+	context.save();
+	context.beginPath();
+	context.arc(x, y, 19, 0, 2*Math.PI, true);
+	context.clip();
+	context.clearRect(x-19,y-19,19*2,19*2);
+	context.restore();
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+  function loadVisuals(){
+        // static canvas
+        var static = document.getElementById("static");
+        var staticCtx = static.getContext("2d");
+
+        // dynamic canvas
+        var dynamic = document.getElementById("dynamic");
+        var dynamicCtx = dynamic.getContext("2d");
+
+        // animation status
+        var FPS = 30;
+        var INTERVAL = 10000 / FPS;
+
+        // our background
+        var staticBackground = {
+            x: 0,
+            y: 0,
+            width: static.width,
+            height: static.height,
+            draw: function () {
+                staticCtx.fillStyle = "grey";
+                staticCtx.fillRect(0, 0, static.width, static.height);
+            }
+        };
+
+        // Deployed Pi : Alpha
+        var piAlpha = {
+            draw: function () {
+                drawTriangleA(staticCtx);
+            }
+        };
+
+        // Deployed Pi : Bravo
+        var piBravo = {
+            draw: function () {
+                drawTriangleB(staticCtx);
+            }
+        };
+
+        // Deployed Pi : Charlie
+        var piCharlie = {
+            draw: function () {
+                drawTriangleC(staticCtx);
+            }
+        };
+
+        // our bouncing circle
+        var deviceLocation = {
+            x: 30,
+            y: 30,
+            width: 50,
+            height: 50,
+            gravity: 0.98,
+            elasticity: 0.90,
+            velX: 10,
+            velY: 0,
+            bouncingY: false,
+            bouncingX: false,
+            draw: function (x,y) {   // example of dynamic animation code
+                // clear the last draw of this object
+                clearCircle(dynamicCtx,this.x - 1, this.y - 1, this.width + 2, this.height + 2);
+                // compute gravity
+                this.velY += this.gravity;
+                // bounce Y
+                if (!this.bouncingY && this.y >= dynamic.height - this.height) {
+                    this.bouncingY = true;
+                    this.y = dynamic.height - this.height;
+                    this.velY = -(this.velY * this.elasticity);
+                } else {
+                    this.bouncingY = false;
+                }
+                // bounce X
+                if (!this.bouncingX && (this.x >= dynamic.width - this.width) || this.x <= 0) {
+                    this.bouncingX = true;
+                    this.x = (this.x < 0 ? 0 : dynamic.width - this.width);
+                    this.velX = -(this.velX * this.elasticity);
+                } else {
+                    this.bouncingX = false;
+                }
+                // compute new position
+                this.x += this.velX;
+                this.y += this.velY;
+                // render the object
+                markDevice(dynamicCtx,this.x,this.y);
+            }
+        };
+
+        function drawStatic() {
+            staticBackground.draw();
+            piAlpha.draw();
+            piBravo.draw();
+            piCharlie.draw();
+            // you can add more static objects and draw here
+        }
+
+        function drawDynamic() {
+          let x = getRandomInt(1000);
+          let y = getRandomInt(450);
+          stack.push({x:x,y:y});
+          markDevice(dynamicCtx,x,y);
+            // you can add more dynamic objects and draw here
+        }
+
+        function clearDynamic() {
+          let tmp = stack.peek();
+          clearCircle(dynamicCtx, tmp.x, tmp.y)
+        }
+
+        function animate() {
+            setInterval(function () {
+                // only need to redraw dynamic objects
+                drawDynamic();
+                clearDynamic();
+
+            }, INTERVAL);
+        }
+
+        drawStatic(); // draw the static objects
+        animate(); // entry point for animated (dynamic) objects
+  }
+
   function initializeModel() {
     wipeFilter();
     $("#category").val(0);
     $(".sortNoFilter").show();
     $(".sortFilter").hide();
-    loadSnippets();
     loadSecurityQuestions();
     checkUser();
+    loadVisuals();
   }
 
   initializeModel();

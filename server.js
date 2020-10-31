@@ -27,7 +27,6 @@ const connection = mysql.createConnection(dbInfo);
 app.use(session(sessionOptions));
 app.use(express.static('public'));
 app.all("/", serveIndex);
-app.get("/findSnippets", findSnippets);
 app.get("/register", register);
 app.get("/login", login);
 app.get("/logout", logout);
@@ -67,24 +66,24 @@ function buildSnippet(dbObject) {
           Snippet: dbObject.Code};
 }
 
-function findSnippets(req, res) {
-
-  let sql= "SELECT Snippets.Id, Users.Email, Users.UserName, Snippets.Language, Snippets.Description, Snippets.Code FROM Snippets INNER JOIN Users ON Snippets.UserId = Users.Id";
-  let sqlString = [sql];
-  if(req.query.filterOn && req.query.filter) {
-    if(req.query.filterOn == "Creator") {
-      if(req.query.filter.search("%40") || req.query.filter.search(".") >= 0)
-        req.query.filterOn = "Email";
-      else
-        req.query.filterOn = "UserName";
-    }
-    sqlString.push(" WHERE " + req.query.filterOn + " LIKE '%" + req.query.filter + "%'");
-  }
-  if(req.query.sortOn && req.query.order) {
-    sqlString.push(" ORDER BY " + req.query.sortOn + " " + req.query.order);
-  }
-  makeQuery(sqlString,res);
-}
+// function findSnippets(req, res) {
+//
+//   let sql= "SELECT Snippets.Id, Users.Email, Users.UserName, Snippets.Language, Snippets.Description, Snippets.Code FROM Snippets INNER JOIN Users ON Snippets.UserId = Users.Id";
+//   let sqlString = [sql];
+//   if(req.query.filterOn && req.query.filter) {
+//     if(req.query.filterOn == "Creator") {
+//       if(req.query.filter.search("%40") || req.query.filter.search(".") >= 0)
+//         req.query.filterOn = "Email";
+//       else
+//         req.query.filterOn = "UserName";
+//     }
+//     sqlString.push(" WHERE " + req.query.filterOn + " LIKE '%" + req.query.filter + "%'");
+//   }
+//   if(req.query.sortOn && req.query.order) {
+//     sqlString.push(" ORDER BY " + req.query.sortOn + " " + req.query.order);
+//   }
+//   makeQuery(sqlString,res);
+// }
 
 function makeQuery(query,res) {
   query = query.join(" ");
@@ -127,7 +126,7 @@ function register(req, res) {
   let securityAnswer1 = bcrypt.hashSync(req.query.securityAnswer1, 12);
   let securityAnswer2 = bcrypt.hashSync(req.query.securityAnswer2, 12);
 
-  connection.query("INSERT INTO Users (Email, Password, UserName, SecurityQuestion1Id, SecurityQuestion2Id,SecurityAnswer1, SecurityAnswer2) VALUES (?, ?, ?, ?, ?, ?, ?)", [email, password, userName, securityQuestion1, securityQuestion2, securityAnswer1, securityAnswer2], function(err, dbResult) {
+  connection.query("INSERT INTO Users (Email, Password, UserName, AuthLevel, SecurityQuestion1Id, SecurityQuestion2Id,SecurityAnswer1, SecurityAnswer2) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [email, password, userName, 2,securityQuestion1, securityQuestion2, securityAnswer1, securityAnswer2], function(err, dbResult) {
     if(err) {
       writeResult(res, {error: "Error creating user: " + err.message});
     }
@@ -243,7 +242,7 @@ function validateUserName(userName) {
 }
 
 function buildUser(dbObject) {
-  return {Id: dbObject.Id, Email: dbObject.Email, UserName: dbObject.UserName};
+  return {Id: dbObject.Id, Email: dbObject.Email, UserName: dbObject.UserName, AuthLevel : dbObject.AuthLevel};
 }
 
 function checkSecurityQuestions(x,y) {
