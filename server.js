@@ -14,7 +14,7 @@ const dbInfo = {
   host: "localhost",
   user: "root",
   password: "",
-  database: "SnippetsDB"
+  database: "TappsDB"
 };
 const sessionOptions = {
   secret: "ChooChoo",

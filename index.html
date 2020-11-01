@@ -6,7 +6,7 @@
     <link rel="icon" type="image/ico" href="img/tapps.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>TappNET</title>
+    <title>TappsNET</title>
     <link href="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.css" rel="stylesheet">
     <link href="https://unpkg.com/bootstrap-table@1.18.0/dist/extensions/sticky-header/bootstrap-table-sticky-header.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -19,37 +19,15 @@
     <div class="wrapper">
       <nav id="sidebar">
         <div class="sidebar-header">
-          <h1>TappNET</h1>
+          <h1>TappsNET</h1><img id="logo" class="p-2 mx-auto d-block" src="img/tapps.ico" height="100em" data-toggle="tooltip" title="Upset the setup">
         </div>
-        <ul class="list-unstyled CTAs">
-          <form id="search" class="form-inline">
-            <li>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <label class="input-group-text" for="inputGroupSelect01">Filter</label>
-                </div>
-                <select class="custom-select btn btn-secondary btn-block dropdown-toggle" id="category">
-                  <option value="0" disabled selected hidden>Choose filter...</option>
-                  <option value="Creator" data-toggle="tooltip" title="Filter by User Name or Email">Creator</option>
-                  <option value="Language" data-toggle="tooltip" title="Filter by Language">Language</option>
-                  <option value="Description" data-toggle="tooltip" title="Filter by Description Keyword">Description</option>
-                  <option value="Code" data-toggle="tooltip" title="Filter by Snippet Keyword">Snippet</option>
-                </select>
-              </div>
-            </li>
-            <li>
-              <div class="input-group" id="filterBox">
-                <div id="FilterFlag">
-              </div>
-                <input type="text" class="form-control" placeholder="Enter criteria..." id="criteria">
-              </div>
-                <div id="search-buttons" class="pt-2">
-                  <button id="search-buttons" class="btn btn-block green">Submit</button>
-                  <button id="clear-search" class="btn btn-block red">Clear Filter</button>
-                </div>
-            </li>
-          </form>
-        </ul>
+        <ul class="list-unstyled CTAs ">
+          <li class="d-flex justify-content-around">
+            <span class="loader"></span>
+            <span class="loader"></span>
+            <span class="loader"></span>
+          </li>
+       </ul>
         <ul class="list-unstyled CTAs">
             <div class="btn-toolbar" role="toolbar" id="SortToolbar">
               <h2>Sort Options</h2>
@@ -107,17 +85,10 @@
       <div id="content">
         <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
           <div class="container-fluid">
-            <button type="button" id="sidebarCollapse" class="btn">
-              <i class="fas fa-align-left"></i>
-              <span class="p-2">Toggle Search</span>
-            </button>
-            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <i class="fas fa-align-justify"></i>
-            </button>
+            <h2 id ="user-Name">Welcome User</h2>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item active">
-                  <h2 id ="user-Name">Welcome User</h2>
                 </li>
               </ul>
               <img id="logo" class="p-2" src="img/tapps.ico" height="50em" data-toggle="tooltip" title="Upset the setup">
@@ -128,8 +99,8 @@
           </div>
         </nav>
         <div id="canvasesdiv">
-    <canvas id="static" width=1000 height=450>This text is displayed if your browser does not support HTML5 Canvas</canvas>
-    <canvas id="dynamic" width=1000 height=450>This text is displayed if your browser does not support HTML5 Canvas</canvas>
+    <canvas id="static" width=1580 height=725>This text is displayed if your browser does not support HTML5 Canvas</canvas>
+    <canvas id="dynamic" width=1580 height=725>This text is displayed if your browser does not support HTML5 Canvas</canvas>
 </div>
         <!-- <table id ="my-table" class="table table-hover table-light ">
           <thead >
@@ -277,5 +248,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/stack.js"></script>
+    <script src="js/ping.js"></script>
   </body>
 </html>

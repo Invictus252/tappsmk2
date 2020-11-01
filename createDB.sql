@@ -31,5 +31,5 @@ CREATE TABLE Users (
   PRIMARY KEY (Id)
 );
 
-INSERT INTO Users(Email,Password,UserName,SecurityQuestion1Id,SecurityQuestion2Id,SecurityAnswer1,SecurityAnswer2) VALUES ("admin", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "Admin",1, 1, 2, "$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W", "$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W");
-INSERT INTO Users(Email,Password,UserName,SecurityQuestion1Id,SecurityQuestion2Id,SecurityAnswer1,SecurityAnswer2) VALUES ("test", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "Test", 1,1, 2, "$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W", "$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W");
+INSERT INTO Users(Email,Password,UserName,AuthLevel,SecurityQuestion1Id,SecurityQuestion2Id,SecurityAnswer1,SecurityAnswer2) VALUES ("admin", "$2a$12$Ju1FK4bHNjfBBYXcJyzVquXFdMNdIeiDh4a8XTs9Tr5TNc95er/wC", "Admin",1, 1, 2, "$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W", "$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W");
+INSERT INTO Users(Email,Password,UserName,AuthLevel,SecurityQuestion1Id,SecurityQuestion2Id,SecurityAnswer1,SecurityAnswer2) VALUES ("test@test.com", "$2a$12$Wvc14igfLTDJZVXgW2cfj.40c2Rhy7FAwMFQygETtsP9fDHs2OGpa", "Test", 1,1, 2, "$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W", "$2a$12$1IiZalKMwnr.ZqKcVb/dNugXmAPzrvon0XazzwJe/lU91cdH9qK3W");
