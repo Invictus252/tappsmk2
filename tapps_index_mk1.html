@@ -1,0 +1,308 @@
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+
+
+  <title>TAPPS</title>
+
+  <meta name="description" content="tappsNET">
+  <meta name="author" content="invictus413">
+  <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/tapps.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha512-v8ng/uGxkge3d1IJuEo6dJP8JViyvms0cly9pnbfRxT6/31c3dRWxIiwGnMSWwZjHKOuY3EVmijs7k1jz/9bLA==" crossorigin="anonymous"></script>
+
+
+
+</head>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <img src="/img/tapps.png" alt="TAPPS Logo" height="40em" style="opacity: .8">
+    <a class="navbar-brand" href="index.html"> tappsNET</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Admin">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseAdmin" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-wrench text-danger"></i>
+            <span class="nav-link-text">Admin</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseAdmin">
+            <li>
+              <a href="navbar.html">G MODE</a>
+            </li>
+            <li>
+              <a href="cards.html">BOSS MODE</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reports">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseReports" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-file text-primary"></i>
+            <span class="nav-link-text ">Reports</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseReports">
+            <li>
+              <a href="#">First Report</a>
+            </li>
+            <li>
+              <a href="#">Second Report</a>
+            </li>
+            <li>
+              <a href="#">Third Report</a>
+            </li>
+            <li>
+              <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseWeeklyUpdates">Weekly Updates</a>
+              <ul class="sidenav-third-level collapse" id="collapseWeeklyUpdates">
+                <li>
+                  <a href="#">Week 1</a>
+                </li>
+                <li>
+                  <a href="#">Week 2</a>
+                </li>
+                <li>
+                  <a href="#">Week 3</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Network">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseNetwork" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-sitemap text-success"></i>
+            <span class="nav-link-text ">Network Info</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseNetwork">
+            <li>
+
+              <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseNetAlpha"><i class="fa fa-fw fa-crosshairs"></i> Alpha</a>
+              <ul class="sidenav-third-level collapse" id="collapseNetAlpha">
+                <li>
+                  <a class="nav-link " >
+                    <i class="fa fa-globe text-success"></i>
+                    <span class="nav-link-text">Latitude : <p id="latALPHA"></p></span>
+                  </a>
+                </li>
+                <li>
+                  <a class="nav-link " >
+                    <i class="fa fa-globe text-success"></i>
+                    <span class="nav-link-text">Longitude : <p id="lonALPHA"></p></span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseNetBravo"><i class="fa fa-fw fa-crosshairs"></i> Bravo</a>
+              <ul class="sidenav-third-level collapse" id="collapseNetBravo">
+                <li>
+                  <a class="nav-link " >
+                    <i class="fa fa-globe text-success"></i>
+                    <span class="nav-link-text">Latitude : <p id="latBRAVO"></p></span>
+                  </a>
+                </li>
+                <li>
+                  <a class="nav-link " >
+                    <i class="fa fa-globe text-success"></i>
+                    <span class="nav-link-text">Longitude : <p id="lonBRAVO"></p></span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseNetCharlie"><i class="fa fa-fw fa-crosshairs"></i> Charlie</a>
+              <ul class="sidenav-third-level collapse" id="collapseNetCharlie">
+                <li>
+                  <a class="nav-link " >
+                    <i class="fa fa-globe text-success"></i>
+                    <span class="nav-link-text">Latitude : <p id="latCHARLIE"></p></span>
+                  </a>
+                </li>
+                <li>
+                  <a class="nav-link " >
+                    <i class="fa fa-globe text-success"></i>
+                    <span class="nav-link-text">Longitude : <p id="lonCHARLIE"></p></span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Logout">
+          <a class="nav-link " data-toggle="modal" data-target="#exampleModal">
+            <i class="fa fa-fw fa-sign-out text-danger"></i>
+          <span class="nav-link-text ">Logout</span>
+        </a>
+        </li>
+
+      </ul>
+      <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+          <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+
+  <li class="nav-item">
+    <h2 class="text-primary">Welcome User</h2>
+  </li>
+</ul>
+  </nav>
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Trilateral Access Point Positioning Network</li>
+      </ol>
+      <!-- Area Chart Example-->
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-globe text-success"></i> Device Locations</div>
+        <div class="card-body">
+          <div id='map' style="position:relative; width:100%; height:400px; "></div>
+</div>
+        </div>
+        <div class="card-footer small text-muted"><p id="time"></p></div>
+      </div>
+      <!-- Example DataTables Card-->
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-binoculars"></i> Found Clients</div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="clientTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Station</th>
+                  <th>Channel</th>
+                  <th>MAC</th>
+                  <th>Manuf</th>
+                  <th>Last Seen</th>
+                  <th>Strength</th>
+                  <th>Distance (ft)</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Id</th>
+                  <th>Station</th>
+                  <th>Channel</th>
+                  <th>MAC</th>
+                  <th>Manuf</th>
+                  <th>Last Seen</th>
+                  <th>Strength</th>
+                  <th>Distance (ft)</th>
+                </tr>
+              </tfoot>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer small text-muted"><p id="time2"></p></div>
+      </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <footer class="sticky-footer">
+      <div class="container">
+        <div class="text-center">
+          <small>Jason Smith MCLA Senior Project Fall 2020 | 66 75 63 6b 20 63 6f 76 69 64</small>
+        </div>
+      </div>
+    </footer>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="login.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="js/charts.js"></script>
+<script src="js/tapps.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOzBhC7qiT_1xfMk6beZR8R3x5fGpXPGQ&callback=initMap"></script>
+<script type="text/javascript">
+
+(function($) {
+  "use strict"; // Start of use strict
+  // Configure tooltips for collapsed side navigation
+  $('.navbar-sidenav [data-toggle="tooltip"]').tooltip({
+    template: '<div class="tooltip navbar-sidenav-tooltip" role="tooltip" style="pointer-events: none;"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
+  })
+  // Toggle the side navigation
+  $("#sidenavToggler").click(function(e) {
+    e.preventDefault();
+    $("body").toggleClass("sidenav-toggled");
+    $(".navbar-sidenav .nav-link-collapse").addClass("collapsed");
+    $(".navbar-sidenav .sidenav-second-level, .navbar-sidenav .sidenav-third-level").removeClass("show");
+  });
+  // Force the toggled class to be removed when a collapsible nav link is clicked
+  $(".navbar-sidenav .nav-link-collapse").click(function(e) {
+    e.preventDefault();
+    $("body").removeClass("sidenav-toggled");
+  });
+  // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
+  $('body.fixed-nav .navbar-sidenav, body.fixed-nav .sidenav-toggler, body.fixed-nav .navbar-collapse').on('mousewheel DOMMouseScroll', function(e) {
+    var e0 = e.originalEvent,
+      delta = e0.wheelDelta || -e0.detail;
+    this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+    e.preventDefault();
+  });
+  // Scroll to top button appear
+  $(document).scroll(function() {
+    var scrollDistance = $(this).scrollTop();
+    if (scrollDistance > 100) {
+      $('.scroll-to-top').fadeIn();
+    } else {
+      $('.scroll-to-top').fadeOut();
+    }
+  });
+  // Configure tooltips globally
+  $('[data-toggle="tooltip"]').tooltip()
+  // Smooth scrolling using jQuery easing
+  $(document).on('click', 'a.scroll-to-top', function(event) {
+    var $anchor = $(this);
+    $('html, body').stop().animate({
+      scrollTop: ($($anchor.attr('href')).offset().top)
+    }, 1000, 'easeInOutExpo');
+    event.preventDefault();
+  });
+})(jQuery); // End of use strict
+</script>
+
+
+</body>
+</html>
