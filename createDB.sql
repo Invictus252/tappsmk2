@@ -9,12 +9,10 @@ CREATE TABLE StoredScans (
   TimeStamp DATETIME NOT NULL,
   Location varchar(50) NOT NULL,
   Notes varchar(255) NOT NULL,
+  FileName varchar(50) NOT NULL,
   PRIMARY KEY(Id),
   CONSTRAINT U_StoredScan UNIQUE (TimeStamp,Location)
 );
-
-INSERT INTO StoredScans(TimeStamp,Location,Notes) VALUES (CURRENT_TIMESTAMP,"home","test");
-INSERT INTO StoredScans(TimeStamp,Location,Notes) VALUES (CURRENT_TIMESTAMP,"home2","test");
 
 CREATE TABLE CreationTasks (
   Id int NOT NULL AUTO_INCREMENT,

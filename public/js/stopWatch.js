@@ -40,35 +40,15 @@ function timeToString(time) {
       elapsedTime = Date.now() - startTime;
       print(timeToString(elapsedTime));
     }, 10);
-    showButton("PAUSE");
   }
   
   function pause() {
     clearInterval(timerInterval);
-    showButton("PLAY");
   }
   
   function reset() {
     clearInterval(timerInterval);
     print("00:00:00");
     elapsedTime = 0;
-    showButton("PLAY");
   }
-  
-  // Create function to display buttons
-  
-  function showButton(buttonKey) {
-    const buttonToShow = buttonKey === "PLAY" ? playButton : pauseButton;
-    const buttonToHide = buttonKey === "PLAY" ? pauseButton : playButton;
-    buttonToShow.style.display = "block";
-    buttonToHide.style.display = "none";
-  }
-  // Create event listeners
-  
-  let playButton = document.getElementById("playButton");
-  let pauseButton = document.getElementById("pauseButton");
-  let resetButton = document.getElementById("resetButton");
-  
-  playButton.addEventListener("click", start);
-  pauseButton.addEventListener("click", pause);
-  resetButton.addEventListener("click", reset);
+

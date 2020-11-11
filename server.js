@@ -5,6 +5,7 @@ const mysql = require("mysql");
 const bcrypt = require("bcryptjs");
 const app = new express();
 var airodump = {};
+var dumpStatus = false;
 const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const passwordRegEx = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 const usernameRegEx = /^[a-zA-Z\s]*$/;
@@ -44,7 +45,10 @@ app.get("/getUserCount", getUserCount);
 app.get("/getTasks", getTasks);
 app.get("/getDBsize", getDBsize);
 app.get("/readyDir", readyDir);
-app.listen(process.env.PORT || 3000, process.env.IP, startHandler());
+app.get("/readyScan", readyScan);
+app.get("/currentScanStatus", currentScanStatus);
+app.get("/resetScanStatus", resetScanStatus);
+app.listen(3000, process.env.IP, startHandler());
 
 connection.connect(function(err) {
   if(err) throw err;
@@ -80,7 +84,10 @@ function serveIndex(req, res) {
 }
 
 function writeResult(res, object) {
-  res.writeHead(200, {"Content-Type" : "application/json"});
+  res.writeHead(200, {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*"
+  });
   res.end(JSON.stringify(object));
 }
 
@@ -361,6 +368,107 @@ function buildScan(dbObject) {
   return {Id: dbObject.Id, DeviceName: dbObject.DeviceName, Mac: dbObject.Mac, OUI :dbObject.OUI, Power: dbObject.Power, Distance: dbObject.Distance, FTS: dbObject.FirstTimeSeen, LTS: dbObject.LastTimeSeen };
 }
 
+function killAirodump(req,res){
+  if(dumpStatus){
+    airodump.kill();
+    writeResult(res, {success: "Dump killed"});
+  } else{
+    writeResult(res, {success: "Dump not taken"});
+  }
+  dumpStatus = false;
+}
+
+function killAirmon(req,res){
+  let proc = require('child_process');
+  child = proc.spawn('airmon-ng',['stop','wlan1mon']);
+
+  child.stderr.on('data', function (data) {
+    console.log(data.toString());
+  });
+  child = proc.spawn('ifconfig',['wlan1','up']);
+
+  child.stderr.on('data', function (data) {
+    console.log(data.toString());
+  });
+  writeResult(res, {success: "Monitor killed & reinitialized"});
+}
+
+function processScan(req,res){
+  let proc = require('child_process');
+  child = proc.spawn('airgraph-ng' ,['-g','CAPR','-i', req.query.filename + '-01.csv','-o',req.query.filename + '.png','-s',req.query.scanId]);
+
+  child.stderr.on('data', function (data) {
+    console.log(data.toString());
+  });
+  writeResult(res, {success: "Scan processing successfully"});
+
+}
+
+function readyDir(req,res){
+  let this_png = req.query.filename + '.png';
+  let this_csv = req.query.filename + '-01.csv';
+  fs.unlink(this_png, (err) => {
+    //file removed
+    if(err){
+      console.log(err);
+    }
+  });
+  fs.unlink(this_csv, (err) => {
+    if(err){
+      console.log(err);
+    }
+    //file removed
+  });
+  writeResult(res, {success: "DIR Ready"});
+}
+
+function readyScan(req, res) {
+  let location = req.query.location;
+  let notes = req.query.notes;
+  let fileName = req.query.filename;
+  let date_ob = new Date();
+
+  // current date
+  // adjust 0 before single digit date
+  let date = ("0" + date_ob.getDate()).slice(-2);
+
+  // current month
+  let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+  // current year
+  let year = date_ob.getFullYear();
+
+  // current hours
+  let hours = date_ob.getHours();
+
+  // current minutes
+  let minutes = date_ob.getMinutes();
+
+  // current seconds
+  let seconds = date_ob.getSeconds();
+  let timestamp = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
+  console.log('here');
+  console.log(req.query);
+  connection.query("INSERT INTO StoredScans(TimeStamp,Location,Notes,FileName) VALUES (?, ?, ?, ?)", [timestamp, location, notes, fileName], function(err, dbResult) {
+    if(err) {
+      console.log(err);
+      writeResult(res, {error: "Error : " + err.message});
+    }
+    else {
+      connection.query("SELECT * FROM StoredScans ORDER BY Id DESC LIMIT 1", function(err, dbResult) {
+        if(err) {
+          writeResult(res, {error: "Error : " + err.message});
+        }
+        else {
+          req.session.scan = dbResult.map(function(scan) {return buildScanDB(scan)});   
+          console.log(req.session.scan);
+          writeResult(res, {scan: req.session.scan});
+        }
+      });
+    }
+  });
+}
+
 function initAirmon(req,res){
   let proc = require('child_process');
   child = proc.spawn('airmon-ng',['start','wlan1']);
@@ -372,8 +480,9 @@ function initAirmon(req,res){
 }
 
 function initAirodump(req,res){
+  dumpStatus = true;
   let proc = require('child_process');
-  airodump = proc.spawn('airodump-ng', ['-w','test','--output-format', 'csv','wlan1mon']);
+  airodump = proc.spawn('airodump-ng', ['-w',req.query.filename,'--output-format', 'csv','wlan1mon']);
 
   airodump.stderr.on('data', function (data) {
     // console.log(data.toString());
@@ -381,56 +490,18 @@ function initAirodump(req,res){
   writeResult(res, {success: "Dump initialized"});
 }
 
-function killAirodump(req,res){
-  airodump.kill();
-  writeResult(res, {success: "Dump killed"});
+function currentScanStatus(req, res) {
+  if(req.session.scan == undefined)
+    writeResult(res, {scan: undefined});
+  else
+    writeResult(res, {scan: req.session.scan});
 }
 
-function killAirmon(req,res){
-  let proc = require('child_process');
-  child = proc.spawn('airmon-ng',['stop','wlan1mon']);
-
-  child.stderr.on('data', function (data) {
-    // console.log(data.toString());
-  });
-  child = proc.spawn('ifconfig',['wlan1','up']);
-
-  child.stderr.on('data', function (data) {
-    // console.log(data.toString());
-  });
-  writeResult(res, {success: "Monitor killed & reinitialized"});
+function resetScanStatus(req, res) {
+  req.session.scan = undefined;
+  currentScanStatus(req,res);
 }
 
-function processScan(req,res){
-  let proc = require('child_process');
-  child = proc.spawn('airgraph-ng' ,['-g','CAPR','-i', 'test-01.csv','-o','test.png','-s',1]);
-
-  child.stderr.on('data', function (data) {
-    // console.log(data.toString());
-  });
-  writeResult(res, {success: "Scan processing successfully"});
-
-}
-
-function readyDir(req,res){
-  let this_png = 'test.png';
-  let this_csv = 'test-01.csv';
-
-  fs.unlink(this_png, (err) => {
-    if (err) {
-      console.error(err)
-      return
-    }
-
-    //file removed
-  });
-  fs.unlink(this_csv, (err) => {
-    if (err) {
-      console.error(err)
-      return
-    }
-
-    //file removed
-  });
-  writeResult(res, {success: "DIR Ready"});
+function buildScanDB(dbObject) {
+  return {Id: dbObject.Id, Location: dbObject.Location, TimeStamp: dbObject.TimeStamp, Notes: dbObject.Notes, FileName: dbObject.FileName};
 }

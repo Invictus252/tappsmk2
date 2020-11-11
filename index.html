@@ -74,28 +74,6 @@
 
 
       <!-- Sidebar Menu -->
-      <nav id="deviceStatus" class="mt-2">
-        <ul class="list-unstyled CTAs ">
-          <li class="d-flex justify-content-around">
-            <span class="alpha loader"></span>
-          </li>
-          <li class="d-flex justify-content-around">
-            <h3>A</h3>
-          </li>
-          <li class="d-flex justify-content-around">
-            <span class="localhost loader"></span>
-          </li>
-          <li class="d-flex justify-content-around">
-            <h3>B</h3>
-          </li>
-          <li class="d-flex justify-content-around">
-            <span class="charlie loader"></span>
-          </li>
-          <li class="d-flex justify-content-around">
-            <h3>C</h3>
-          </li>
-        </ul>
-      </nav>
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -178,7 +156,7 @@
         <!-- Main row -->
         <div class="row">
           <!-- Left col -->
-          <section class="col-lg-8 connectedSortable">
+          <section class="col-lg-7 connectedSortable">
             <!-- /.card -->
             <div id="scanControlCard" class="card">
               <div class="card-header">
@@ -197,7 +175,7 @@
               <!-- /.card-header -->
               <div class="card-body">
                   <!-- /.card -->
-                  <form action="/">
+                  <form >
                     <div class="form-group">
                       <label for="location">Location:</label>
                       <input type="text" class="form-control" id="location">
@@ -206,20 +184,58 @@
                       <label for="notes">Notes:</label>
                       <input type="text" class="form-control" id="notes">
                     </div>
-                    <button type="submit" class="btn btn-default">Ready Scan</button>
+                    <div class="form-group">
+                      <label for="fileName">File Name:</label>
+                      <input type="text" class="form-control" id="fileName">
+                    </div>                    
+                    <button id="readyScan-btn" class="btn btn-default">Ready Scan</button>
                   </form> 
 
                   <!-- /.card -->
                   </div>
               <!-- /.card-body -->
             </div>
+            <div id="scanStatusCard" class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="ion ion-clipboard mr-1"></i>
+                  Scan Status
+                </h3>
+                <!-- card tools -->
+                <div class="card-tools">
+                  <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
 
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                  <!-- /.card -->
+
+                  <h3 id="scanStatusMessage" class="text-primary"></h3>
+                  <h4 id="scanStatusId" class="text-primary"></h4>
+                  <h4 id="scanStatusFileName" class="text-primary"></h4>
+                  <h4 id="scanStatusLocation" class="text-primary"></h4>
+                  <h4 id="scanStatusNotes" class="text-primary"></h4>
+                  <div class="btn-group" role="group" aria-label="Basic example">
+                    <button id="readyDir-btn" class="btn btn-danger">Ready Dir</button>
+                    <button id="readyAdapter-btn" class="btn btn-danger">Ready Adapter</button>
+                    <button id="beginScan-btn" class="btn btn-danger">Begin Scan</button>
+                    <button id="processScan-btn" class="btn btn-danger">Process Scan</button>
+                    <button id="updateImg-btn" class="btn btn-danger">Update Img</button>
+                    <button id="cancelScan-btn" class="btn btn-default">Cancel Scan</button>
+                  </div>
+
+                  <!-- /.card -->
+                  </div>
+              <!-- /.card-body -->
+            </div>
             <!-- /.card -->
           </section>
           <!-- /.Left col -->
           <!-- right col (We are only adding the ID to make the widgets sortable)-->
-          <section class="col-lg-4 connectedSortable">
-
+          <section class="col-lg-5 connectedSortable">
             <div id="visualScanCard" class="card">
               <div class="card-header">
                 <h3 class="card-title">
@@ -242,35 +258,36 @@
                   <!-- /.card -->
                   </div>
               <!-- /.card-body -->
-            </div>
-                        <!-- TO DO List -->
-                        <div id="todoCard" class="card">
-                          <div class="card-header">
-                            <h3 class="card-title">
-                              <i class="ion ion-checkmark mr-1"></i>
-                              To Do List
-                            </h3>
-                            <!-- card tools -->
-                            <div class="card-tools">
-                              <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
-                                <i class="fas fa-minus"></i>
-                              </button>
-                            </div>
-
-                          </div>
-                          <!-- /.card-header -->
-                          <div class="card-body">
-                            <ul id="todoList" class="todo-list" data-widget="todo-list">
-                                  </ul>
-                          </div>
-                          <!-- /.card-body -->
-                        </div>
-            <!-- Timer card -->
-            <div id="timerCard" class="card bg-gradient-primary">
-              <div class="card-header border-0">
+            </div>          
+            <!-- TO DO List -->
+            <!-- <div id="todoCard" class="card">
+              <div class="card-header">
                 <h3 class="card-title">
-                  <i class="fas fa-clock mr-1"></i>
-                  Program Timer
+                  <i class="ion ion-checkmark mr-1"></i>
+                  To Do List
+                </h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+
+              </div>
+              <div class="card-body">
+                <ul id="todoList" class="todo-list" data-widget="todo-list">
+                      </ul>
+              </div>
+            </div> -->
+            <!-- /.card -->
+          </section>
+          <!-- right col -->
+          <section class="col-lg-12 connectedSortable">
+            <!-- /.card -->
+            <div id="alphaScan" class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="ion ion-map mr-1"></i>
+                  Alpha Scan
                 </h3>
                 <!-- card tools -->
                 <div class="card-tools">
@@ -278,38 +295,60 @@
                     <i class="fas fa-minus"></i>
                   </button>
                 </div>
-                <!-- /.card-tools -->
+
               </div>
-              <div class="card-body">
-                <div class="stopwatch" id="scan">
-                  <div class="circle">
-
-                    <span class="time" id="display">00:00:00</span>
+              <!-- /.card-header -->
+              <div  class="card-body">
+                  <!-- /.card -->
+                  <img width='1600' height='1000' src="https://via.placeholder.com/1600x1000" alt="">
+                  <!-- /.card -->
                   </div>
+              <!-- /.card-body -->
+            </div>  
+            <div id="bravoScan" class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="ion ion-map mr-1"></i>
+                  Bravo Scan
+                </h3>
+                <!-- card tools -->
+                <div class="card-tools">
+                  <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
 
-                  <div class="controls">
-                    <button class="buttonPlay">
-                      <img id="playButton" src="https://res.cloudinary.com/https-tinloof-com/image/upload/v1593360448/blog/time-in-js/play-button_opkxmt.svg" />
-
-                      <img id="pauseButton" src="https://res.cloudinary.com/https-tinloof-com/image/upload/v1593360448/blog/time-in-js/pause-button_pinhpy.svg" />
-                    </button>
-
-                    <button class="buttonReset">
-                      <img id="resetButton" src="https://res.cloudinary.com/https-tinloof-com/image/upload/v1593360448/blog/time-in-js/reset-button_mdv6wf.svg" />
-                    </button>
+              </div>
+              <!-- /.card-header -->
+              <div  class="card-body">
+                  <!-- /.card -->
+                  <img id="bravoPng" width='1600' height='1000' src="https://via.placeholder.com/1600x1000" alt="">
+                  <!-- /.card -->
                   </div>
+              <!-- /.card-body -->
+            </div> 
+            <div id="charlieScan" class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="ion ion-map mr-1"></i>
+                  Charlie Scan
+                </h3>
+                <!-- card tools -->
+                <div class="card-tools">
+                  <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
                 </div>
-                </div>
-              <!-- /.card-body-->
-            </div>
-            <!-- /.card -->
 
-          </section>
-          <!-- right col -->
-          <section class="col-lg-12 connectedSortable">
-            <!-- /.card -->
-
-
+              </div>
+              <!-- /.card-header -->
+              <div  class="card-body">
+                  <!-- /.card -->
+                  <img width='1600' height='1000' src="https://via.placeholder.com/1600x1000" alt="">
+                  <!-- /.card -->
+                  </div>
+              <!-- /.card-body -->
+            </div>               
             <!-- /.card -->
           </section>
         </div>
@@ -475,11 +514,12 @@
 <script src="dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
-<script src="js/stopWatch.js"></script>
+<!-- <script src="js/stopWatch.js"></script> -->
 <script src="js/app.js"></script>
 <script src="js/stack.js"></script>
 <script src="js/ping.js"></script>
 <script src="js/scanVector.js"></script>
+<script src="js/drawing.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
 </body>
 </html>

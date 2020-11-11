@@ -8,6 +8,7 @@ $(document).ready(function() {
   var userCount = {};
   var dbSize = {};
   var taskModel = {};
+  var currentScanStatus = {};
 
   $("#register-btn").click(function() {
     $("#successMessage").text("");
@@ -62,9 +63,125 @@ $(document).ready(function() {
     makeUserRequest("login");
   });
 
+  $("#readyScan-btn").on("click",function() {
+    let location = $("#location").val();
+    let notes = $("#notes").val();
+    let filename = $("#fileName").val();
+    let url = "/readyScan?location="+location+"&notes="+notes+"&filename="+filename;
+    console.log(url);
+    $.getJSON(url, function(){
+      setTimeout(function () {
+        $("#location").text("");
+        $("#notes").text("");
+        $("#fileName").text("");
+        initializeModel();
+    }, 10000);
+
+     });
+  });
+
+  $("#readyAdapter-btn").on("click",function() {
+    let url = "/initAirmon";
+    $.getJSON(url, function(data) {
+      if(data.success != undefined) {
+        $("#scanStatusMessage").text(data.success);
+      }
+    });
+    $("#readyAdapter-btn").removeClass("btn-danger");
+    $("#readyAdapter-btn").addClass("btn-success");
+  });
+
+  $("#beginScan-btn").on("click",function() {
+    start();
+    let url = "/initAirodump?filename=" + currentScanStatus.FileName;
+    $.getJSON(url, function(data) {
+      if(data.success != undefined) {
+        $("#scanStatusMessage").text(data.success);
+      }
+    });
+    $("#beginScan-btn").removeClass("btn-danger");
+    $("#beginScan-btn").addClass("btn-success");
+  });
+
+  $("#processScan-btn").on("click",function() {
+    let url = "/processScan?filename=" + currentScanStatus.FileName + "&scanId=" + currentScanStatus.Id;
+    $.getJSON(url, function(data) {
+      if(data.success != undefined) {
+        $("#scanStatusMessage").text(data.success);
+      }
+    });
+    $("#processScan-btn").removeClass("btn-danger");
+    $("#processScan-btn").addClass("btn-success");
+  });
+
+  $("#cancelScan-btn").on("click",function() {
+    reset();
+    currentScanStatus = {};
+    $("#scanStatusMessage").text("Scan Cancelled");
+    $("#scanStatusId").text("");
+    $("#scanStatusLocation").text("");
+    $("#scanStatusNotes").text("");
+    $("#readyDir-btn").hide();
+    $("#readyAdapter-btn").hide();
+    $("#beginScan-btn").hide();
+    $("#processScan-btn").hide();
+    $("#updateImg-btn").hide();
+    $("#cancelScan-btn").hide();
+    $("#readyDir-btn").removeClass("btn-success");
+    $("#readyDir-btn").addClass("btn-danger");
+    $("#scanControlCard").show();
+    $.getJSON("/resetScanStatus");  
+    $.getJSON("/killAirodump");
+    $.getJSON("/killAirmon");    
+  });
+
+  $("#updateImg-btn").on("click",function() {
+    $('#bravoPng').attr('src', '');
+    $('#bravoPng').attr('src', 'img/' + currentScanStatus.FileName + '.png');
+
+  });
+
+  $("#readyDir-btn").on("click",function() {
+    let url = "/readyDir?filename=" + currentScanStatus.FileName;
+    $.getJSON(url, function(data) {
+      setTimeout(function () {
+        if(data.error != undefined) {
+          $("#scanStatusMessage").text(data.error);
+        } else if(data.success != undefined) {
+          $("#scanStatusMessage").text(data.success);
+        }
+      });
+      $("#readyDir-btn").removeClass("btn-danger");
+      $("#readyDir-btn").addClass("btn-success");
+      $("#cancelScan-btn").show();
+    }, 10000);
+      
+  });
+
+  function getScanStatus(){
+    $.getJSON("/currentScanStatus",function(data){
+      if(data.error != undefined) {
+        $("#scanStatusMessage").text(data.error);
+      } else if(data.scan != undefined){
+        currentScanStatus = data.scan[0];
+        $("#scanControlCard").hide();
+        $("#scanStatusMessage").text("Scan Initialized");
+        $("#scanStatusId").text(currentScanStatus.Id);
+        $("#scanStatusFileName").text(currentScanStatus.FileName);
+        $("#scanStatusLocation").text(currentScanStatus.Location);
+        $("#scanStatusNotes").text(currentScanStatus.Notes);
+        $("#readyDir-btn").show();
+        $("#readyAdapter-btn").show();
+        $("#beginScan-btn").show();
+        $("#processScan-btn").show();
+        $("#updateImg-btn").show();
+      }
+    });
+  }
+
   $('#login-modal').on('shown.bs.modal', function () {
       $('#email').focus();
-  })
+  });
 
   $("#forgotPassword-btn").click(function() {
     $("#login-modal").modal("hide");
@@ -161,6 +278,7 @@ $(document).ready(function() {
     let email = $("#email").val();
     let password = $("#password").val();
     let userName = $("#userName").val();
+
     let securityQuestion1 = $("#SecurityQuestion1").val();
     let securityQuestion2 = $("#SecurityQuestion2").val();
     let securityAnswer1 =$("#SecurityAnswer1").val();
@@ -183,6 +301,7 @@ $(document).ready(function() {
       $("#password").val("");
       authRequest(url);
     }
+   
   }
 
   function authRequest(url) {
@@ -201,12 +320,24 @@ $(document).ready(function() {
           getScanCount();
           getUserCount();
           getDBsize();
+          // $('#scanControlCard').CardWidget('toggle');
+          // $('#scanStatusCard').CardWidget('toggle');
+          // $('#timerCard').CardWidget('toggle');
+          // $('#visualScanCard').CardWidget('toggle');
+          // $('#todoCard').CardWidget('toggle');
+          // $('#alphaScan').CardWidget('toggle');
+          // $('#bravoScan').CardWidget('toggle');
+          // $('#charlieScan').CardWidget('toggle');          
           $("#timerCard").show();
           $("#visualScanCard").show();
           $("#todoCard").show();
           $("#deviceStatus").show();
           $("#infoBoard").show();
           $("#scanControlCard").show();
+          $("#scanStatusCard").show();
+          $("#alphaScan").show();
+          $("#bravoScan").show();
+          $("#charlieScan").show();
         } else {
           $("#timerCard").hide();
           $("#visualScanCard").hide();
@@ -214,6 +345,10 @@ $(document).ready(function() {
           $("#deviceStatus").hide();
           $("#infoBoard").hide();
           $("#scanControlCard").hide();
+          $("#scanStatusCard").hide();
+          $("#alphaScan").hide();
+          $("#bravoScan").hide();
+          $("#charlieScan").hide();
         }
       }
     });
@@ -237,12 +372,17 @@ $(document).ready(function() {
           getScanCount();
           getUserCount();
           getDBsize();
+          getScanStatus();
           $("#timerCard").show();
           $("#visualScanCard").show();
           $("#todoCard").show();
           $("#deviceStatus").show();
           $("#infoBoard").show();
           $("#scanControlCard").show();
+          $("#scanStatusCard").show();
+          $("#alphaScan").show();
+          $("#bravoScan").show();
+          $("#charlieScan").show();
         } else {
           $("#timerCard").hide();
           $("#visualScanCard").hide();
@@ -250,6 +390,10 @@ $(document).ready(function() {
           $("#deviceStatus").hide();
           $("#infoBoard").hide();
           $("#scanControlCard").hide();
+          $("#scanStatusCard").hide();
+          $("#alphaScan").hide();
+          $("#bravoScan").hide();
+          $("#charlieScan").hide();
         }
       } else {
         $("#logout-btn").hide();
@@ -559,215 +703,35 @@ $(document).ready(function() {
     checkUser();
     loadVisuals();
     getTasks();
+    getScanStatus();
+    $('#scanControlCard').CardWidget('toggle');
+    $('#scanStatusCard').CardWidget('toggle');
+    $('#timerCard').CardWidget('toggle');
+    $('#visualScanCard').CardWidget('toggle');
+    $('#todoCard').CardWidget('toggle');
+    $('#alphaScan').CardWidget('toggle');
+    $('#bravoScan').CardWidget('toggle');
+    $('#charlieScan').CardWidget('toggle');      
     $("#timerCard").hide();
     $("#visualScanCard").hide();
     $("#todoCard").hide();
     $("#deviceStatus").hide();
     $("#infoBoard").hide();
     $("#scanControlCard").hide();
+    $("#scanStatusCard").hide();
+    $("#alphaScan").hide();
+    $("#bravoScan").hide();
+    $("#charlieScan").hide();
+    $("#readyDir-btn").hide();
+    $("#readyAdapter-btn").hide();
+    $("#beginScan-btn").hide();
+    $("#processScan-btn").hide();
+    $("#cancelScan-btn").hide();
+    $("#updateImg-btn").hide();
   }
 
-  function ping(ip, callback) {
-    if (!this.inUse) {
-      this.status = 'unchecked';
-      this.inUse = true;
-      this.callback = callback;
-      this.ip = ip;
-      var _that = this;
-      this.img = new Image();
-      this.img.onload = function () {
-        _that.inUse = false;
-        _that.callback('responded');
-        if(_that.ip == "10.10.10.153:3000")
-          $(".alpha").css("border-top", "16px solid green");
-        if(_that.ip == "10.10.10.158:5000")
-          $(".charlie").css("border-top", "16px solid green");
-        if(_that.ip == "localhost")
-          $(".localhost").css("border-top", "16px solid green");
-      };
-      this.img.onerror = function (e) {
-        if (_that.inUse) {
-          _that.inUse = false;
-          _that.callback('responded', e);
-          if(_that.ip == "10.10.10.153:3000")
-            $(".alpha").css("border-top", "16px solid green");
-          if(_that.ip == "10.10.10.158:5000")
-            $(".charlie").css("border-top", "16px solid green");
-          if(_that.ip == "localhost")
-            $(".localhost").css("border-top", "16px solid green");
-        }
-      };
-      this.start = new Date().getTime();
-      this.img.src = "http://" + ip;
-      this.timer = setTimeout(function () {
-        if (_that.inUse) {
-          _that.inUse = false;
-          _that.callback('timeout');
-          if(_that.ip == "10.10.10.153:3000")
-            $(".alpha").css("border-top", "16px solid red");
-          if(_that.ip == "10.10.10.158:5000")
-            $(".charlie").css("border-top", "16px solid red");
-          if(_that.ip == "localhost")
-            $(".localhost").css("border-top", "16px solid red");
-        }
-      }, 1500);
-    }
-  }
-  var PingModel = function (servers) {
-      var self = this;
-      var myServers = [];
-      ko.utils.arrayForEach(servers, function (location) {
-          myServers.push({
-              name: location,
-              status: ko.observable('unchecked')
-          });
-      });
-      self.servers = ko.observableArray(myServers);
-      ko.utils.arrayForEach(self.servers(), function (s) {
-          s.status('checking');
-          new ping(s.name, function (status, e) {
-              s.status(status);
-          });
-      });
-  };
-  var komodel = new PingModel(['localhost',
-      '10.10.10.153:3000',
-      '10.10.10.158:5000',
-      ]);
-  ko.applyBindings(komodel);
+
   initializeModel();
 });
 
-(function(){
-    const FILL = 0;        // const to indicate filltext render
-    const STROKE = 1;
-    var renderType = FILL; // used internal to set fill or stroke text
-    const multiplyCurrentTransform = true; // if true Use current transform when rendering
-                                           // if false use absolute coordinates which is a little quicker
-                                           // after render the currentTransform is restored to default transform
 
-
-
-    // measure circle text
-    // ctx: canvas context
-    // text: string of text to measure
-    // r: radius in pixels
-    //
-    // returns the size metrics of the text
-    //
-    // width: Pixel width of text
-    // angularWidth : angular width of text in radians
-    // pixelAngularSize : angular width of a pixel in radians
-    var measure = function(ctx, text, radius){
-        var textWidth = ctx.measureText(text).width; // get the width of all the text
-        return {
-            width               : textWidth,
-            angularWidth        : (1 / radius) * textWidth,
-            pixelAngularSize    : 1 / radius
-        };
-    }
-
-    // displays text along a circle
-    // ctx: canvas context
-    // text: string of text to measure
-    // x,y: position of circle center
-    // r: radius of circle in pixels
-    // start: angle in radians to start.
-    // [end]: optional. If included text align is ignored and the text is
-    //        scaled to fit between start and end;
-    // [forward]: optional default true. if true text direction is forwards, if false  direction is backward
-    var circleText = function (ctx, text, x, y, radius, start, end, forward) {
-        var i, textWidth, pA, pAS, a, aw, wScale, aligned, dir, fontSize;
-        if(text.trim() === "" || ctx.globalAlpha === 0){ // dont render empty string or transparent
-            return;
-        }
-        if(isNaN(x) || isNaN(y) || isNaN(radius) || isNaN(start) || (end !== undefined && end !== null && isNaN(end))){ //
-            throw TypeError("circle text arguments requires a number for x,y, radius, start, and end.")
-        }
-        aligned = ctx.textAlign;        // save the current textAlign so that it can be restored at end
-        dir = forward ? 1 : forward === false ? -1 : 1;  // set dir if not true or false set forward as true
-        pAS = 1 / radius;               // get the angular size of a pixel in radians
-        textWidth = ctx.measureText(text).width; // get the width of all the text
-        if (end !== undefined && end !== null) { // if end is supplied then fit text between start and end
-            pA = ((end - start) / textWidth) * dir;
-            wScale = (pA / pAS) * dir;
-        } else {                 // if no end is supplied correct start and end for alignment
-            // if forward is not given then swap top of circle text to read the correct direction
-            if(forward === null || forward === undefined){
-                if(((start % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2) > Math.PI){
-                    dir = -1;
-                }
-            }
-            pA = -pAS * dir ;
-            wScale = -1 * dir;
-            switch (aligned) {
-            case "center":       // if centered move around half width
-                start -= (pA * textWidth )/2;
-                end = start + pA * textWidth;
-                break;
-            case "right":// intentionally falls through to case "end"
-            case "end":
-                end = start;
-                start -= pA * textWidth;
-                break;
-            case "left":  // intentionally falls through to case "start"
-            case "start":
-                end = start + pA * textWidth;
-            }
-        }
-
-        ctx.textAlign = "center";                     // align for rendering
-        a = start;                                    // set the start angle
-        for (var i = 0; i < text.length; i += 1) {    // for each character
-            aw = ctx.measureText(text[i]).width * pA; // get the angular width of the text
-            var xDx = Math.cos(a + aw / 2);           // get the yAxies vector from the center x,y out
-            var xDy = Math.sin(a + aw / 2);
-            if(multiplyCurrentTransform){ // transform multiplying current transform
-                ctx.save();
-                if (xDy < 0) { // is the text upside down. If it is flip it
-                    ctx.transform(-xDy * wScale, xDx * wScale, -xDx, -xDy, xDx * radius + x, xDy * radius + y);
-                } else {
-                    ctx.transform(-xDy * wScale, xDx * wScale, xDx, xDy, xDx * radius + x, xDy * radius + y);
-                }
-            }else{
-                if (xDy < 0) { // is the text upside down. If it is flip it
-                    ctx.setTransform(-xDy * wScale, xDx * wScale, -xDx, -xDy, xDx * radius + x, xDy * radius + y);
-                } else {
-                    ctx.setTransform(-xDy * wScale, xDx * wScale, xDx, xDy, xDx * radius + x, xDy * radius + y);
-                }
-            }
-            if(renderType === FILL){
-                ctx.fillText(text[i], 0, 0);    // render the character
-            }else{
-                ctx.strokeText(text[i], 0, 0);  // render the character
-            }
-            if(multiplyCurrentTransform){  // restore current transform
-                ctx.restore();
-            }
-            a += aw;                     // step to the next angle
-        }
-        // all done clean up.
-        if(!multiplyCurrentTransform){
-            ctx.setTransform(1, 0, 0, 1, 0, 0); // restore the transform
-        }
-        ctx.textAlign = aligned;            // restore the text alignment
-    }
-    // define fill text
-    var fillCircleText = function(text, x, y, radius, start, end, forward){
-        renderType = FILL;
-        circleText(this, text, x, y, radius, start, end, forward);
-    }
-    // define stroke text
-    var strokeCircleText = function(text, x, y, radius, start, end, forward){
-        renderType = STROKE;
-        circleText(this, text, x, y, radius, start, end, forward);
-    }
-    // define measure text
-    var measureCircleTextExt = function(text,radius){
-        return measure(this, text, radius);
-    }
-    // set the prototypes
-    CanvasRenderingContext2D.prototype.fillCircleText = fillCircleText;
-    CanvasRenderingContext2D.prototype.strokeCircleText = strokeCircleText;
-    CanvasRenderingContext2D.prototype.measureCircleText = measureCircleTextExt;
-})();
