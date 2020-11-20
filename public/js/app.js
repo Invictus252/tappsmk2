@@ -1,14 +1,23 @@
 $(document).ready(function() {
-  var stack = new Stack();
-  var resetPasswordEmail = "";
-  var userModel = {};
-  var questionModel = {};
-  var scanModel = {};
-  var storedScanCount ={};
-  var userCount = {};
-  var dbSize = {};
-  var taskModel = {};
-  var currentScanStatus = {};
+  let clientStack = new Stack();
+  let resetPasswordEmail = "";
+  let userModel, 
+      questionModel,
+      scanModel,
+      verifiedClientModel, 
+      storedScanCount, 
+      storedMacSize,
+      userCount,
+      dbSize,
+      currentScanStatus = {};
+
+  // MODALS
+
+  $('#login-modal').on('shown.bs.modal', function () {
+    $('#email').focus();
+  });
+
+  // USER
 
   $("#register-btn").click(function() {
     $("#successMessage").text("");
@@ -51,6 +60,9 @@ $(document).ready(function() {
       $("#login-btn").show();
       $("#logout-btn").hide();
       $("#register-btn").show();
+      $.getJSON("/resetScanStatus");  
+      $.getJSON("/killAirodump");
+      $.getJSON("/killAirmon"); 
     });
     initializeModel();
   });
@@ -61,126 +73,6 @@ $(document).ready(function() {
 
   $("#confirm-login-btn").click(function() {
     makeUserRequest("login");
-  });
-
-  $("#readyScan-btn").on("click",function() {
-    let location = $("#location").val();
-    let notes = $("#notes").val();
-    let filename = $("#fileName").val();
-    let url = "/readyScan?location="+location+"&notes="+notes+"&filename="+filename;
-    console.log(url);
-    $.getJSON(url, function(){
-      setTimeout(function () {
-        $("#location").text("");
-        $("#notes").text("");
-        $("#fileName").text("");
-        initializeModel();
-    }, 10000);
-
-     });
-  });
-
-  $("#readyAdapter-btn").on("click",function() {
-    let url = "/initAirmon";
-    $.getJSON(url, function(data) {
-      if(data.success != undefined) {
-        $("#scanStatusMessage").text(data.success);
-      }
-    });
-    $("#readyAdapter-btn").removeClass("btn-danger");
-    $("#readyAdapter-btn").addClass("btn-success");
-  });
-
-  $("#beginScan-btn").on("click",function() {
-    start();
-    let url = "/initAirodump?filename=" + currentScanStatus.FileName;
-    $.getJSON(url, function(data) {
-      if(data.success != undefined) {
-        $("#scanStatusMessage").text(data.success);
-      }
-    });
-    $("#beginScan-btn").removeClass("btn-danger");
-    $("#beginScan-btn").addClass("btn-success");
-  });
-
-  $("#processScan-btn").on("click",function() {
-    let url = "/processScan?filename=" + currentScanStatus.FileName + "&scanId=" + currentScanStatus.Id;
-    $.getJSON(url, function(data) {
-      if(data.success != undefined) {
-        $("#scanStatusMessage").text(data.success);
-      }
-    });
-    $("#processScan-btn").removeClass("btn-danger");
-    $("#processScan-btn").addClass("btn-success");
-  });
-
-  $("#cancelScan-btn").on("click",function() {
-    reset();
-    currentScanStatus = {};
-    $("#scanStatusMessage").text("Scan Cancelled");
-    $("#scanStatusId").text("");
-    $("#scanStatusLocation").text("");
-    $("#scanStatusNotes").text("");
-    $("#readyDir-btn").hide();
-    $("#readyAdapter-btn").hide();
-    $("#beginScan-btn").hide();
-    $("#processScan-btn").hide();
-    $("#updateImg-btn").hide();
-    $("#cancelScan-btn").hide();
-    $("#readyDir-btn").removeClass("btn-success");
-    $("#readyDir-btn").addClass("btn-danger");
-    $("#scanControlCard").show();
-    $.getJSON("/resetScanStatus");  
-    $.getJSON("/killAirodump");
-    $.getJSON("/killAirmon");    
-  });
-
-  $("#updateImg-btn").on("click",function() {
-    $('#bravoPng').attr('src', '');
-    $('#bravoPng').attr('src', 'img/' + currentScanStatus.FileName + '.png');
-
-  });
-
-  $("#readyDir-btn").on("click",function() {
-    let url = "/readyDir?filename=" + currentScanStatus.FileName;
-    $.getJSON(url, function(data) {
-      setTimeout(function () {
-        if(data.error != undefined) {
-          $("#scanStatusMessage").text(data.error);
-        } else if(data.success != undefined) {
-          $("#scanStatusMessage").text(data.success);
-        }
-      });
-      $("#readyDir-btn").removeClass("btn-danger");
-      $("#readyDir-btn").addClass("btn-success");
-      $("#cancelScan-btn").show();
-    }, 10000);
-      
-  });
-
-  function getScanStatus(){
-    $.getJSON("/currentScanStatus",function(data){
-      if(data.error != undefined) {
-        $("#scanStatusMessage").text(data.error);
-      } else if(data.scan != undefined){
-        currentScanStatus = data.scan[0];
-        $("#scanControlCard").hide();
-        $("#scanStatusMessage").text("Scan Initialized");
-        $("#scanStatusId").text(currentScanStatus.Id);
-        $("#scanStatusFileName").text(currentScanStatus.FileName);
-        $("#scanStatusLocation").text(currentScanStatus.Location);
-        $("#scanStatusNotes").text(currentScanStatus.Notes);
-        $("#readyDir-btn").show();
-        $("#readyAdapter-btn").show();
-        $("#beginScan-btn").show();
-        $("#processScan-btn").show();
-        $("#updateImg-btn").show();
-      }
-    });
-  }
-
-  $('#login-modal').on('shown.bs.modal', function () {
-      $('#email').focus();
   });
 
   $("#forgotPassword-btn").click(function() {
@@ -320,24 +212,20 @@ $(document).ready(function() {
           getScanCount();
           getUserCount();
           getDBsize();
-          // $('#scanControlCard').CardWidget('toggle');
-          // $('#scanStatusCard').CardWidget('toggle');
-          // $('#timerCard').CardWidget('toggle');
-          // $('#visualScanCard').CardWidget('toggle');
-          // $('#todoCard').CardWidget('toggle');
-          // $('#alphaScan').CardWidget('toggle');
-          // $('#bravoScan').CardWidget('toggle');
-          // $('#charlieScan').CardWidget('toggle');          
+          getScanStatus();
+          getMacCount();
           $("#timerCard").show();
           $("#visualScanCard").show();
           $("#todoCard").show();
           $("#deviceStatus").show();
           $("#infoBoard").show();
           $("#scanControlCard").show();
-          $("#scanStatusCard").show();
+          $("#verifiedClientCard").show();
+          $("#scanResults").show();
           $("#alphaScan").show();
           $("#bravoScan").show();
           $("#charlieScan").show();
+          $(".sidebar").show();
         } else {
           $("#timerCard").hide();
           $("#visualScanCard").hide();
@@ -346,9 +234,11 @@ $(document).ready(function() {
           $("#infoBoard").hide();
           $("#scanControlCard").hide();
           $("#scanStatusCard").hide();
+          $("#verifiedClientCard").hide();
           $("#alphaScan").hide();
           $("#bravoScan").hide();
           $("#charlieScan").hide();
+          $(".sidebar").hide();
         }
       }
     });
@@ -372,6 +262,7 @@ $(document).ready(function() {
           getScanCount();
           getUserCount();
           getDBsize();
+          getMacCount();
           getScanStatus();
           $("#timerCard").show();
           $("#visualScanCard").show();
@@ -380,9 +271,12 @@ $(document).ready(function() {
           $("#infoBoard").show();
           $("#scanControlCard").show();
           $("#scanStatusCard").show();
+          $("#scanResults").show();
           $("#alphaScan").show();
           $("#bravoScan").show();
           $("#charlieScan").show();
+          $("#verifiedClientCard").show();
+          $(".sidebar").show();          
         } else {
           $("#timerCard").hide();
           $("#visualScanCard").hide();
@@ -391,9 +285,12 @@ $(document).ready(function() {
           $("#infoBoard").hide();
           $("#scanControlCard").hide();
           $("#scanStatusCard").hide();
+          $("#scanResults").hide();
           $("#alphaScan").hide();
           $("#bravoScan").hide();
           $("#charlieScan").hide();
+          $("#verifiedClientCard").hide();
+          $(".sidebar").hide();
         }
       } else {
         $("#logout-btn").hide();
@@ -401,25 +298,221 @@ $(document).ready(function() {
     });
   }
 
-  function buildScans(ctx,a,b){
-    $.getJSON("/getScans", function(data) {
-      scanModel = data.result;
-      ctx.lineWidth = 2;
-      for(let i = 0; i < scanModel.length; i++){
-        ctx.beginPath();
-        ctx.arc(a, b, Math.abs(scanModel[i].Power * 10), 0, 2 * Math.PI);
-        ctx.setLineDash([]);
-        ctx.stroke();
-        ctx.closePath();
+  // SCAN
+
+  $("#readyScan-btn").on("click",function() {
+    let location = $("#location").val();
+    let notes = $("#notes").val();
+    let filename = $("#fileName").val();
+    let url = "/readyScan?location="+location+"&notes="+notes+"&filename="+filename;
+
+    $("#scanStatusCard").show();
+    console.log(url);
+    $.getJSON(url);
+    $.getJSON("http://10.10.10.153:3000" + url);
+    $.getJSON("http://10.10.10.158:3000" + url);
+    $("#location").text("");
+    $("#notes").text("");
+    $("#fileName").text("");
+    getScanStatus();
+  });
+
+  $("#readyAdapter-btn").on("click",function() {
+    let url = "/initAirmon";
+    $.getJSON("http://10.10.10.153:3000" + url);
+    $.getJSON("http://10.10.10.158:3000" + url);
+    $.getJSON(url, function(data) {
+      if(data.success != undefined) {
+        $("#scanStatusMessage").text(data.success);
       }
-      // trackDevice(ctx);
+    });
+    $("#readyAdapter-btn").removeClass("btn-danger");
+    $("#readyAdapter-btn").addClass("btn-success");
+  });
+
+  $("#beginScan-btn").on("click",function() {
+    let url = "/initAirodump?filename=" + currentScanStatus.FileName;
+    $.getJSON("http://10.10.10.153:3000" + url);
+    $.getJSON("http://10.10.10.158:3000" + url);
+    $.getJSON(url, function(data) {
+      if(data.success != undefined) {
+        $("#scanStatusMessage").text(data.success);
+      }
+    });
+    $("#beginScan-btn").removeClass("btn-danger");
+    $("#beginScan-btn").addClass("btn-success");
+  });
+
+  $("#processScan-btn").on("click",function() {    
+    let url = "/processScan?filename=" + currentScanStatus.FileName + "&scanId=" + currentScanStatus.Id;
+    $.getJSON("http://10.10.10.153:3000" + url);
+    $.getJSON("http://10.10.10.158:3000" + url);
+    $.getJSON(url, function(data) {
+      if(data.success != undefined) {
+        $("#scanStatusMessage").text(data.success);
+      }
+    });
+    loadVerifiedClients();
+    $("#processScan-btn").removeClass("btn-danger");
+    $("#processScan-btn").addClass("btn-success");
+  });
+
+  $("#cancelScan-btn").on("click",function() {
+    currentScanStatus = {};
+    $("#scanStatusMessage").text("Scan Cancelled");
+    $("#scanStatusId").text("");
+    $("#scanStatusLocation").text("");
+    $("#scanStatusNotes").text("");
+    $("#readyDir-btn").hide();
+    $("#readyAdapter-btn").hide();
+    $("#beginScan-btn").hide();
+    $("#processScan-btn").hide();
+    $("#updateImg-btn").hide();
+    $("#cancelScan-btn").hide();
+    $("#scanStatusCard").hide();
+    $("#readyDir-btn").removeClass("btn-success");
+    $("#readyDir-btn").addClass("btn-danger");
+    $("#scanControlCard").show();
+    $.getJSON("/resetScanStatus");  
+    $.getJSON("/killAirodump");
+    $.getJSON("/killAirmon"); 
+    $.getJSON("http://10.10.10.153:3000/resetScanStatus");
+    $.getJSON("http://10.10.10.153:3000/killAirodump");
+    $.getJSON("http://10.10.10.153:3000/killAirmon");  
+    $.getJSON("http://10.10.10.158:3000/resetScanStatus");
+    $.getJSON("http://10.10.10.158:3000/killAirodump");
+    $.getJSON("http://10.10.10.158:3000/killAirmon");       
+  });
+
+  $("#updateImg-btn").on("click",function() {
+    $('#bravoPng').attr('src', '');
+    $('#bravoPng').attr('src', 'img/' + currentScanStatus.FileName + '.png');
+    $('#alphaPng').attr('src', '');
+    $('#alphaPng').attr('src', 'http://10.10.10.153:3000/img/' + currentScanStatus.FileName + '.png');
+    $('#charliePng').attr('src', '');
+    $('#charliePng').attr('src', 'http://10.10.10.158:3000/img/' + currentScanStatus.FileName + '.png');
+  });
+
+  $("#readyDir-btn").on("click",function() {
+    let url = "/readyDir?filename=" + currentScanStatus.FileName;
+    $.getJSON("http://10.10.10.153:3000" + url);
+    $.getJSON("http://10.10.10.158:3000" + url);
+    $.getJSON(url, function(data) {
+      setTimeout(function () {
+        if(data.error != undefined) {
+          $("#scanStatusMessage").text(data.error);
+        } else if(data.success != undefined) {
+          $("#scanStatusMessage").text(data.success);
+        }
+      });
+      $("#readyDir-btn").removeClass("btn-danger");
+      $("#readyDir-btn").addClass("btn-success");
+      $("#cancelScan-btn").show();
+    }, 10000);
+      
+  });
+
+  function getScanStatus(){
+    $.getJSON("/currentScanStatus",function(data){
+      if(data.error != undefined) {
+        $("#scanStatusMessage").text(data.error);
+      } else if(data.scan != undefined){
+        currentScanStatus = data.scan[0];
+        $("#scanControlCard").hide();
+        $("#scanStatusMessage").text("Scan Initialized");
+        $("#scanStatusId").text(currentScanStatus.Id);
+        $("#scanStatusFileName").text(currentScanStatus.FileName);
+        $("#scanStatusLocation").text(currentScanStatus.Location);
+        $("#scanStatusNotes").text(currentScanStatus.Notes);
+        $("#readyDir-btn").show();
+        $("#readyAdapter-btn").show();
+        $("#beginScan-btn").show();
+        $("#processScan-btn").show();
+        $("#updateImg-btn").show();
+      }
     });
   }
+
+  function buildScans(ctx,a,b){
+    $.getJSON("/getScanResults", function(data) {
+      scanModel = data.result;
+
+
+
+      // ctx.lineWidth = 2;
+      // for(let i = 0; i < scanModel.length; i++){
+      //   ctx.beginPath();
+      //   ctx.arc(a, b, Math.abs(scanModel[i].Power * 10), 0, 2 * Math.PI);
+      //   ctx.setLineDash([]);
+      //   ctx.stroke();
+      //   ctx.closePath();
+      // }
+      // // trackDevice(ctx);
+    });
+  }
+
+  function buildScanResultsTable() {    
+    $("#scanResultsTable tbody").empty();
+    for (let i = 0; i < scanModel.length; i++) {
+      let tr = $("<tr>");
+      $(tr).append("<td scope='row'>" + scanModel[i].Id + "</td>");
+      $(tr).append("<td>" + scanModel[i].DeviceName + "</td>");
+      $(tr).append("<td>" + scanModel[i].Mac + "</td>");
+      $(tr).append("<td>" + scanModel[i].OUI + "</td>");
+      $(tr).append("<td>" + scanModel[i].Power + "</td>");
+      $(tr).append("<td>" + scanModel[i].Distance + "</td>");
+      $(tr).append("<td>" + scanModel[i].FTS + "</td>");
+      $(tr).append("<td>" + scanModel[i].LTS + "</td>");
+      $(tr).append("<td>" + scanModel[i].ScanGroup + "</td>");
+      $(tr).append("</tr>");
+      $("#scanResultsTable tbody").append(tr);
+    }
+  }
+
+  function buildVerifiedClientTable() {    
+    $("#verifiedClientTable tbody").empty();
+    for (let i = 0; i < verifiedClientModel.length; i++) {
+      let tr = $("<tr>");
+      $(tr).append("<td scope='row'>" + verifiedClientModel[i].MAC + "</td>");
+      $(tr).append("<td>" + verifiedClientModel[i].ClientType + "</td>");
+      $(tr).append("<td>" + verifiedClientModel[i].alphaDistance + "</td>");
+      $(tr).append("<td>" + verifiedClientModel[i].bravoDistance + "</td>");
+      $(tr).append("<td>" + verifiedClientModel[i].charlieDistance + "</td>");
+      $(tr).append("<td>" + verifiedClientModel[i].FTS + "</td>");
+      $(tr).append("<td>" + verifiedClientModel[i].ScanGroup + "</td>");
+      $(tr).append("</tr>");
+      $("#verifiedClientTable tbody").append(tr);
+    }
+  }
+
+  function loadVerifiedClients() {
+    $.getJSON("/findReadyClients", function(data) {
+      verifiedClientModel = data.result;
+      buildVerifiedClientTable();
+    });
+  }
+
+  function loadScans() {
+    $.getJSON("/getScanResults", function(data) {
+      scanModel = data.result;
+      buildScanResultsTable();
+    });
+  }
+
+  // HEADER INFO
 
   function getScanCount(){
     $.getJSON("/getScanCount", function(data) {
       storedScanCount = data.result;
       $('#scanCount').text(storedScanCount)
+      // trackDevice(ctx);
+    });
+  }
+
+  function getMacCount(){
+    $.getJSON("/getMacCount", function(data) {
+      storedMacSize = data.result;
+      $('#macSize').text(storedMacSize)
       // trackDevice(ctx);
     });
   }
@@ -440,15 +533,8 @@ $(document).ready(function() {
     });
   }
 
-  function getTasks(){
-    $("#todoList").empty();
-    $.getJSON("/getTasks", function(data) {
-      taskModel = data.result;
-      for(let i = 0; i < taskModel.length; i++){
-        $("#todoList").append("<li><span class='handle'><i class='fas fa-ellipsis-v'></i><i class='fas fa-ellipsis-v'></i></span><div class='icheck-primary d-inline ml-2'><input type='checkbox' value='' name='todo"+i+"' id='todoCheck"+i+"'><label for='todoCheck"+i+"'></label></div><span class='text'>"+taskModel[i].Task+"</span><div class='tools'><i class='fas fa-edit'></i><i class='fas fa-trash'></i></div></li>");
-      }
-    });
-  }
+  // RENDER VISUALS
+
 
   // function trackDevice(ctx){
   //   let r1 = 40
@@ -555,13 +641,32 @@ $(document).ready(function() {
     ctx.closePath();
   }
 
-  function markDevice(ctx,x,y) {
-    ctx.strokeStyle = 'black';
+  function markDevice(ctx,client) {
+    ctx.lineWidth = 4;
+    // if(x == 'A')
+    //   ctx.strokeStyle = 'red';
+    // if(x == 'B')
+    //   ctx.strokeStyle = 'green';
+    // if(x == 'C')
+    //   ctx.strokeStyle = 'blue';
     ctx.beginPath();
-    ctx.arc(x, y, 15, 0, 2 * Math.PI);
+    ctx.arc(20, 5, client.alphaDistance * 500, 0, 2 * Math.PI);
+    ctx.setLineDash([]);
+    ctx.strokeStyle = 'red';
     ctx.stroke();
-        ctx.fillStyle = "blue";
-        ctx.fill();
+    ctx.closePath();
+    ctx.beginPath();
+    ctx.arc(1555, 5, client.bravoDistance * 500, 0, 2 * Math.PI);
+    ctx.setLineDash([]);
+    ctx.strokeStyle = 'blue';
+    ctx.stroke();
+    ctx.closePath();
+    ctx.beginPath();
+    ctx.arc(790, 720, client.charlieDistance * 500, 0, 2 * Math.PI);
+    ctx.setLineDash([]);
+    ctx.strokeStyle = 'green';
+    ctx.stroke();
+    ctx.closePath();        
   }
 
   function clearCircle(context,x,y) {
@@ -571,10 +676,6 @@ $(document).ready(function() {
     context.clip();
     context.clearRect(x-19,y-19,19*2,19*2);
     context.restore();
-  }
-
-  function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
   }
 
   function loadVisuals(){
@@ -673,52 +774,56 @@ $(document).ready(function() {
         }
 
         function drawDynamic() {
-          let x = getRandomInt(1000);
-          let y = getRandomInt(450);
-          stack.push({x:x,y:y});
-          markDevice(dynamicCtx,x,y);
+          for( var client in verifiedClientModel){
+            markDevice(staticCtx,verifiedClientModel[client]);
+            // console.log();
+          }
+          
+          
             // you can add more dynamic objects and draw here
         }
 
-        function clearDynamic() {
-          let tmp = stack.peek();
-          clearCircle(dynamicCtx, tmp.x, tmp.y)
-        }
-
-        // function animate() {
-        //     setInterval(function () {
-        //         // only need to redraw dynamic objects
-        //         drawDynamic();
-        //         clearDynamic();
-
-        //     }, INTERVAL);
+        // function clearDynamic() {
+        //   let tmp = clientStack.peek();
+        //   clearCircle(dynamicCtx, tmp.x, tmp.y)
         // }
 
+        function animate() {
+            setInterval(function () {
+                // only need to redraw dynamic objects
+                drawDynamic();
+
+            }, INTERVAL);
+        }
+
         drawStatic(); // draw the static objects
-        // animate(); // entry point for animated (dynamic) objects
+        animate(); // entry point for animated (dynamic) objects
   }
 
   function initializeModel() {
     loadSecurityQuestions();
     checkUser();
     loadVisuals();
-    getTasks();
+    loadScans();
+    loadVerifiedClients();
     getScanStatus();
     $('#scanControlCard').CardWidget('toggle');
     $('#scanStatusCard').CardWidget('toggle');
     $('#timerCard').CardWidget('toggle');
     $('#visualScanCard').CardWidget('toggle');
-    $('#todoCard').CardWidget('toggle');
     $('#alphaScan').CardWidget('toggle');
     $('#bravoScan').CardWidget('toggle');
     $('#charlieScan').CardWidget('toggle');      
+    $('#scanResults').CardWidget('toggle');
+    $("#verifiedClientCard").CardWidget("toggle");
     $("#timerCard").hide();
     $("#visualScanCard").hide();
-    $("#todoCard").hide();
     $("#deviceStatus").hide();
     $("#infoBoard").hide();
     $("#scanControlCard").hide();
     $("#scanStatusCard").hide();
+    $("#verifiedClientCard").hide();
+    $("#scanResults").hide();
     $("#alphaScan").hide();
     $("#bravoScan").hide();
     $("#charlieScan").hide();
@@ -728,10 +833,19 @@ $(document).ready(function() {
     $("#processScan-btn").hide();
     $("#cancelScan-btn").hide();
     $("#updateImg-btn").hide();
+    $(".sidebar").hide();
   }
 
+  // UTILITY
+
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
+
+  // BEGIN
 
   initializeModel();
+
 });
 
 

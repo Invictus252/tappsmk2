@@ -14,19 +14,6 @@ CREATE TABLE StoredScans (
   CONSTRAINT U_StoredScan UNIQUE (TimeStamp,Location)
 );
 
-CREATE TABLE CreationTasks (
-  Id int NOT NULL AUTO_INCREMENT,
-  Begin DATETIME NOT NULL,
-  End DATETIME ,
-  Task varchar(255) NOT NULL,
-  PRIMARY KEY(Id),
-  CONSTRAINT U_Task UNIQUE (Id,Begin)
-);
-
-INSERT INTO CreationTasks(Begin,Task) VALUES (CURRENT_TIMESTAMP,"Automate DB Creation");
-INSERT INTO CreationTasks(Begin,Task) VALUES (CURRENT_TIMESTAMP,"Identify 3X connections");
-INSERT INTO CreationTasks(Begin,Task) VALUES (CURRENT_TIMESTAMP,"Render Location");
-
 CREATE TABLE ScanResults (
   Id int NOT NULL AUTO_INCREMENT,
   DeviceName text(50) NOT NULL,

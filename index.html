@@ -71,14 +71,371 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-
-
-      <!-- Sidebar Menu -->
-      <!-- /.sidebar-menu -->
+      <nav class="mt-2 ">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Manual Scan
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul id="cerifiedClientUL" class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ready Directory</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ready Adapter</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Begin Scan</p>
+                </a>
+              </li>  
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Process Scan</p>
+                </a>
+              </li>         
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Update Images</p>
+                </a>
+              </li>   
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Cancel Scan</p>
+                </a>
+              </li>                    
+            </ul>
+          </li>
+          <li class="nav-item has-treeview ">
+            <a href="#" class="nav-link ">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Automated Scan
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul id="cerifiedClientUL" class="nav nav-treeview">
+              <li class="nav-item">
+                <button type="button" class="btn btn-success btn-block"><i class="fas fa-sign-out-alt"></i><span class="p-2">Run Scan</span></button>
+              </li>
+            </ul>
+          </li>   
+          <li class="nav-header">Device Logs</li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-circle"></i>
+              <p>
+                ALPHA
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon text-danger"></i>
+                  <p>
+                    Error
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon text-success"></i>
+                  <p>
+                    Run Time
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>  
+              <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon text-primary"></i>
+                  <p>
+                    Capture
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>                          
+            </ul>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-circle"></i>
+              <p>
+                BRAVO
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon text-danger"></i>
+                  <p>
+                    Error
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon text-success"></i>
+                  <p>
+                    Run Time
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>  
+              <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon text-primary"></i>
+                  <p>
+                    Capture
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>                          
+            </ul>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-circle"></i>
+              <p>
+                CHARLIE
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon text-danger"></i>
+                  <p>
+                    Error
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon text-success"></i>
+                  <p>
+                    Run Time
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>  
+              <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon text-primary"></i>
+                  <p>
+                    Capture
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Level 3</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>                          
+            </ul>
+          </li>                    
+        </ul>
+      </nav>     
     </div>
     <!-- /.sidebar -->
   </aside>
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -105,7 +462,7 @@
         <!-- Small boxes (Stat box) -->
         <div id="infoBoard" class="row">
           <!-- ./col -->
-          <div class="col-lg-4 col-6">
+          <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
@@ -120,8 +477,23 @@
               <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
             </div>
           </div>
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3 id="macSize"></h3>
+
+                <p>MAC Address Count</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+              </div>
+              <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+            </div>
+          </div>
           <!-- ./col -->
-          <div class="col-lg-4 col-6">
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
@@ -136,7 +508,7 @@
             </div>
           </div>
           <!-- ./col -->
-          <div class="col-lg-4 col-6">
+          <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
@@ -156,7 +528,7 @@
         <!-- Main row -->
         <div class="row">
           <!-- Left col -->
-          <section class="col-lg-7 connectedSortable">
+          <section class="col-lg-8 connectedSortable">
             <!-- /.card -->
             <div id="scanControlCard" class="card">
               <div class="card-header">
@@ -230,12 +602,48 @@
                   <!-- /.card -->
                   </div>
               <!-- /.card-body -->
+            </div>            
+            <div id="verifiedClientCard" class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="ion ion-clipboard mr-1"></i>
+                  Verified Clients
+                </h3>
+                <!-- card tools -->
+                <div class="card-tools">
+                  <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                  <!-- /.card -->
+                  <table id ="verifiedClientTable" class="table table-hover table-light ">
+                    <thead >
+                      <tr>
+                        <th>MAC</th>
+                        <th>Device Type</th>
+                        <th>ALPHA dist</th>
+                        <th>BRAVO dist</th>
+                        <th>CHARLIE dist</th>
+                        <th>First Time Seen</th>
+                        <th>Scan Group</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                  <!-- /.card -->
+              </div>
+              <!-- /.card-body -->
             </div>
             <!-- /.card -->
           </section>
           <!-- /.Left col -->
           <!-- right col (We are only adding the ID to make the widgets sortable)-->
-          <section class="col-lg-5 connectedSortable">
+          <section class="col-lg-4 connectedSortable">
             <div id="visualScanCard" class="card">
               <div class="card-header">
                 <h3 class="card-title">
@@ -258,31 +666,7 @@
                   <!-- /.card -->
                   </div>
               <!-- /.card-body -->
-            </div>          
-            <!-- TO DO List -->
-            <!-- <div id="todoCard" class="card">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <i class="ion ion-checkmark mr-1"></i>
-                  To Do List
-                </h3>
-                <div class="card-tools">
-                  <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                </div>
-
-              </div>
-              <div class="card-body">
-                <ul id="todoList" class="todo-list" data-widget="todo-list">
-                      </ul>
-              </div>
-            </div> -->
-            <!-- /.card -->
-          </section>
-          <!-- right col -->
-          <section class="col-lg-12 connectedSortable">
-            <!-- /.card -->
+            </div>     
             <div id="alphaScan" class="card">
               <div class="card-header">
                 <h3 class="card-title">
@@ -300,7 +684,7 @@
               <!-- /.card-header -->
               <div  class="card-body">
                   <!-- /.card -->
-                  <img width='1600' height='1000' src="https://via.placeholder.com/1600x1000" alt="">
+                  <img id="alphaPng" src="https://via.placeholder.com/1600x1000" alt="">
                   <!-- /.card -->
                   </div>
               <!-- /.card-body -->
@@ -344,11 +728,53 @@
               <!-- /.card-header -->
               <div  class="card-body">
                   <!-- /.card -->
-                  <img width='1600' height='1000' src="https://via.placeholder.com/1600x1000" alt="">
+                  <img id="charliePng" width='1600' height='1000' src="https://via.placeholder.com/1600x1000" alt="">
                   <!-- /.card -->
                   </div>
               <!-- /.card-body -->
-            </div>               
+            </div>       
+          </section>
+          <!-- right col -->
+          <section class="col-lg-12 connectedSortable">
+            <!-- /.card -->
+            <div id="scanResults" class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="ion ion-map mr-1"></i>
+                  Scan Results
+                </h3>
+                <!-- card tools -->
+                <div class="card-tools">
+                  <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+
+              </div>
+              <!-- /.card-header -->
+              <div  class="card-body">
+                  <!-- /.card -->
+                  <table id ="scanResultsTable" class="table table-hover table-light ">
+                    <thead >
+                      <tr>
+                        <th>Scan Id</th>
+                        <th>Device Name</th>
+                        <th>MAC</th>
+                        <th>OUI</th>
+                        <th>Power</th>
+                        <th>Distance</th>
+                        <th>FirstTimeSeen</th>
+                        <th>LastTimeSeen</th>
+                        <th>Scan Group</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                  <!-- /.card -->
+                  </div>
+              <!-- /.card-body -->
+            </div>  
             <!-- /.card -->
           </section>
         </div>
@@ -464,13 +890,12 @@
     </div>
   </div>
   <!-- /.content-wrapper -->
-  <!-- <footer class="main-footer sticky">
-    <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
+  <footer class="main-footer sticky">
+    <strong>Jason Smith MCLA Senior Project - Fall  2020 <a target="_blank" href="http://invictus413.com">Dedicated Info Page</a>.</strong>
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.1.0-pre
+      <b> Version</b> 2.1|46 75 63 6b 20 43 6f 76 69 64 21
     </div>
-  </footer> -->
+  </footer>
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -510,15 +935,9 @@
 <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
-<!-- <script src="js/stopWatch.js"></script> -->
 <script src="js/app.js"></script>
 <script src="js/stack.js"></script>
-<script src="js/ping.js"></script>
-<script src="js/scanVector.js"></script>
 <script src="js/drawing.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
 </body>

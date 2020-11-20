@@ -24,6 +24,20 @@ const sessionOptions = {
 };
 const connection = mysql.createConnection(dbInfo);
 
+const worldArt2 = ".. . . . . . . . . . . . . . . . . . . BRAVO . . . . . . .\n"+
+                  ".. . . . . . . .#######. . . . . . . . . . . . . . . . . .\n"+
+                  ".. . . . . . .#. .#### . . . ####. . .###############. . .\n"+
+                  ".. . ########. ##. ##. . . ######################### . . .\n"+
+                  ".. . . ##########. . . . ######################. . . . . .\n"+
+                  ".. . . .######## . . . .   ################### . . . . . .\n"+
+                  ".. . . . ### .   . . . .#####. ##############. # . . . . .\n"+
+                  ".. . . . . ##### . . . .#######. ##########. . . . . . . .\n"+
+                  ".. . . . . .###### . . . .#### . . . . .## . . . . . . . .\n"+
+                  ".. . . . . . ##### . . . .#### # . . . . . ##### . . . . .\n"+
+                  ".. . . . . . ### . . . . . ##. . . . . . . . ### .#. . . .\n"+
+                  ".. . . . . . ##. . . . . . . . . . . . . . . . . . . . . .\n"+
+                  ".. . . . . . . . . . . . . . . . . . . . . . . . . . . . .";
+
 app.use(session(sessionOptions));
 app.use(express.static('public'));
 app.all("/", serveIndex);
@@ -42,12 +56,13 @@ app.get("/processScan", processScan);
 app.get("/getScanResults", getScanResults);
 app.get("/getScanCount", getScanCount);
 app.get("/getUserCount", getUserCount);
-app.get("/getTasks", getTasks);
+app.get("/getMacCount", getMacCount);
 app.get("/getDBsize", getDBsize);
 app.get("/readyDir", readyDir);
 app.get("/readyScan", readyScan);
 app.get("/currentScanStatus", currentScanStatus);
 app.get("/resetScanStatus", resetScanStatus);
+app.get("/findReadyClients", findReadyClients);
 app.listen(3000, process.env.IP, startHandler());
 
 connection.connect(function(err) {
@@ -55,19 +70,6 @@ connection.connect(function(err) {
 });
 
 function startHandler() {
-    const worldArt2 =".. . . . . . . . . . . . . . . . . . . BRAVO . . . . . . .\n"+
-  ".. . . . . . . .#######. . . . . . . . . . . . . . . . . .\n"+
-  ".. . . . . . .#. .#### . . . ####. . .###############. . .\n"+
-  ".. . ########. ##. ##. . . ######################### . . .\n"+
-  ".. . . ##########. . . . ######################. . . . . .\n"+
-  ".. . . .######## . . . .   ################### . . . . . .\n"+
-  ".. . . . ### .   . . . .#####. ##############. # . . . . .\n"+
-  ".. . . . . ##### . . . .#######. ##########. . . . . . . .\n"+
-  ".. . . . . .###### . . . .#### . . . . .## . . . . . . . .\n"+
-  ".. . . . . . ##### . . . .#### # . . . . . ##### . . . . .\n"+
-  ".. . . . . . ### . . . . . ##. . . . . . . . ### .#. . . .\n"+
-  ".. . . . . . ##. . . . . . . . . . . . . . . . . . . . . .\n"+
-  ".. . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
   console.log(worldArt2);
   console.log("\x1b[33m","T" + "\x1b[31m","rilateral ",
               "\x1b[33m","A" + "\x1b[31m","ccess",
@@ -90,6 +92,8 @@ function writeResult(res, object) {
   });
   res.end(JSON.stringify(object));
 }
+
+// USER LOGIN & REGISTRATION
 
 function register(req, res) {
   if(!validateEmail(req.query.email)) {
@@ -234,10 +238,6 @@ function validateUserName(userName) {
   return usernameRegEx.test(userName);
 }
 
-function buildUser(dbObject) {
-  return {Id: dbObject.Id, Email: dbObject.Email, UserName: dbObject.UserName, AuthLevel : dbObject.AuthLevel};
-}
-
 function checkSecurityQuestions(x,y) {
   if(x == y ) {
     return false;
@@ -258,6 +258,40 @@ function getSecurityQuestions(req,res) {
     }
   });
 }
+
+function retrieveUserSecurityQuestions(req,res) {
+  if(!req.query.email || !validateEmail(req.query.email)) {
+    writeResult(res, {error: "Valid Email is required."});
+    return;
+  }
+
+  connection.query("SELECT SecurityQuestion1Id, SecurityQuestion2Id FROM Users WHERE Email = ?;", [req.query.email], function(err, dbResult) {
+    if(err) {
+      writeResult(res, {error: err.message});
+    }
+    if(dbResult.length == 0) {
+      writeResult(res, {error: "Invalid User"});
+    }
+    else {
+      let questions = dbResult.map(function(question) {return buildUserQuestions(question)});
+
+      let question1ID = questions[0].SecurityQuestion1Id;
+      let question2ID = questions[0].SecurityQuestion2Id;
+
+      connection.query("SELECT SecurityQuestions.Question FROM SecurityQuestions WHERE Id IN (?, ?) ORDER BY FIELD(Id, ?, ?);", [question1ID, question2ID, question1ID, question2ID], function(err, dbResult) {
+        if(err) {
+          writeResult(res, {error: err.message});
+        }
+        else {
+          let question = dbResult.map(function(question) {return buildQuestion(question)});
+          writeResult(res, {result: question})
+        }
+      });
+    }
+  });
+}
+
+// PAGE FUNCTIONS
 
 function getScanResults(req,res) {
   connection.query("SELECT * FROM ScanResults;", function(err, dbResult) {
@@ -295,14 +329,14 @@ function getUserCount(req,res) {
   });
 }
 
-function getTasks(req,res) {
-  connection.query("SELECT * FROM CreationTasks;", function(err, dbResult) {
+function getMacCount(req,res) {
+  connection.query("SELECT COUNT(*) FROM ScanResults;", function(err, dbResult) {
     if(err) {
       writeResult(res, {error: err.message});
     }
     else {
-      let tasks = dbResult.map(function(task) {return buildTask(task)});
-      writeResult(res, {result: tasks});
+      let count = dbResult[0]['COUNT(*)'];
+      writeResult(res, {result: count});
     }
   });
 }
@@ -319,54 +353,7 @@ function getDBsize(req,res) {
   });
 }
 
-
-function retrieveUserSecurityQuestions(req,res) {
-  if(!req.query.email || !validateEmail(req.query.email)) {
-    writeResult(res, {error: "Valid Email is required."});
-    return;
-  }
-
-  connection.query("SELECT SecurityQuestion1Id, SecurityQuestion2Id FROM Users WHERE Email = ?;", [req.query.email], function(err, dbResult) {
-    if(err) {
-      writeResult(res, {error: err.message});
-    }
-    if(dbResult.length == 0) {
-      writeResult(res, {error: "Invalid User"});
-    }
-    else {
-      let questions = dbResult.map(function(question) {return buildUserQuestions(question)});
-
-      let question1ID = questions[0].SecurityQuestion1Id;
-      let question2ID = questions[0].SecurityQuestion2Id;
-
-      connection.query("SELECT SecurityQuestions.Question FROM SecurityQuestions WHERE Id IN (?, ?) ORDER BY FIELD(Id, ?, ?);", [question1ID, question2ID, question1ID, question2ID], function(err, dbResult) {
-        if(err) {
-          writeResult(res, {error: err.message});
-        }
-        else {
-          let question = dbResult.map(function(question) {return buildQuestion(question)});
-          writeResult(res, {result: question})
-        }
-      });
-    }
-  });
-}
-
-function buildQuestion(dbObject) {
-  return {Id: dbObject.Id, Question: dbObject.Question};
-}
-
-function buildTask(dbObject) {
-  return {Id: dbObject.Id, Task: dbObject.Task, BeginDate: dbObject.Begin};
-}
-
-function buildUserQuestions(dbObject) {
-  return {SecurityQuestion1Id: dbObject.SecurityQuestion1Id, SecurityQuestion2Id: dbObject.SecurityQuestion2Id};
-}
-
-function buildScan(dbObject) {
-  return {Id: dbObject.Id, DeviceName: dbObject.DeviceName, Mac: dbObject.Mac, OUI :dbObject.OUI, Power: dbObject.Power, Distance: dbObject.Distance, FTS: dbObject.FirstTimeSeen, LTS: dbObject.LastTimeSeen };
-}
+// SCAN FUNCTIONS
 
 function killAirodump(req,res){
   if(dumpStatus){
@@ -502,6 +489,49 @@ function resetScanStatus(req, res) {
   currentScanStatus(req,res);
 }
 
+// RENDER READY CLIENT FUNCTIONS
+
+function findReadyClients(req, res) {
+  connection.query("SELECT DISTINCT a.Mac, a.ScanGroup, a.OUI, a.FirstTimeSeen, a.distance as alpha_distance, b.bravo_distance, c.charlie_distance FROM ScanResults a JOIN ( select Mac, ScanGroup, distance as bravo_distance FROM ScanResults WHERE DeviceName = 'BRAVO') b on a.Mac = b.Mac and a.ScanGroup = b.ScanGroup JOIN ( select Mac, ScanGroup, distance as charlie_distance FROM ScanResults WHERE DeviceName = 'CHARLIE') c on a.Mac = c.Mac and a.ScanGroup = c.ScanGroup WHERE a.DeviceName = 'ALPHA' and a.Mac REGEXP '^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$';", function(err, dbResult) {
+    if(err) {
+      writeResult(res, {error: err.message});
+    }
+    else {
+      let clients = dbResult.map(function(client) {return buildReadyClient(client)});
+      writeResult(res, {result: clients});
+    }
+  });
+}
+
+
+// BUILD CONTROLLERS
+
+function buildScan(dbObject) {
+  return {Id: dbObject.Id, DeviceName: dbObject.DeviceName, Mac: dbObject.Mac, OUI :dbObject.OUI, Power: dbObject.Power, Distance: dbObject.Distance, FTS: dbObject.FirstTimeSeen, LTS: dbObject.LastTimeSeen ,ScanGroup: dbObject.ScanGroup};
+}
+
 function buildScanDB(dbObject) {
   return {Id: dbObject.Id, Location: dbObject.Location, TimeStamp: dbObject.TimeStamp, Notes: dbObject.Notes, FileName: dbObject.FileName};
+}
+
+function buildQuestion(dbObject) {
+  return {Id: dbObject.Id, Question: dbObject.Question};
+}
+
+function buildUserQuestions(dbObject) {
+  return {SecurityQuestion1Id: dbObject.SecurityQuestion1Id, SecurityQuestion2Id: dbObject.SecurityQuestion2Id};
+}
+
+function buildUser(dbObject) {
+  return {Id: dbObject.Id, Email: dbObject.Email, UserName: dbObject.UserName, AuthLevel : dbObject.AuthLevel};
+}
+
+function buildReadyClient(dbObject) {
+  return {MAC : dbObject.Mac, 
+          ScanGroup : dbObject.ScanGroup, 
+          ClientType : dbObject.OUI,
+          FTS : dbObject.FirstTimeSeen,  
+          alphaDistance : dbObject.alpha_distance,
+          bravoDistance : dbObject.bravo_distance,
+          charlieDistance : dbObject.charlie_distance};
 }
