@@ -43,9 +43,9 @@
     </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <button id="register-btn" type="button" class="btn"><i class="fas fa-user-plus"></i><span class="p-2">Register</span></button>
-      </li>
+      </li> -->
       <li class="nav-item">
         <button id="login-btn" type="button" class="btn "><i class="fas fa-sign-in-alt"></i><span class="p-2">Login</span></button>
       </li>
@@ -65,8 +65,8 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
-      <img id="logo" src="img/tapps.ico" alt="TappsNET Logo" class="brand-image img-circle elevation-3 text-danger" style="opacity: .8">
-      <span class="brand-text font-weight-light">TappsNET</span>
+      <img id="logo" src="img/tapps.ico" alt="TappsNET Logo" class="brand-image img-circle elevation-3" >
+      <span class="brand-text font-weight-heavy text-warning">TappsNET</span>
     </a>
 
     <!-- Sidebar -->
@@ -77,7 +77,7 @@
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-cogs"></i>
               <p>
                 Manual Scan
                 <i class="right fas fa-angle-left"></i>
@@ -85,37 +85,37 @@
             </a>
             <ul id="cerifiedClientUL" class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a id="readyDir-btn" href="#" class="nav-link btn-danger">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Ready Directory</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a id="readyAdapter-btn" href="#" class="nav-link btn-danger">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Ready Adapter</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a id="beginScan-btn" href="#" class="nav-link btn-danger">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Begin Scan</p>
                 </a>
               </li>  
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a id="processScan-btn" href="#" class="nav-link btn-danger">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Process Scan</p>
                 </a>
               </li>         
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a id="updateImg-btn" href="#" class="nav-link btn-danger">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Update Images</p>
                 </a>
               </li>   
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a id="cancelScan-btn" href="#" class="nav-link btn-danger">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Cancel Scan</p>
                 </a>
@@ -124,7 +124,7 @@
           </li>
           <li class="nav-item has-treeview ">
             <a href="#" class="nav-link ">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-robot"></i>
               <p>
                 Automated Scan
                 <i class="right fas fa-angle-left"></i>
@@ -135,315 +135,58 @@
                 <button type="button" class="btn btn-success btn-block"><i class="fas fa-sign-out-alt"></i><span class="p-2">Run Scan</span></button>
               </li>
             </ul>
-          </li>   
-          <li class="nav-header">Device Logs</li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-circle"></i>
-              <p>
-                ALPHA
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item has-treeview">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon text-danger"></i>
-                  <p>
-                    Error
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item has-treeview">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon text-success"></i>
-                  <p>
-                    Run Time
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>  
-              <li class="nav-item has-treeview">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon text-primary"></i>
-                  <p>
-                    Capture
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>                          
-            </ul>
           </li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-circle"></i>
+              <i class="nav-icon fas fa-clipboard"></i>
               <p>
-                BRAVO
+                Device Logs
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item has-treeview">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon text-danger"></i>
-                  <p>
-                    Error
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
+            <ul id="deviceLogsUL" class="nav nav-treeview">
+              <li class="nav-item">
+                <a id="getAlphaLog" href="#" class="nav-link" data-toggle="modal" data-target="#deviceLogModal">
+                  <i id="alphaIndicator" class="far fa-circle nav-icon text-warning"></i>
+                  <p data-device="alpha">Alpha</p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                </ul>
               </li>
-              <li class="nav-item has-treeview">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon text-success"></i>
-                  <p>
-                    Run Time
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
+              <li class="nav-item">
+                <a id="getBravoLog" href="#" class="nav-link" data-toggle="modal" data-target="#deviceLogModal">
+                  <i id="bravoIndicator" class="far fa-circle nav-icon text-warning"></i>
+                  <p data-device="bravo">Bravo</p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>  
-              <li class="nav-item has-treeview">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon text-primary"></i>
-                  <p>
-                    Capture
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>                          
-            </ul>
-          </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-circle"></i>
-              <p>
-                CHARLIE
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item has-treeview">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon text-danger"></i>
-                  <p>
-                    Error
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                </ul>
               </li>
-              <li class="nav-item has-treeview">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon text-success"></i>
-                  <p>
-                    Run Time
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
+              <li class="nav-item">
+                <a id="getCharlieLog" href="#" class="nav-link" data-toggle="modal" data-target="#deviceLogModal">
+                  <i id="charlieIndicator" class="far fa-circle nav-icon text-warning"></i>
+                  <p data-device="charlie">Charlie</p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                </ul>
               </li>  
-              <li class="nav-item has-treeview">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon text-primary"></i>
-                  <p>
-                    Capture
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>                          
+                 
             </ul>
           </li>                    
         </ul>
-      </nav>     
+      </nav> 
+      <hr> 
+      <div id="scanStatusCard">
+        <h3 class="brand-text font-weight-heavy text-warning">Scan Stage</h3><h5 id="scanStatusMessage" class="brand-text font-weight-light text-right text-danger">Not Loaded</h5>   
+        <h3 class="brand-text font-weight-heavy text-warning">Scan ID</h3><h5 id="scanStatusId" class="brand-text font-weight-light text-right text-danger">Not Loaded</h5>   
+        <h3 class="brand-text font-weight-heavy text-warning">Scan Name</h3><h5 id="scanStatusFileName" class="brand-text font-weight-light text-right text-danger">Not Loaded</h5>   
+        <h3 class="brand-text font-weight-heavy text-warning">Location</h3><h5 id="scanStatusLocation" class="brand-text font-weight-light text-right text-danger">Not Loaded</h5>   
+        <h3 class="brand-text font-weight-heavy text-warning">Notes</h3><h5 id="scanStatusNotes" class="brand-text font-weight-light text-right text-danger">Not Loaded</h5>   
+      </div>
     </div>
     <!-- /.sidebar -->
   </aside>
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div id="content-wrapper" class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            <h1 class="m-0 text-primary">Dashboard</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -462,9 +205,9 @@
         <!-- Small boxes (Stat box) -->
         <div id="infoBoard" class="row">
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-4 col-6">
             <!-- small box -->
-            <div class="small-box bg-success">
+            <div class="small-box bg-warning">
               <div class="inner">
                 <!-- <h3>53<sup style="font-size: 20px">%</sup></h3> -->
                 <h3 id="scanCount"></h3>
@@ -477,44 +220,39 @@
               <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
             </div>
           </div>
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-4 col-6">
             <!-- small box -->
-            <div class="small-box bg-danger">
+            <div class="small-box bg-primary">
               <div class="inner">
                 <h3 id="macSize"></h3>
 
                 <p>MAC Address Count</p>
               </div>
               <div class="icon">
-                <i class="ion ion-pie-graph"></i>
+                <i class="ion ion-radio-waves"></i>
               </div>
               <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
             </div>
           </div>
-          <!-- ./col -->
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
+          <!-- <div class="col-lg-3 col-6">
             <div class="small-box bg-warning">
               <div class="inner">
                 <h3 id="userCount"></h3>
-
                 <p>User Registrations</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
-              </div>
-              <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+              </div>              
             </div>
-          </div>
+          </div> -->
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-4 col-6">
             <!-- small box -->
-            <div class="small-box bg-danger">
+            <div class="small-box bg-warning">
               <div class="inner">
                 <h3 id="dbSize"></h3>
 
-                <p>DataBase Size in MBs</p>
+                <p>DataBase Size in kBs</p>
               </div>
               <div class="icon">
                 <i class="ion ion-pie-graph"></i>
@@ -529,6 +267,15 @@
         <div class="row">
           <!-- Left col -->
           <section class="col-lg-8 connectedSortable">
+            <!-- /.card -->
+            <!-- /.card -->
+          </section>
+          <!-- /.Left col -->
+          <!-- right col (We are only adding the ID to make the widgets sortable)-->
+          <section class="col-lg-4 connectedSortable">
+          </section>
+          <!-- right col -->
+          <section class="col-lg-12 connectedSortable">
             <!-- /.card -->
             <div id="scanControlCard" class="card">
               <div class="card-header">
@@ -567,42 +314,6 @@
                   </div>
               <!-- /.card-body -->
             </div>
-            <div id="scanStatusCard" class="card">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <i class="ion ion-clipboard mr-1"></i>
-                  Scan Status
-                </h3>
-                <!-- card tools -->
-                <div class="card-tools">
-                  <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                </div>
-
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                  <!-- /.card -->
-
-                  <h3 id="scanStatusMessage" class="text-primary"></h3>
-                  <h4 id="scanStatusId" class="text-primary"></h4>
-                  <h4 id="scanStatusFileName" class="text-primary"></h4>
-                  <h4 id="scanStatusLocation" class="text-primary"></h4>
-                  <h4 id="scanStatusNotes" class="text-primary"></h4>
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                    <button id="readyDir-btn" class="btn btn-danger">Ready Dir</button>
-                    <button id="readyAdapter-btn" class="btn btn-danger">Ready Adapter</button>
-                    <button id="beginScan-btn" class="btn btn-danger">Begin Scan</button>
-                    <button id="processScan-btn" class="btn btn-danger">Process Scan</button>
-                    <button id="updateImg-btn" class="btn btn-danger">Update Img</button>
-                    <button id="cancelScan-btn" class="btn btn-default">Cancel Scan</button>
-                  </div>
-
-                  <!-- /.card -->
-                  </div>
-              <!-- /.card-body -->
-            </div>            
             <div id="verifiedClientCard" class="card">
               <div class="card-header">
                 <h3 class="card-title">
@@ -639,104 +350,100 @@
               </div>
               <!-- /.card-body -->
             </div>
-            <!-- /.card -->
-          </section>
-          <!-- /.Left col -->
-          <!-- right col (We are only adding the ID to make the widgets sortable)-->
-          <section class="col-lg-4 connectedSortable">
-            <div id="visualScanCard" class="card">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <i class="ion ion-map mr-1"></i>
-                  Active Scan
-                </h3>
-                <!-- card tools -->
-                <div class="card-tools">
-                  <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                </div>
-
-              </div>
-              <!-- /.card-header -->
-              <div  class="card-body">
-                  <!-- /.card -->
-                  <canvas id="static" width='1600' height='725' >This text is displayed if your browser does not support HTML5 Canvas</canvas>
-
-                  <!-- /.card -->
+            <div id="scanActive">
+              <div id="visualScanCard" class="card">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <i class="ion ion-map mr-1"></i>
+                    Active Scan
+                  </h3>
+                  <!-- card tools -->
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
                   </div>
-              <!-- /.card-body -->
-            </div>     
-            <div id="alphaScan" class="card">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <i class="ion ion-map mr-1"></i>
-                  Alpha Scan
-                </h3>
-                <!-- card tools -->
-                <div class="card-tools">
-                  <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                </div>
 
-              </div>
-              <!-- /.card-header -->
-              <div  class="card-body">
-                  <!-- /.card -->
-                  <img id="alphaPng" src="https://via.placeholder.com/1600x1000" alt="">
-                  <!-- /.card -->
+                </div>
+                <!-- /.card-header -->
+                <div  class="card-body">
+                    <!-- /.card -->
+                    <canvas id="static" width="600" height="500" style="border:1px solid #d3d3d3;">
+
+                    <!-- /.card -->
+                    </div>
+                <!-- /.card-body -->
+              </div>     
+              <div id="alphaScan" class="card">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <i class="ion ion-map mr-1"></i>
+                    Alpha Graph
+                  </h3>
+                  <!-- card tools -->
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
                   </div>
-              <!-- /.card-body -->
+
+                </div>
+                <!-- /.card-header -->
+                <div  class="card-body">
+                    <!-- /.card -->
+                    <img id="alphaPng" src="https://via.placeholder.com/1600x1000" alt="">
+                    <!-- /.card -->
+                    </div>
+                <!-- /.card-body -->
+              </div>  
+              <div id="bravoScan" class="card">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <i class="ion ion-map mr-1"></i>
+                    Bravo Graph
+                  </h3>
+                  <!-- card tools -->
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                  </div>
+
+                </div>
+                <!-- /.card-header -->
+                <div  class="card-body">
+                    <!-- /.card -->
+                    <img id="bravoPng" width='1600' height='1000' src="https://via.placeholder.com/1600x1000" alt="">
+                    <!-- /.card -->
+                    </div>
+                <!-- /.card-body -->
+              </div> 
+              <div id="charlieScan" class="card">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <i class="ion ion-map mr-1"></i>
+                    Charlie Graph
+                  </h3>
+                  <!-- card tools -->
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                  </div>
+
+                </div>
+                <!-- /.card-header -->
+                <div  class="card-body">
+                    <!-- /.card -->
+                    <img id="charliePng" width='1600' height='1000' src="https://via.placeholder.com/1600x1000" alt="">
+                    <!-- /.card -->
+                    </div>
+                <!-- /.card-body -->
+              </div> 
             </div>  
-            <div id="bravoScan" class="card">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <i class="ion ion-map mr-1"></i>
-                  Bravo Scan
-                </h3>
-                <!-- card tools -->
-                <div class="card-tools">
-                  <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                </div>
-
-              </div>
-              <!-- /.card-header -->
-              <div  class="card-body">
-                  <!-- /.card -->
-                  <img id="bravoPng" width='1600' height='1000' src="https://via.placeholder.com/1600x1000" alt="">
-                  <!-- /.card -->
-                  </div>
-              <!-- /.card-body -->
-            </div> 
-            <div id="charlieScan" class="card">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <i class="ion ion-map mr-1"></i>
-                  Charlie Scan
-                </h3>
-                <!-- card tools -->
-                <div class="card-tools">
-                  <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                </div>
-
-              </div>
-              <!-- /.card-header -->
-              <div  class="card-body">
-                  <!-- /.card -->
-                  <img id="charliePng" width='1600' height='1000' src="https://via.placeholder.com/1600x1000" alt="">
-                  <!-- /.card -->
-                  </div>
-              <!-- /.card-body -->
-            </div>       
-          </section>
-          <!-- right col -->
-          <section class="col-lg-12 connectedSortable">
             <!-- /.card -->
+          </section>
+          <section class="col-lg-12">
             <div id="scanResults" class="card">
               <div class="card-header">
                 <h3 class="card-title">
@@ -775,7 +482,6 @@
                   </div>
               <!-- /.card-body -->
             </div>  
-            <!-- /.card -->
           </section>
         </div>
         <!-- /.row (main row) -->
@@ -783,6 +489,21 @@
     </section>
     <!-- /.content -->
   </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer sticky">
+    <strong>Jason Smith MCLA Senior Project - CSCI 461 Fall  2020  <a target="_blank" href="http://invictus413.com">Dedicated Info Page</a>.</strong>
+    <div class="float-right d-none d-sm-inline-block">
+      <!-- HEX to ASCII ;) -->
+      <p class="text-danger"><b class="text-warning"> Version 2.1</b> | 46 75 63 6b 20 43 6f 76 69 64 21</p>
+    </div>
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+  <!-- Modals -->
   <div id="login-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -798,7 +519,7 @@
           <p id="successMessage" class="text-success"></p>
           <form class="border border-primary p-3">
             <div class="form-group">
-              <small class="float-right">Please fill out all fields</small>
+              <!-- <small class="float-right">Please fill out all fields</small> -->
               <input id="email" type="text" class="form-control" placeholder="Email">
             </div>
             <div class="form-group">
@@ -838,7 +559,7 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button id="forgotPassword-btn" type="button" class="btn btn-sm"><i class="fas fa-key"></i><span class="p-2">Reset Password</span></button>
+          <!-- <button id="forgotPassword-btn" type="button" class="btn btn-sm"><i class="fas fa-key"></i><span class="p-2">Reset Password</span></button> -->
           <button id="confirm-login-btn" type="button" class="btn ">Login</button>
           <button id="confirm-register-btn" type="button" class="btn btn-primary">Register</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -888,20 +609,25 @@
         </div>
       </div>
     </div>
-  </div>
-  <!-- /.content-wrapper -->
-  <footer class="main-footer sticky">
-    <strong>Jason Smith MCLA Senior Project - Fall  2020 <a target="_blank" href="http://invictus413.com">Dedicated Info Page</a>.</strong>
-    <div class="float-right d-none d-sm-inline-block">
-      <b> Version</b> 2.1|46 75 63 6b 20 43 6f 76 69 64 21
+  </div>  
+  <div id="deviceLogModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deviceLogModal" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <img id="logo" class="p-2" src="img/tapps.ico" height="50em">
+          <h5 class="modal-title" id="exampleModalLongTitle">Device Log</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div id="deviceLogModalBody" class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
-  </footer>
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+  </div>
 </div>
 <!-- ./wrapper -->
 
@@ -937,8 +663,6 @@
 <script src="dist/js/adminlte.js"></script>
 <script src="dist/js/pages/dashboard.js"></script>
 <script src="js/app.js"></script>
-<script src="js/stack.js"></script>
-<script src="js/drawing.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
 </body>
 </html>

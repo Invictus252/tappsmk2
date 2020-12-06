@@ -13,7 +13,7 @@ const usernameRegEx = /^[a-zA-Z\s]*$/;
 const dbInfo = {
   host: "localhost",
   user: "root",
-  password: "",
+  password: process.env.DB_PASSWORD,
   database: "TappsDB"
 };
 const sessionOptions = {
@@ -23,6 +23,8 @@ const sessionOptions = {
   cookie: {maxAge: null}
 };
 const connection = mysql.createConnection(dbInfo);
+
+
 
 const worldArt2 = ".. . . . . . . . . . . . . . . . . . . BRAVO . . . . . . .\n"+
                   ".. . . . . . . .#######. . . . . . . . . . . . . . . . . .\n"+
@@ -58,6 +60,7 @@ app.get("/getScanCount", getScanCount);
 app.get("/getUserCount", getUserCount);
 app.get("/getMacCount", getMacCount);
 app.get("/getDBsize", getDBsize);
+app.get("/getBravoLog", getBravoLog);
 app.get("/readyDir", readyDir);
 app.get("/readyScan", readyScan);
 app.get("/currentScanStatus", currentScanStatus);
@@ -294,7 +297,7 @@ function retrieveUserSecurityQuestions(req,res) {
 // PAGE FUNCTIONS
 
 function getScanResults(req,res) {
-  connection.query("SELECT * FROM ScanResults;", function(err, dbResult) {
+  connection.query("SELECT * FROM ScanResults ORDER BY Id DESC LIMIT 20;", function(err, dbResult) {
     if(err) {
       writeResult(res, {error: err.message});
     }
@@ -342,7 +345,7 @@ function getMacCount(req,res) {
 }
 
 function getDBsize(req,res) {
-  connection.query("SELECT ROUND(SUM(data_length + index_length) / 1024 / 1024, 1) 'Size'  FROM information_schema.tables WHERE table_schema = 'TappsDB';", function(err, dbResult) {
+  connection.query("SELECT ROUND(SUM(data_length + index_length) / 1024 , 1) 'Size'  FROM information_schema.tables WHERE table_schema = 'TappsDB';", function(err, dbResult) {
     if(err) {
       writeResult(res, {error: err.message});
     }
@@ -377,7 +380,8 @@ function killAirmon(req,res){
   child.stderr.on('data', function (data) {
     console.log(data.toString());
   });
-  writeResult(res, {success: "Monitor killed & reinitialized"});
+  req.session.stage = 0
+  writeResult(res, {success: "Monitor killed & reinitialized", stage:req.session.stage});
 }
 
 function processScan(req,res){
@@ -387,7 +391,8 @@ function processScan(req,res){
   child.stderr.on('data', function (data) {
     console.log(data.toString());
   });
-  writeResult(res, {success: "Scan processing successfully"});
+  req.session.stage = 4
+  writeResult(res, {success: "Scan processing successfully", stage:req.session.stage});
 
 }
 
@@ -406,7 +411,8 @@ function readyDir(req,res){
     }
     //file removed
   });
-  writeResult(res, {success: "DIR Ready"});
+  req.session.stage = 1;
+  writeResult(res, {success: "DIR Ready", stage:req.session.stage});
 }
 
 function readyScan(req, res) {
@@ -434,8 +440,6 @@ function readyScan(req, res) {
   // current seconds
   let seconds = date_ob.getSeconds();
   let timestamp = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
-  console.log('here');
-  console.log(req.query);
   connection.query("INSERT INTO StoredScans(TimeStamp,Location,Notes,FileName) VALUES (?, ?, ?, ?)", [timestamp, location, notes, fileName], function(err, dbResult) {
     if(err) {
       console.log(err);
@@ -447,9 +451,9 @@ function readyScan(req, res) {
           writeResult(res, {error: "Error : " + err.message});
         }
         else {
-          req.session.scan = dbResult.map(function(scan) {return buildScanDB(scan)});   
-          console.log(req.session.scan);
-          writeResult(res, {scan: req.session.scan});
+          req.session.scan = dbResult.map(function(scan) {return buildScanDB(scan)}); 
+          req.session.stage = 0;  
+          writeResult(res, {scan: req.session.scan, stage: req.session.stage});
         }
       });
     }
@@ -463,7 +467,8 @@ function initAirmon(req,res){
   child.stderr.on('data', function (data) {
     // console.log(data.toString());
   });
-  writeResult(res, {success: "Monitor initialized"});
+  req.session.stage = 2;  
+  writeResult(res, {success: "Monitor initialized", stage: req.session.stage});
 }
 
 function initAirodump(req,res){
@@ -474,14 +479,15 @@ function initAirodump(req,res){
   airodump.stderr.on('data', function (data) {
     // console.log(data.toString());
   });
-  writeResult(res, {success: "Dump initialized"});
+  req.session.stage = 3
+  writeResult(res, {success: "Dump initialized", stage:req.session.stage});
 }
 
 function currentScanStatus(req, res) {
   if(req.session.scan == undefined)
     writeResult(res, {scan: undefined});
   else
-    writeResult(res, {scan: req.session.scan});
+    writeResult(res, {scan: req.session.scan, stage: req.session.stage});
 }
 
 function resetScanStatus(req, res) {
@@ -492,7 +498,7 @@ function resetScanStatus(req, res) {
 // RENDER READY CLIENT FUNCTIONS
 
 function findReadyClients(req, res) {
-  connection.query("SELECT DISTINCT a.Mac, a.ScanGroup, a.OUI, a.FirstTimeSeen, a.distance as alpha_distance, b.bravo_distance, c.charlie_distance FROM ScanResults a JOIN ( select Mac, ScanGroup, distance as bravo_distance FROM ScanResults WHERE DeviceName = 'BRAVO') b on a.Mac = b.Mac and a.ScanGroup = b.ScanGroup JOIN ( select Mac, ScanGroup, distance as charlie_distance FROM ScanResults WHERE DeviceName = 'CHARLIE') c on a.Mac = c.Mac and a.ScanGroup = c.ScanGroup WHERE a.DeviceName = 'ALPHA' and a.Mac REGEXP '^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$';", function(err, dbResult) {
+  connection.query("SELECT DISTINCT a.Mac, a.ScanGroup, a.OUI, a.FirstTimeSeen, a.distance as alpha_distance, b.bravo_distance, c.charlie_distance FROM ScanResults a JOIN ( select Mac, ScanGroup, distance as bravo_distance FROM ScanResults WHERE DeviceName = 'BRAVO') b on a.Mac = b.Mac and a.ScanGroup = b.ScanGroup JOIN ( select Mac, ScanGroup, distance as charlie_distance FROM ScanResults WHERE DeviceName = 'CHARLIE') c on a.Mac = c.Mac and a.ScanGroup = c.ScanGroup WHERE a.DeviceName = 'ALPHA' and a.Mac REGEXP '^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$' ORDER BY a.Id DESC LIMIT 5;", function(err, dbResult) {
     if(err) {
       writeResult(res, {error: err.message});
     }
@@ -501,6 +507,18 @@ function findReadyClients(req, res) {
       writeResult(res, {result: clients});
     }
   });
+}
+
+// RENDER LOG CLIENTS
+
+function getBravoLog(req, res){  
+  // Calling the readFileSync() method 
+  // to read 'input.txt' file 
+  const data = fs.readFileSync('./logs/tapps.log','utf8'); 
+    
+  // Display the file data 
+  writeResult(res, {result: data});
+  //console.log(data); 
 }
 
 
