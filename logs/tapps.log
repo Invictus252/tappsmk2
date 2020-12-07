@@ -19,3 +19,47 @@
 [33m T[31m rilateral  [33m A[31m ccess [33m P[31m oint [33m P[31m ositioning [33m S[31m ystem [34m is online
 
 
+{ [Error: ENOENT: no such file or directory, unlink 'test.png'] errno: -2, code: 'ENOENT', syscall: 'unlink', path: 'test.png' }
+{ [Error: ENOENT: no such file or directory, unlink 'test-01.csv']
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'unlink',
+  path: 'test-01.csv' }
+events.js:174
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: Connection lost: The server closed the connection.
+    at Protocol.end (/home/invictus/tappsmk2/node_modules/mysql/lib/protocol/Protocol.js:112:13)
+    at Socket.<anonymous> (/home/invictus/tappsmk2/node_modules/mysql/lib/Connection.js:94:28)
+    at Socket.<anonymous> (/home/invictus/tappsmk2/node_modules/mysql/lib/Connection.js:526:10)
+    at Socket.emit (events.js:203:15)
+    at endReadableNT (_stream_readable.js:1145:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19)
+Emitted 'error' event at:
+    at Connection._handleProtocolError (/home/invictus/tappsmk2/node_modules/mysql/lib/Connection.js:423:8)
+    at Protocol.emit (events.js:198:13)
+    at Protocol._delegateError (/home/invictus/tappsmk2/node_modules/mysql/lib/protocol/Protocol.js:398:10)
+    at Protocol.end (/home/invictus/tappsmk2/node_modules/mysql/lib/protocol/Protocol.js:116:8)
+    at Socket.<anonymous> (/home/invictus/tappsmk2/node_modules/mysql/lib/Connection.js:94:28)
+    [... lines matching original stack trace ...]
+    at process._tickCallback (internal/process/next_tick.js:63:19)
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+.. . . . . . . . . . . . . . . . . . . BRAVO . . . . . . .
+.. . . . . . . .#######. . . . . . . . . . . . . . . . . .
+.. . . . . . .#. .#### . . . ####. . .###############. . .
+.. . ########. ##. ##. . . ######################### . . .
+.. . . ##########. . . . ######################. . . . . .
+.. . . .######## . . . .   ################### . . . . . .
+.. . . . ### .   . . . .#####. ##############. # . . . . .
+.. . . . . ##### . . . .#######. ##########. . . . . . . .
+.. . . . . .###### . . . .#### . . . . .## . . . . . . . .
+.. . . . . . ##### . . . .#### # . . . . . ##### . . . . .
+.. . . . . . ### . . . . . ##. . . . . . . . ### .#. . . .
+.. . . . . . ##. . . . . . . . . . . . . . . . . . . . . .
+.. . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+[33m T[31m rilateral  [33m A[31m ccess [33m P[31m oint [33m P[31m ositioning [33m S[31m ystem [34m is online
+
+
